@@ -442,6 +442,172 @@ function evaluateCode(code: string, challenge: Challenge): boolean {
       return normalizedCode.includes("count(") && normalizedCode.includes("sum(") && normalizedCode.includes("avg(");
     case "bb-sql-05":
       return normalizedCode.includes("group by") && normalizedCode.includes("sum(");
+    // Severance — Python
+    case "sv-py-01":
+      return normalizedCode.includes("mark") && normalizedCode.includes("macrodata") && normalizedCode.includes("true");
+    case "sv-py-02":
+      return normalizedCode.includes("[") && (normalizedCode.includes("bin") || normalizedCode.includes("refinement") || normalizedCode.includes("append") || normalizedCode.includes("remove"));
+    case "sv-py-03":
+      return normalizedCode.includes("{") && (normalizedCode.includes("lumon") || normalizedCode.includes("mark") || normalizedCode.includes("department"));
+    case "sv-py-04":
+      return normalizedCode.includes("def ") && (normalizedCode.includes("return") || normalizedCode.includes("kier") || normalizedCode.includes("wellness"));
+    case "sv-py-05":
+      return normalizedCode.includes("for ") && (normalizedCode.includes("total") || normalizedCode.includes("count") || normalizedCode.includes("sum"));
+
+    // Breaking Bad — Python
+    case "bb-py-01":
+      return normalizedCode.includes("walter") || (normalizedCode.includes("purity") && normalizedCode.includes("blue"));
+    case "bb-py-02":
+      return normalizedCode.includes("[") && (normalizedCode.includes("batch") || normalizedCode.includes("product") || normalizedCode.includes("append"));
+    case "bb-py-03":
+      return normalizedCode.includes("{") && (normalizedCode.includes("walter") || normalizedCode.includes("blue") || normalizedCode.includes("purity"));
+    case "bb-py-04":
+      return normalizedCode.includes("def ") && normalizedCode.includes("return") && (normalizedCode.includes("purity") || normalizedCode.includes("yield") || normalizedCode.includes("percent"));
+    case "bb-py-05":
+      return normalizedCode.includes("for ") && (normalizedCode.includes("total") || normalizedCode.includes("money") || normalizedCode.includes("sum"));
+
+    // Game of Thrones — Python
+    case "got-py-01":
+      return (normalizedCode.includes("stark") || normalizedCode.includes("snow") || normalizedCode.includes("westeros")) && normalizedCode.includes("print");
+    case "got-py-02":
+      return normalizedCode.includes("[") && (normalizedCode.includes("house") || normalizedCode.includes("army") || normalizedCode.includes("append"));
+    case "got-py-03":
+      return normalizedCode.includes("{") && (normalizedCode.includes("house") || normalizedCode.includes("stark") || normalizedCode.includes("dragon"));
+    case "got-py-04":
+      return normalizedCode.includes("def ") && normalizedCode.includes("return") && (normalizedCode.includes("dragon") || normalizedCode.includes("battle") || normalizedCode.includes("army"));
+    case "got-py-05":
+      return normalizedCode.includes("for ") && (normalizedCode.includes("total") || normalizedCode.includes("count") || normalizedCode.includes("army"));
+
+    // Squid Game — Python
+    case "sg-py-01":
+      return (normalizedCode.includes("456") || normalizedCode.includes("player")) && normalizedCode.includes("print");
+    case "sg-py-02":
+      return normalizedCode.includes("[") && (normalizedCode.includes("player") || normalizedCode.includes("game") || normalizedCode.includes("append") || normalizedCode.includes("remove"));
+    case "sg-py-03":
+      return normalizedCode.includes("{") && (normalizedCode.includes("player") || normalizedCode.includes("prize") || normalizedCode.includes("456"));
+    case "sg-py-04":
+      return normalizedCode.includes("def ") && normalizedCode.includes("return") && (normalizedCode.includes("prize") || normalizedCode.includes("survival") || normalizedCode.includes("player"));
+    case "sg-py-05":
+      return normalizedCode.includes("for ") && (normalizedCode.includes("total") || normalizedCode.includes("count") || normalizedCode.includes("player"));
+
+    // Stranger Things — JavaScript
+    case "st-js-01":
+      return normalizedCode.includes("eleven") && (normalizedCode.includes("`") || normalizedCode.includes("template") || normalizedCode.includes("upside"));
+    case "st-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("hawkins") || normalizedCode.includes("walkie") || normalizedCode.includes("party")) && normalizedCode.includes("length");
+    case "st-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("demogorgon") || normalizedCode.includes("power") || normalizedCode.includes("eleven"));
+    case "st-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("eleven") || normalizedCode.includes("hawkins")) && normalizedCode.includes("console.log");
+    case "st-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // Breaking Bad — JavaScript
+    case "bb-js-01":
+      return (normalizedCode.includes("walter") || normalizedCode.includes("heisenberg")) && (normalizedCode.includes("`") || normalizedCode.includes("console.log"));
+    case "bb-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("batch") || normalizedCode.includes("product") || normalizedCode.includes("blue")) && normalizedCode.includes("length");
+    case "bb-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("purity") || normalizedCode.includes("yield") || normalizedCode.includes("cook"));
+    case "bb-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("walter") || normalizedCode.includes("blue")) && normalizedCode.includes("console.log");
+    case "bb-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // The Office — JavaScript
+    case "to-js-01":
+      return (normalizedCode.includes("michael") || normalizedCode.includes("dunder") || normalizedCode.includes("scranton")) && (normalizedCode.includes("`") || normalizedCode.includes("console.log"));
+    case "to-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("paper") || normalizedCode.includes("dunder") || normalizedCode.includes("sales")) && normalizedCode.includes("length");
+    case "to-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("sales") || normalizedCode.includes("paper") || normalizedCode.includes("michael"));
+    case "to-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("michael") || normalizedCode.includes("dwight") || normalizedCode.includes("dunder")) && normalizedCode.includes("console.log");
+    case "to-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // The Matrix — JavaScript
+    case "mx-js-01":
+      return (normalizedCode.includes("neo") || normalizedCode.includes("matrix")) && (normalizedCode.includes("`") || normalizedCode.includes("console.log"));
+    case "mx-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("matrix") || normalizedCode.includes("agent") || normalizedCode.includes("neo")) && normalizedCode.includes("length");
+    case "mx-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("dodge") || normalizedCode.includes("bullet") || normalizedCode.includes("neo"));
+    case "mx-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("neo") || normalizedCode.includes("morpheus") || normalizedCode.includes("matrix")) && normalizedCode.includes("console.log");
+    case "mx-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // Rick and Morty — JavaScript
+    case "rm-js-01":
+      return (normalizedCode.includes("rick") || normalizedCode.includes("morty")) && (normalizedCode.includes("`") || normalizedCode.includes("console.log"));
+    case "rm-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("portal") || normalizedCode.includes("dimension") || normalizedCode.includes("rick")) && normalizedCode.includes("length");
+    case "rm-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("portal") || normalizedCode.includes("rick") || normalizedCode.includes("dimension"));
+    case "rm-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("rick") || normalizedCode.includes("sanchez") || normalizedCode.includes("morty")) && normalizedCode.includes("console.log");
+    case "rm-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // Squid Game — JavaScript
+    case "sg-js-01":
+      return (normalizedCode.includes("456") || normalizedCode.includes("player")) && (normalizedCode.includes("`") || normalizedCode.includes("console.log"));
+    case "sg-js-02":
+      return normalizedCode.includes("push") && (normalizedCode.includes("player") || normalizedCode.includes("game")) && normalizedCode.includes("length");
+    case "sg-js-03":
+      return normalizedCode.includes("function ") && normalizedCode.includes("return") && (normalizedCode.includes("prize") || normalizedCode.includes("player") || normalizedCode.includes("game"));
+    case "sg-js-04":
+      return normalizedCode.includes("{") && (normalizedCode.includes("player") || normalizedCode.includes("456") || normalizedCode.includes("guard")) && normalizedCode.includes("console.log");
+    case "sg-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("length");
+
+    // Java — all themes (check for class/println + concept keywords)
+    case "st-java-01": case "sv-java-01": case "bb-java-01": case "to-java-01":
+    case "got-java-01": case "mx-java-01": case "rm-java-01": case "sg-java-01":
+      return normalizedCode.includes("class main") && normalizedCode.includes("system.out.println");
+    case "st-java-02": case "sv-java-02": case "bb-java-02": case "to-java-02":
+    case "got-java-02": case "mx-java-02": case "rm-java-02": case "sg-java-02":
+      return normalizedCode.includes("class main") && normalizedCode.includes("if") && normalizedCode.includes("else");
+    case "st-java-03": case "sv-java-03": case "bb-java-03": case "to-java-03":
+    case "got-java-03": case "mx-java-03": case "rm-java-03": case "sg-java-03":
+      return normalizedCode.includes("class main") && normalizedCode.includes("static") && normalizedCode.includes("return");
+    case "st-java-04": case "sv-java-04": case "bb-java-04": case "to-java-04":
+    case "got-java-04": case "mx-java-04": case "rm-java-04": case "sg-java-04":
+      return normalizedCode.includes("class main") && (normalizedCode.includes("[]") || normalizedCode.includes("array"));
+    case "st-java-05": case "sv-java-05": case "bb-java-05": case "to-java-05":
+    case "got-java-05": case "mx-java-05": case "rm-java-05": case "sg-java-05":
+      return normalizedCode.includes("class main") && normalizedCode.includes("for");
+
+    // Go — all themes (check for package main/fmt.println + concept keywords)
+    case "st-go-01": case "sv-go-01": case "bb-go-01": case "to-go-01":
+    case "got-go-01": case "mx-go-01": case "rm-go-01": case "sg-go-01":
+      return normalizedCode.includes("package main") && normalizedCode.includes("fmt.println") && normalizedCode.includes(":=");
+    case "st-go-02": case "sv-go-02": case "bb-go-02": case "to-go-02":
+    case "got-go-02": case "mx-go-02": case "rm-go-02": case "sg-go-02":
+      return normalizedCode.includes("package main") && normalizedCode.includes("if") && normalizedCode.includes("else");
+    case "st-go-03": case "sv-go-03": case "bb-go-03": case "to-go-03":
+    case "got-go-03": case "mx-go-03": case "rm-go-03": case "sg-go-03":
+      return normalizedCode.includes("package main") && normalizedCode.includes("func ") && normalizedCode.includes("return");
+    case "st-go-04": case "sv-go-04": case "bb-go-04": case "to-go-04":
+    case "got-go-04": case "mx-go-04": case "rm-go-04": case "sg-go-04":
+      return normalizedCode.includes("package main") && normalizedCode.includes("append");
+    case "st-go-05": case "sv-go-05": case "bb-go-05": case "to-go-05":
+    case "got-go-05": case "mx-go-05": case "rm-go-05": case "sg-go-05":
+      return normalizedCode.includes("package main") && normalizedCode.includes("range");
+
+    // SQL — new themes (select, where, order by, aggregates, group by)
+    case "st-sql-01": case "sv-sql-01": case "to-sql-01": case "got-sql-01": case "mx-sql-01": case "rm-sql-01":
+      return normalizedCode.includes("select") && normalizedCode.includes("*") && normalizedCode.includes("from ");
+    case "st-sql-02": case "sv-sql-02": case "to-sql-02": case "got-sql-02": case "mx-sql-02": case "rm-sql-02":
+      return normalizedCode.includes("select") && normalizedCode.includes("where");
+    case "st-sql-03": case "sv-sql-03": case "to-sql-03": case "got-sql-03": case "mx-sql-03": case "rm-sql-03":
+      return normalizedCode.includes("order by") && normalizedCode.includes("desc") && normalizedCode.includes("limit");
+    case "st-sql-04": case "sv-sql-04": case "to-sql-04": case "got-sql-04": case "mx-sql-04": case "rm-sql-04":
+      return normalizedCode.includes("count(") && normalizedCode.includes("avg(");
+    case "st-sql-05": case "sv-sql-05": case "to-sql-05": case "got-sql-05": case "mx-sql-05": case "rm-sql-05":
+      return normalizedCode.includes("group by") && normalizedCode.includes("desc");
+
     // The Office — Python
     case "to-py-01":
       return normalizedCode.includes("beet") && normalizedCode.includes("5765") && normalizedCode.includes("true");
