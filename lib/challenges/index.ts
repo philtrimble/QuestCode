@@ -2,13 +2,21 @@ import type { Challenge, ThemeId, LanguageId } from "@/types";
 import { strangerThingsPythonChallenges } from "./stranger-things-python";
 import { severanceJavaScriptChallenges } from "./severance-javascript";
 import { breakingBadSQLChallenges } from "./breaking-bad-sql";
+import { theOfficePythonChallenges } from "./the-office-python";
+import { gameOfThronesJavaScriptChallenges } from "./game-of-thrones-javascript";
+import { theMatrixPythonChallenges } from "./the-matrix-python";
+import { rickAndMortyPythonChallenges } from "./rick-and-morty-python";
+import { squidGameSQLChallenges } from "./squid-game-sql";
 
-// All challenges keyed by themeId + languageId
 export const ALL_CHALLENGES: Record<string, Challenge[]> = {
   "stranger-things-python": strangerThingsPythonChallenges,
   "severance-javascript": severanceJavaScriptChallenges,
   "breaking-bad-sql": breakingBadSQLChallenges,
-  // Additional theme+language combos can be added here
+  "the-office-python": theOfficePythonChallenges,
+  "game-of-thrones-javascript": gameOfThronesJavaScriptChallenges,
+  "the-matrix-python": theMatrixPythonChallenges,
+  "rick-and-morty-python": rickAndMortyPythonChallenges,
+  "squid-game-sql": squidGameSQLChallenges,
 };
 
 export function getChallenges(themeId: ThemeId, languageId: LanguageId): Challenge[] {
@@ -28,4 +36,9 @@ export {
   strangerThingsPythonChallenges,
   severanceJavaScriptChallenges,
   breakingBadSQLChallenges,
+  theOfficePythonChallenges,
+  gameOfThronesJavaScriptChallenges,
+  theMatrixPythonChallenges,
+  rickAndMortyPythonChallenges,
+  squidGameSQLChallenges,
 };

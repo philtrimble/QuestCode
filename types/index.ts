@@ -1,6 +1,14 @@
 // ─── Themes ─────────────────────────────────────────────────────────────────
 
-export type ThemeId = "stranger-things" | "severance" | "breaking-bad";
+export type ThemeId =
+  | "stranger-things"
+  | "severance"
+  | "breaking-bad"
+  | "the-office"
+  | "game-of-thrones"
+  | "the-matrix"
+  | "rick-and-morty"
+  | "squid-game";
 
 export interface Theme {
   id: ThemeId;

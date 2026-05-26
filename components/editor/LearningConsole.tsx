@@ -442,6 +442,66 @@ function evaluateCode(code: string, challenge: Challenge): boolean {
       return normalizedCode.includes("count(") && normalizedCode.includes("sum(") && normalizedCode.includes("avg(");
     case "bb-sql-05":
       return normalizedCode.includes("group by") && normalizedCode.includes("sum(");
+    // The Office — Python
+    case "to-py-01":
+      return normalizedCode.includes("beet") && normalizedCode.includes("5765") && normalizedCode.includes("true");
+    case "to-py-02":
+      return normalizedCode.includes("guests") && normalizedCode.includes("remove") && normalizedCode.includes("ryan");
+    case "to-py-03":
+      return normalizedCode.includes("employee") && normalizedCode.includes("jim halpert") && normalizedCode.includes("employee[");
+    case "to-py-04":
+      return normalizedCode.includes("def threat_level") && normalizedCode.includes("midnight") && normalizedCode.includes("10");
+    case "to-py-05":
+      return normalizedCode.includes("def total_sales") && normalizedCode.includes("for") && normalizedCode.includes("total");
+
+    // Game of Thrones — JavaScript
+    case "got-js-01":
+      return normalizedCode.includes("jon snow") && normalizedCode.includes("stark") && (normalizedCode.includes("`") || normalizedCode.includes("template"));
+    case "got-js-02":
+      return normalizedCode.includes("push") && normalizedCode.includes("ghost") && normalizedCode.includes("length");
+    case "got-js-03":
+      return normalizedCode.includes("function forgeweapons") && normalizedCode.includes("math.floor") && normalizedCode.includes("3");
+    case "got-js-04":
+      return normalizedCode.includes("councilmember") && normalizedCode.includes("tyrion") && normalizedCode.includes("alive");
+    case "got-js-05":
+      return normalizedCode.includes("filter") && normalizedCode.includes("crossed") && normalizedCode.includes("length");
+
+    // The Matrix — Python
+    case "mx-py-01":
+      return normalizedCode.includes("neo") && normalizedCode.includes("red") && normalizedCode.includes("false");
+    case "mx-py-02":
+      return normalizedCode.includes("grid") && normalizedCode.includes("[2]") && normalizedCode.includes("30");
+    case "mx-py-03":
+      return normalizedCode.includes("def can_dodge") && normalizedCode.includes("100") && normalizedCode.includes("reaction_time");
+    case "mx-py-04":
+      return normalizedCode.includes("def count_glitches") && normalizedCode.includes("counts") && normalizedCode.includes("> 1");
+    case "mx-py-05":
+      return normalizedCode.includes("codecs") && normalizedCode.includes("rot_13");
+
+    // Rick and Morty — Python
+    case "rm-py-01":
+      return normalizedCode.includes("szechuan") && normalizedCode.includes("97") && normalizedCode.includes("true");
+    case "rm-py-02":
+      return normalizedCode.includes("channels") && normalizedCode.includes("append") && normalizedCode.includes("two brothers");
+    case "rm-py-03":
+      return normalizedCode.includes("def portal_color") && normalizedCode.includes("green") && normalizedCode.includes("blue") && normalizedCode.includes("orange");
+    case "rm-py-04":
+      return normalizedCode.includes("def above_average_ricks") && normalizedCode.includes("avg") && normalizedCode.includes("count");
+    case "rm-py-05":
+      return normalizedCode.includes("def most_traumatic") && normalizedCode.includes("max") && normalizedCode.includes("log.get");
+
+    // Squid Game — SQL
+    case "sg-sql-01":
+      return normalizedCode.includes("select") && normalizedCode.includes("*") && normalizedCode.includes("from players");
+    case "sg-sql-02":
+      return normalizedCode.includes("where") && normalizedCode.includes("status") && normalizedCode.includes("alive");
+    case "sg-sql-03":
+      return normalizedCode.includes("order by") && normalizedCode.includes("desc") && normalizedCode.includes("limit 3");
+    case "sg-sql-04":
+      return normalizedCode.includes("count(") && normalizedCode.includes("avg(") && normalizedCode.includes("debt_amount");
+    case "sg-sql-05":
+      return normalizedCode.includes("group by") && normalizedCode.includes("team_id") && normalizedCode.includes("desc");
+
     default:
       return true;
   }
