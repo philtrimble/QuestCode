@@ -100,6 +100,7 @@ const config: Config = {
       animation: {
         "flicker": "flicker 3s infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "blink": "blink 1s step-end infinite",
         "float": "float 6s ease-in-out infinite",
         "scan": "scan 2s linear infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
@@ -121,6 +122,10 @@ const config: Config = {
         "glow-pulse": {
           "0%, 100%": { boxShadow: "0 0 20px rgba(108, 71, 255, 0.3)" },
           "50%": { boxShadow: "0 0 40px rgba(108, 71, 255, 0.7)" },
+        },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
     },
