@@ -36,14 +36,14 @@ export default function DashboardClient({ user, subscription, progress }: Props)
 
   const isThemeUnlocked = (themeId: string) => {
     if (!subscription) return false;
-    if (subscription.plan_id.includes("unlimited-themes")) return true;
-    return subscription.selected_theme_id === themeId;
+    if (subscription.planId.includes("unlimited-themes")) return true;
+    return subscription.selectedThemeId === themeId;
   };
 
   const isLanguageUnlocked = (languageId: string) => {
     if (!subscription) return false;
-    if (subscription.plan_id.includes("unlimited-languages")) return true;
-    return subscription.selected_language_id === languageId;
+    if (subscription.planId.includes("unlimited-languages")) return true;
+    return subscription.selectedLanguageId === languageId;
   };
 
   const getChallengeProgress = (themeId: string, languageId: string) => {
@@ -78,7 +78,7 @@ export default function DashboardClient({ user, subscription, progress }: Props)
               {subscription ? (
                 <p className="text-xs text-brand-neon flex items-center gap-1 justify-end">
                   <Zap className="w-3 h-3" />
-                  {subscription.plan_id.replace(/-/g, " ")}
+                  {subscription.planId.replace(/-/g, " ")}
                 </p>
               ) : (
                 <Link href="/pricing" className="text-xs text-brand-accent hover:underline">
@@ -127,8 +127,8 @@ export default function DashboardClient({ user, subscription, progress }: Props)
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
           {[
             { label: "Challenges done", value: completedCount, icon: "✅" },
-            { label: "Themes unlocked", value: subscription ? (subscription.plan_id.includes("unlimited-themes") ? "All" : "1") : "0", icon: "🎬" },
-            { label: "Languages unlocked", value: subscription ? (subscription.plan_id.includes("unlimited-languages") ? "All" : "1") : "0", icon: "💻" },
+            { label: "Themes unlocked", value: subscription ? (subscription.planId.includes("unlimited-themes") ? "All" : "1") : "0", icon: "🎬" },
+            { label: "Languages unlocked", value: subscription ? (subscription.planId.includes("unlimited-languages") ? "All" : "1") : "0", icon: "💻" },
             { label: "Current streak", value: "—", icon: "🔥" },
           ].map((stat) => (
             <div key={stat.label} className="glass-card p-4 text-center">
