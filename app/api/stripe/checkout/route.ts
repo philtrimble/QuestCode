@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe/client";
 import { createServerClient } from "@/lib/supabase/server";
 import { PLANS } from "@/lib/plans";
 import type { PlanId } from "@/types";
+import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const isLifetime = plan.id.includes("lifetime");
 
-    const sessionParams: Parameters<typeof stripe.checkout.sessions.create>[0] = {
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: isLifetime ? "payment" : "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
