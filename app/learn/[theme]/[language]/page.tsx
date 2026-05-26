@@ -34,13 +34,22 @@ export default async function LearnPage({ params }: Props) {
   const challenges = getChallenges(params.theme as ThemeId, params.language as LanguageId);
   if (challenges.length === 0) notFound();
 
-  // Fetch user's progress for this combo
-  const { data: progressData } = await supabase
-    .from("progress")
-    .select("*")
-    .eq("user_id", user.id)
-    .eq("theme_id", params.theme)
-    .eq("language_id", params.language);
+  const [{ data: progressData }, { data: subscription }] = await Promise.all([
+    supabase
+      .from("progress")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("theme_id", params.theme)
+      .eq("language_id", params.language),
+    supabase
+      .from("subscriptions")
+      .select("plan_id, selected_theme_id, selected_language_id")
+      .eq("user_id", user.id)
+      .eq("status", "active")
+      .single(),
+  ]);
+
+  const isSubscribed = !!subscription;
 
   return (
     <LearningConsole
@@ -49,6 +58,7 @@ export default async function LearnPage({ params }: Props) {
       challenges={challenges}
       userId={user.id}
       initialProgress={progressData ?? []}
+      isSubscribed={isSubscribed}
     />
   );
 }

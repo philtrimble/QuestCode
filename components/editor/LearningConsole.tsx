@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, Code2, BookOpen, Trophy, RotateCcw
+  Check, X, Code2, BookOpen, Trophy, RotateCcw, Lock
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
@@ -25,11 +25,12 @@ interface Props {
   challenges: Challenge[];
   userId: string;
   initialProgress: ProgressEntry[];
+  isSubscribed: boolean;
 }
 
 type PanelTab = "challenge" | "output";
 
-export default function LearningConsole({ theme, language, challenges, userId, initialProgress }: Props) {
+export default function LearningConsole({ theme, language, challenges, userId, initialProgress, isSubscribed }: Props) {
   const supabase = createClient();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -46,6 +47,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
   const current = challenges[currentIndex];
   const completedCount = Object.values(progress).filter(Boolean).length;
+  const isLocked = !isSubscribed && currentIndex > 0;
 
   // Simulate code execution in-browser
   // In production, replace with a real sandboxed execution service (e.g. Piston API)
@@ -280,13 +282,23 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
                     {/* Next challenge CTA */}
                     {isCorrect && currentIndex < challenges.length - 1 && (
-                      <button
-                        onClick={() => goToChallenge(currentIndex + 1)}
-                        className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
-                      >
-                        Next challenge
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
+                      isSubscribed ? (
+                        <button
+                          onClick={() => goToChallenge(currentIndex + 1)}
+                          className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
+                        >
+                          Next challenge
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      ) : (
+                        <Link
+                          href="/pricing"
+                          className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
+                        >
+                          <Lock className="w-4 h-4" />
+                          Unlock all challenges
+                        </Link>
+                      )
                     )}
 
                     {isCorrect && currentIndex === challenges.length - 1 && (
@@ -328,7 +340,20 @@ export default function LearningConsole({ theme, language, challenges, userId, i
         </div>
 
         {/* Right panel — Monaco editor */}
-        <div className="flex-1 flex flex-col min-h-[400px]">
+        <div className="flex-1 flex flex-col min-h-[400px] relative">
+          {isLocked && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-brand-bg/90 backdrop-blur-sm">
+              <Lock className="w-12 h-12 text-brand-glow mb-4" />
+              <h3 className="text-white text-xl font-bold mb-2">This challenge is locked</h3>
+              <p className="text-slate-400 text-sm mb-6 text-center max-w-xs">
+                You've completed the free challenge. Unlock all {challenges.length} challenges with a subscription.
+              </p>
+              <Link href="/pricing" className="btn-primary flex items-center gap-2">
+                See plans
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
           {/* Editor toolbar */}
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-brand-border bg-brand-surface">
             <div className="flex items-center gap-2">

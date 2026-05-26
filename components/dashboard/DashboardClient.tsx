@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { THEME_LIST } from "@/lib/themes";
 import { LANGUAGE_LIST } from "@/lib/languages";
 import { ALL_CHALLENGES } from "@/lib/challenges";
-import { Code2, LogOut, Lock, ChevronRight, Trophy, Zap } from "lucide-react";
+import { Code2, LogOut, ChevronRight, Trophy, Zap } from "lucide-react";
 import type { UserSubscription, UserProfile } from "@/types";
 
 interface ProgressEntry {
@@ -34,16 +34,11 @@ export default function DashboardClient({ user, subscription, progress }: Props)
 
   const completedCount = progress.filter((p) => p.completed).length;
 
-  const isThemeUnlocked = (themeId: string) => {
+  const isFullyUnlocked = (themeId: string, languageId: string) => {
     if (!subscription) return false;
-    if (subscription.planId.includes("unlimited-themes")) return true;
-    return subscription.selectedThemeId === themeId;
-  };
-
-  const isLanguageUnlocked = (languageId: string) => {
-    if (!subscription) return false;
-    if (subscription.planId.includes("unlimited-languages")) return true;
-    return subscription.selectedLanguageId === languageId;
+    const themeOk = subscription.planId.includes("unlimited-themes") || subscription.selectedThemeId === themeId;
+    const langOk = subscription.planId.includes("unlimited-languages") || subscription.selectedLanguageId === languageId;
+    return themeOk && langOk;
   };
 
   const getChallengeProgress = (themeId: string, languageId: string) => {
@@ -142,80 +137,71 @@ export default function DashboardClient({ user, subscription, progress }: Props)
         {/* Theme × Language grid */}
         <h2 className="text-xl font-bold text-white mb-5">Choose your path</h2>
         <div className="space-y-8">
-          {THEME_LIST.map((theme) => {
-            const themeUnlocked = isThemeUnlocked(theme.id);
-            return (
-              <div key={theme.id}>
-                {/* Theme header */}
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-2xl">{theme.emoji}</span>
-                  <div>
-                    <h3 className={`font-bold text-lg ${theme.colorClass}`}>{theme.name}</h3>
-                    <p className="text-slate-500 text-xs">{theme.setting}</p>
-                  </div>
-                  {!themeUnlocked && (
-                    <span className="ml-auto flex items-center gap-1 text-xs text-slate-500 border border-brand-border px-2 py-1 rounded-full">
-                      <Lock className="w-3 h-3" />
-                      Locked
-                    </span>
-                  )}
-                </div>
-
-                {/* Language cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {LANGUAGE_LIST.map((lang) => {
-                    const langUnlocked = isLanguageUnlocked(lang.id);
-                    const unlocked = themeUnlocked && langUnlocked;
-                    const { completed, total } = getChallengeProgress(theme.id, lang.id);
-                    const progress_pct = total > 0 ? Math.round((completed / total) * 100) : 0;
-                    const hasContent = total > 0;
-
-                    return (
-                      <div key={lang.id} className="relative">
-                        {unlocked && hasContent ? (
-                          <Link
-                            href={`/learn/${theme.id}/${lang.id}`}
-                            className="glass-card p-4 block hover:scale-[1.03] transition-all duration-200 border-brand-border hover:border-brand-muted group"
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xl">{lang.icon}</span>
-                              {completed === total && total > 0 && (
-                                <Trophy className="w-4 h-4 text-brand-amber" />
-                              )}
-                            </div>
-                            <p className="text-white text-sm font-semibold">{lang.name}</p>
-                            {hasContent && (
-                              <>
-                                <p className="text-slate-500 text-xs mb-2">{completed}/{total} done</p>
-                                <div className="w-full bg-brand-surface rounded-full h-1">
-                                  <div
-                                    className="h-1 rounded-full bg-brand-glow transition-all"
-                                    style={{ width: `${progress_pct}%` }}
-                                  />
-                                </div>
-                              </>
-                            )}
-                            <ChevronRight className="w-3 h-3 text-slate-600 group-hover:text-white mt-2 transition-colors" />
-                          </Link>
-                        ) : (
-                          <div className={`glass-card p-4 opacity-40 cursor-not-allowed border-brand-border`}>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xl grayscale">{lang.icon}</span>
-                              <Lock className="w-3 h-3 text-slate-600" />
-                            </div>
-                            <p className="text-slate-400 text-sm font-semibold">{lang.name}</p>
-                            <p className="text-slate-600 text-xs">
-                              {!hasContent ? "Coming soon" : "Locked"}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+          {THEME_LIST.map((theme) => (
+            <div key={theme.id}>
+              {/* Theme header */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">{theme.emoji}</span>
+                <div>
+                  <h3 className={`font-bold text-lg ${theme.colorClass}`}>{theme.name}</h3>
+                  <p className="text-slate-500 text-xs">{theme.setting}</p>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Language cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {LANGUAGE_LIST.map((lang) => {
+                  const fullyUnlocked = isFullyUnlocked(theme.id, lang.id);
+                  const { completed, total } = getChallengeProgress(theme.id, lang.id);
+                  const progress_pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+                  const hasContent = total > 0;
+
+                  if (!hasContent) {
+                    return (
+                      <div key={lang.id} className="glass-card p-4 opacity-40 cursor-not-allowed border-brand-border">
+                        <span className="text-xl grayscale">{lang.icon}</span>
+                        <p className="text-slate-400 text-sm font-semibold mt-2">{lang.name}</p>
+                        <p className="text-slate-600 text-xs">Coming soon</p>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={lang.id} className="relative">
+                      <Link
+                        href={`/learn/${theme.id}/${lang.id}`}
+                        className="glass-card p-4 block hover:scale-[1.03] transition-all duration-200 border-brand-border hover:border-brand-muted group"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xl">{lang.icon}</span>
+                          {fullyUnlocked && completed === total ? (
+                            <Trophy className="w-4 h-4 text-brand-amber" />
+                          ) : !fullyUnlocked ? (
+                            <span className="text-xs text-brand-neon font-semibold">1 free</span>
+                          ) : null}
+                        </div>
+                        <p className="text-white text-sm font-semibold">{lang.name}</p>
+                        {fullyUnlocked ? (
+                          <>
+                            <p className="text-slate-500 text-xs mb-2">{completed}/{total} done</p>
+                            <div className="w-full bg-brand-surface rounded-full h-1">
+                              <div
+                                className="h-1 rounded-full bg-brand-glow transition-all"
+                                style={{ width: `${progress_pct}%` }}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <p className="text-slate-500 text-xs">Try challenge 1</p>
+                        )}
+                        <ChevronRight className="w-3 h-3 text-slate-600 group-hover:text-white mt-2 transition-colors" />
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </main>
     </div>
