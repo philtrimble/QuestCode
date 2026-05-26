@@ -75,7 +75,4 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ received: true });
 }
 
-// Required: disable body parsing so we can verify the raw body
-export const config = {
-  api: { bodyParser: false },
-};
+export const dynamic = "force-dynamic";
