@@ -72,7 +72,9 @@ export type PlanId =
   | "unlimited-languages-monthly"
   | "unlimited-languages-lifetime"
   | "unlimited-themes-monthly"
-  | "unlimited-themes-lifetime";
+  | "unlimited-themes-lifetime"
+  | "all-access-monthly"
+  | "all-access-lifetime";
 
 export interface Plan {
   id: PlanId;

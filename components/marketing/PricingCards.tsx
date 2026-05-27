@@ -47,7 +47,11 @@ export default function PricingCards({ plans }: Props) {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+      <div className={`grid grid-cols-1 gap-6 mx-auto ${
+        filtered.length >= 3
+          ? "md:grid-cols-3 max-w-5xl"
+          : "md:grid-cols-2 max-w-3xl"
+      }`}>
         {filtered.map((plan) => (
           <PricingCard key={plan.id} plan={plan} billing={billing} />
         ))}

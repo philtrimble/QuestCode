@@ -36,6 +36,7 @@ export default function DashboardClient({ user, subscription, progress }: Props)
 
   const isFullyUnlocked = (themeId: string, languageId: string) => {
     if (!subscription) return false;
+    if (subscription.planId === "all-access-lifetime" || subscription.planId === "all-access-monthly") return true;
     const themeOk = subscription.planId.includes("unlimited-themes") || subscription.selectedThemeId === themeId;
     const langOk = subscription.planId.includes("unlimited-languages") || subscription.selectedLanguageId === languageId;
     return themeOk && langOk;
