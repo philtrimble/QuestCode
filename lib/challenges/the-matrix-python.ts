@@ -102,4 +102,105 @@ export const theMatrixPythonChallenges: Challenge[] = [
     concept: "String Manipulation & Imports",
     difficulty: "intermediate",
   },
+  {
+    id: "mx-py-06",
+    themeId: "the-matrix",
+    languageId: "python",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Neo's Hacker Alias",
+    narrative:
+      "Before Thomas Anderson became Neo, he was a hacker who used an alias. The Architect has intercepted his old message logs and needs them cleaned and standardized before presenting them as evidence against the anomaly.",
+    prompt:
+      "Write a function called `format_alias(text)` that:\n1. Strips whitespace with `.strip()`\n2. Converts to lowercase with `.lower()`\n3. Replaces spaces with underscores using `.replace()`\nReturn the result. Test with `format_alias(\"  Thomas Anderson  \")`.",
+    hint: "Chain `.strip().lower().replace(\" \", \"_\")` on the input string.",
+    solution: `def format_alias(text):\n    return text.strip().lower().replace(" ", "_")\n\nprint(format_alias("  Thomas Anderson  "))`,
+    starterCode: `# Neo's Hacker Alias\n\ndef format_alias(text):\n    return text.strip().lower().replace(___, ___)\n\nprint(format_alias("  Thomas Anderson  "))  # Should print: thomas_anderson`,
+    testCases: [
+      { input: "  Thomas Anderson  ", expected: "thomas_anderson", description: "Stripped, lowercased, spaces replaced with underscores" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-py-07",
+    themeId: "the-matrix",
+    languageId: "python",
+    order: 7,
+    title: "List Comprehension",
+    themedTitle: "Filtering the Simulation's Anomalies",
+    narrative:
+      "The Oracle has identified a stream of code values from the simulation. Only anomalies — values divisible by 3 — represent genuine glitches. Neo needs a filtered list of just the anomalies before Agent Smith erases them.",
+    prompt:
+      "Use a list comprehension to create `anomalies` from `code_stream = [3, 7, 9, 14, 21, 5, 12, 18, 11, 6]` that contains only values divisible by `3`. Print the result.",
+    hint: "List comprehension: `[x for x in code_stream if x % 3 == 0]`. The `%` operator gives the remainder.",
+    solution: `code_stream = [3, 7, 9, 14, 21, 5, 12, 18, 11, 6]\nanomalies = [x for x in code_stream if x % 3 == 0]\nprint(anomalies)`,
+    starterCode: `# Filtering the Simulation's Anomalies\n\ncode_stream = [3, 7, 9, 14, 21, 5, 12, 18, 11, 6]\nanomalies = [___ for ___ in code_stream if ___ % 3 == 0]\nprint(anomalies)`,
+    testCases: [
+      { input: "", expected: "[3, 9, 21, 12, 18, 6]", description: "Values divisible by 3" },
+    ],
+    concept: "List Comprehension",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-py-08",
+    themeId: "the-matrix",
+    languageId: "python",
+    order: 8,
+    title: "Nested Data Structures",
+    themedTitle: "The Operator's Agent Manifest",
+    narrative:
+      "Tank is monitoring all known Agent signatures in the Matrix. Each Agent is logged as a dictionary with a designation, threat level, and current target. Morpheus needs to know which target Agent Smith is currently pursuing.",
+    prompt:
+      "Given:\n`agents = [{\"name\": \"Smith\", \"threat\": 10, \"target\": \"Neo\"}, {\"name\": \"Brown\", \"threat\": 7, \"target\": \"Morpheus\"}, {\"name\": \"Jones\", \"threat\": 8, \"target\": \"Trinity\"}]`\nWrite a function `get_target(agents, agent_name)` that returns the `target` for the matching agent. Test with `get_target(agents, \"Smith\")`.",
+    hint: "Loop through the list. For each dict, check `a[\"name\"] == agent_name` and return `a[\"target\"]`.",
+    solution: `agents = [\n    {"name": "Smith", "threat": 10, "target": "Neo"},\n    {"name": "Brown", "threat": 7, "target": "Morpheus"},\n    {"name": "Jones", "threat": 8, "target": "Trinity"}\n]\n\ndef get_target(agents, agent_name):\n    for a in agents:\n        if a["name"] == agent_name:\n            return a["target"]\n\nprint(get_target(agents, "Smith"))`,
+    starterCode: `# The Operator's Agent Manifest\n\nagents = [\n    {"name": "Smith", "threat": 10, "target": "Neo"},\n    {"name": "Brown", "threat": 7, "target": "Morpheus"},\n    {"name": "Jones", "threat": 8, "target": "Trinity"}\n]\n\ndef get_target(agents, agent_name):\n    for a in agents:\n        if a[___] == agent_name:\n            return a[___]\n\nprint(get_target(agents, "Smith"))  # Should print: Neo`,
+    testCases: [
+      { input: "Smith", expected: "Neo", description: "Agent Smith is targeting Neo" },
+    ],
+    concept: "Nested Data Structures",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-py-09",
+    themeId: "the-matrix",
+    languageId: "python",
+    order: 9,
+    title: "Sorting",
+    themedTitle: "Ranking the Freed Minds",
+    narrative:
+      "Morpheus has assembled a crew of freed minds aboard the Nebuchadnezzar. He needs them ranked by combat readiness score — highest first — so he knows who goes on which mission into the Matrix.",
+    prompt:
+      "Sort `crew = [{\"name\": \"Neo\", \"readiness\": 98}, {\"name\": \"Trinity\", \"readiness\": 95}, {\"name\": \"Tank\", \"readiness\": 72}, {\"name\": \"Apoc\", \"readiness\": 80}, {\"name\": \"Switch\", \"readiness\": 85}]` by `\"readiness\"` in descending order. Print each crew member's name and score.",
+    hint: "Use `sorted(crew, key=lambda x: x[\"readiness\"], reverse=True)`.",
+    solution: `crew = [\n    {"name": "Neo", "readiness": 98},\n    {"name": "Trinity", "readiness": 95},\n    {"name": "Tank", "readiness": 72},\n    {"name": "Apoc", "readiness": 80},\n    {"name": "Switch", "readiness": 85}\n]\n\nranked = sorted(crew, key=lambda x: x["readiness"], reverse=True)\nfor member in ranked:\n    print(f"{member['name']}: {member['readiness']}")`,
+    starterCode: `# Ranking the Freed Minds\n\ncrew = [\n    {"name": "Neo", "readiness": 98},\n    {"name": "Trinity", "readiness": 95},\n    {"name": "Tank", "readiness": 72},\n    {"name": "Apoc", "readiness": 80},\n    {"name": "Switch", "readiness": 85}\n]\n\nranked = sorted(crew, key=lambda x: x[___], reverse=True)\nfor member in ranked:\n    print(f"{member['name']}: {member['readiness']}")`,
+    testCases: [
+      { input: "", expected: "Neo: 98\nTrinity: 95\nSwitch: 85\nApoc: 80\nTank: 72", description: "Crew sorted by readiness descending" },
+    ],
+    concept: "Sorting",
+    difficulty: "advanced",
+  },
+  {
+    id: "mx-py-10",
+    themeId: "the-matrix",
+    languageId: "python",
+    order: 10,
+    title: "Exception Handling",
+    themedTitle: "The Simulation Breach Error",
+    narrative:
+      "The simulation occasionally processes invalid data — a signal from the real world bleeding through. When the Matrix receives a value it cannot parse, the system must log the error gracefully rather than crashing. This is not a bug; it is an inevitability.",
+    prompt:
+      "Write a function `parse_signal(value)` that tries to convert `value` to a float using `float()` and returns `f\"Signal strength: {float(value):.2f}\"`.\nIf a `ValueError` is raised, return `\"Signal corrupted — real world bleed detected\"`.\nTest with `parse_signal(\"3.14\")` and `parse_signal(\"redpill\")`.",
+    hint: "Use `try/except ValueError`. In the `try` block, convert and format. In the `except` block, return the error message.",
+    solution: `def parse_signal(value):\n    try:\n        return f"Signal strength: {float(value):.2f}"\n    except ValueError:\n        return "Signal corrupted — real world bleed detected"\n\nprint(parse_signal("3.14"))\nprint(parse_signal("redpill"))`,
+    starterCode: `# The Simulation Breach Error\n\ndef parse_signal(value):\n    try:\n        return f"Signal strength: {float(value):.2f}"\n    except ___:\n        return "Signal corrupted — real world bleed detected"\n\nprint(parse_signal("3.14"))     # Signal strength: 3.14\nprint(parse_signal("redpill"))  # Signal corrupted — real world bleed detected`,
+    testCases: [
+      { input: "3.14", expected: "Signal strength: 3.14", description: "Valid float parses correctly" },
+      { input: "redpill", expected: "Signal corrupted — real world bleed detected", description: "Invalid input is caught gracefully" },
+    ],
+    concept: "Exception Handling",
+    difficulty: "advanced",
+  },
 ];

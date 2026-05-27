@@ -101,4 +101,104 @@ export const theMatrixJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "mx-js-06",
+    themeId: "the-matrix",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Parsing the Code Stream",
+    narrative:
+      "The green code streaming down the screens in the Matrix is raw and unfiltered. Tank needs a parser that cleans up intercepted code fragments — stripping noise, forcing uppercase, and substituting known patterns before analysis.",
+    prompt:
+      "Given `const code = \"  follow the white rabbit  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) `.replace(\"WHITE RABBIT\", \"RED PILL\")`. Log the result.",
+    hint: "Chain methods: `code.trim().toUpperCase().replace(...)`",
+    solution: `const code = "  follow the white rabbit  ";\nconst parsed = code.trim().toUpperCase().replace("WHITE RABBIT", "RED PILL");\nconsole.log(parsed);`,
+    starterCode: `// Parsing the Code Stream\n// Trim, uppercase, then replace "WHITE RABBIT" with "RED PILL"\n\nconst code = "  follow the white rabbit  ";\nconst parsed = code.trim().___.___;\nconsole.log(parsed);  // Should print: FOLLOW THE RED PILL`,
+    testCases: [
+      { input: "", expected: "FOLLOW THE RED PILL", description: "Parsed and substituted code fragment" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-js-07",
+    themeId: "the-matrix",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Agent Speed Multiplier",
+    narrative:
+      "Agents can upgrade themselves within the Matrix, multiplying their reaction speed. Neo's training program models this upgrade by tripling each Agent's base speed rating.",
+    prompt:
+      "Given `const speeds = [7, 9, 6, 8, 10]` (Agent speed ratings), use `.map()` to create `upgraded` where each speed is multiplied by `3`. Log `upgraded`.",
+    hint: "Use `speeds.map(s => s * 3)` to triple each rating.",
+    solution: `const speeds = [7, 9, 6, 8, 10];\nconst upgraded = speeds.map(s => s * 3);\nconsole.log(upgraded);`,
+    starterCode: `// Agent Speed Multiplier\n// Use .map() to triple each Agent's speed rating\n\nconst speeds = [7, 9, 6, 8, 10];\nconst upgraded = speeds.map(___);\nconsole.log(upgraded);  // Should print: [21, 27, 18, 24, 30]`,
+    testCases: [
+      { input: "", expected: "[21, 27, 18, 24, 30]", description: "All Agent speeds tripled after upgrade" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-js-08",
+    themeId: "the-matrix",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Calculating Total Simulation Load",
+    narrative:
+      "The Oracle is monitoring the Matrix's simulation load. Each sector reports a load value. She needs the total load across all sectors to predict when the system will require a reboot.",
+    prompt:
+      "Given `const loads = [420, 315, 580, 270, 495]`, use `.reduce()` to calculate the total simulation load. Log the result.",
+    hint: "Use `loads.reduce((total, l) => total + l, 0)` to sum all sector loads.",
+    solution: `const loads = [420, 315, 580, 270, 495];\nconst total = loads.reduce((acc, l) => acc + l, 0);\nconsole.log(total);`,
+    starterCode: `// Calculating Total Simulation Load\n// Use .reduce() to sum all sector simulation loads\n\nconst loads = [420, 315, 580, 270, 495];\nconst total = loads.reduce(___);\nconsole.log(total);  // Should print: 2080`,
+    testCases: [
+      { input: "", expected: "2080", description: "Total simulation load across all sectors" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-js-09",
+    themeId: "the-matrix",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Combining Zion's Resistance Cells",
+    narrative:
+      "Morpheus and Commander Lock are merging their resistance cells for the final assault on the Machine City. Neo needs the combined roster and needs to know which two operatives will lead the breach team.",
+    prompt:
+      "Given `const morpheusCrew = [\"Neo\", \"Trinity\", \"Tank\"]` and `const lockCrew = [\"Niobe\", \"Ghost\", \"Zee\"]`, spread-combine into `resistance`. Destructure the first two as `breacher1` and `breacher2`. Log both.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const morpheusCrew = ["Neo", "Trinity", "Tank"];\nconst lockCrew = ["Niobe", "Ghost", "Zee"];\nconst resistance = [...morpheusCrew, ...lockCrew];\nconst [breacher1, breacher2] = resistance;\nconsole.log(breacher1);\nconsole.log(breacher2);`,
+    starterCode: `// Combining Zion's Resistance Cells\n// Spread-combine the arrays, then destructure the first two breachers\n\nconst morpheusCrew = ["Neo", "Trinity", "Tank"];\nconst lockCrew = ["Niobe", "Ghost", "Zee"];\nconst resistance = [...];\nconst [breacher1, breacher2] = resistance;\nconsole.log(breacher1);\nconsole.log(breacher2);`,
+    testCases: [
+      { input: "", expected: "Neo\nTrinity", description: "First two operatives leading the breach" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "mx-js-10",
+    themeId: "the-matrix",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "System Diagnostics Report",
+    narrative:
+      "The Architect runs regular diagnostics on the Matrix subsystems. Each subsystem has an anomaly count. The report must list every subsystem and its anomaly reading before the next scheduled purge.",
+    prompt:
+      "Given `const diagnostics = { neural: 3, sensory: 7, temporal: 1, spatial: 5 }`, use `Object.keys()` to iterate and log each subsystem and its anomaly count in the format `\"neural: 3\"`.",
+    hint: "Use `Object.keys(diagnostics).forEach(key => console.log(key + \": \" + diagnostics[key]))`.",
+    solution: `const diagnostics = { neural: 3, sensory: 7, temporal: 1, spatial: 5 };\nObject.keys(diagnostics).forEach(key => {\n  console.log(key + ": " + diagnostics[key]);\n});`,
+    starterCode: `// System Diagnostics Report\n// Use Object.keys() to log each subsystem and its anomaly count\n\nconst diagnostics = { neural: 3, sensory: 7, temporal: 1, spatial: 5 };\nObject.keys(diagnostics).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "neural: 3\nsensory: 7\ntemporal: 1\nspatial: 5", description: "Full diagnostics report" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

@@ -84,6 +84,29 @@
   .font-code {
     font-family: var(--font-jetbrains);
   }
+
+  /* Prose / legal pages */
+  .prose-section {
+    @apply space-y-4;
+  }
+  .section-heading {
+    @apply text-2xl font-bold text-white mb-4;
+  }
+  .policy-heading {
+    @apply text-xl font-bold text-white mb-4 pb-2 border-b border-brand-border;
+  }
+  .policy-subheading {
+    @apply text-base font-semibold text-slate-200 mt-5 mb-2;
+  }
+  .body-text {
+    @apply text-slate-400 text-sm leading-relaxed mb-3;
+  }
+  .policy-list {
+    @apply list-disc list-outside ml-5 space-y-2 text-slate-400 text-sm leading-relaxed mb-3;
+  }
+  .inline-code {
+    @apply font-mono text-xs bg-brand-surface border border-brand-border rounded px-1.5 py-0.5 text-slate-300;
+  }
 }
 
 /* Monaco Editor overrides */

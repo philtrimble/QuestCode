@@ -101,4 +101,104 @@ export const strangerThingsGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "st-go-06",
+    themeId: "stranger-things",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "Eleven's Transmission",
+    narrative:
+      "Eleven has pushed through the static and sent a message from the Void. Hopper needs to format the transmission clearly — the sender's name, the channel, and the message itself, all assembled into one readable broadcast before the signal fades.",
+    prompt:
+      "Use `fmt.Sprintf` to create a formatted string. Given `name := \"Eleven\"` and `channel := 11`, produce `\"Eleven is broadcasting on channel 11\"` and print it.",
+    hint: "Use `msg := fmt.Sprintf(\"%s is broadcasting on channel %d\", name, channel)` then `fmt.Println(msg)`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tname := "Eleven"\n\tchannel := 11\n\tmsg := fmt.Sprintf("%s is broadcasting on channel %d", name, channel)\n\tfmt.Println(msg)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\tname := "Eleven"\n\tchannel := 11\n\t// Use fmt.Sprintf to build the message\n\tmsg := fmt.Sprintf(___, name, channel)\n\tfmt.Println(msg)\n}`,
+    testCases: [
+      { input: "", expected: "Eleven is broadcasting on channel 11", description: "Formatted transmission message" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-go-07",
+    themeId: "stranger-things",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "The Hawkins Monster Codex",
+    narrative:
+      "Dr. Owens needs a lookup table of every creature spotted near the Upside Down gate. Each monster name maps to its threat level. Hopper can query it instantly instead of flipping through binders at 2am.",
+    prompt:
+      "Create a map `threatMap` of type `map[string]int`. Add `\"Demogorgon\"` with value `10` and `\"Mind Flayer\"` with value `9`. Print the value for `\"Demogorgon\"`.",
+    hint: "Declare with `threatMap := map[string]int{}`, then assign with `threatMap[\"Demogorgon\"] = 10`. Access with `threatMap[\"Demogorgon\"]`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tthreatMap := map[string]int{}\n\tthreatMap["Demogorgon"] = 10\n\tthreatMap["Mind Flayer"] = 9\n\tfmt.Println(threatMap["Demogorgon"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tthreatMap := map[string]int{}\n\t// Add Demogorgon and Mind Flayer\n\tthreatMap[___] = 10\n\tthreatMap[___] = 9\n\t// Print Demogorgon's threat level\n\tfmt.Println(threatMap[___])\n}`,
+    testCases: [
+      { input: "", expected: "10", description: "Demogorgon has threat level 10" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-go-08",
+    themeId: "stranger-things",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "Party Member Profile",
+    narrative:
+      "The Party needs a proper data structure. Dustin insists that informal notes on napkins are insufficient — each member's profile must include their name and their power level, stored in a Go struct so it can be accessed programmatically.",
+    prompt:
+      "Define a struct `Member` with fields `Name string` and `Power int`. Create an instance with `Name: \"Eleven\"` and `Power: 100`. Print both fields with `fmt.Println`.",
+    hint: "Define the struct above `main`: `type Member struct { Name string; Power int }`. Create with `m := Member{Name: \"Eleven\", Power: 100}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Member struct {\n\tName  string\n\tPower int\n}\n\nfunc main() {\n\tm := Member{Name: "Eleven", Power: 100}\n\tfmt.Println(m.Name)\n\tfmt.Println(m.Power)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Member struct {\n\tName  string\n\tPower int\n}\n\nfunc main() {\n\t// Create a Member with Name "Eleven" and Power 100\n\tm := Member{___}\n\tfmt.Println(m.Name)\n\tfmt.Println(m.Power)\n}`,
+    testCases: [
+      { input: "", expected: "Eleven\n100", description: "Member name and power level" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-go-09",
+    themeId: "stranger-things",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "Gate Coordinates",
+    narrative:
+      "The gate to the Upside Down can only be opened at exact coordinates. Dr. Owens has built a function that returns both the coordinates and an error — because if the depth reading is zero, the data is corrupted and no one should go near it.",
+    prompt:
+      "Write a function `gateCoords(depth int) (int, error)` that returns `depth * 3, nil` if `depth > 0`, or `0, errors.New(\"invalid depth\")` if `depth` is 0 or less. In `main`, call it with `5`, print both return values.",
+    hint: "Import `\"errors\"`. Use `if depth <= 0 { return 0, errors.New(\"invalid depth\") }`. Then `return depth * 3, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc gateCoords(depth int) (int, error) {\n\tif depth <= 0 {\n\t\treturn 0, errors.New("invalid depth")\n\t}\n\treturn depth * 3, nil\n}\n\nfunc main() {\n\tcoords, err := gateCoords(5)\n\tfmt.Println(coords)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc gateCoords(depth int) (int, error) {\n\tif depth <= 0 {\n\t\treturn 0, errors.New("invalid depth")\n\t}\n\t// Return depth * 3 and nil\n\treturn ___\n}\n\nfunc main() {\n\tcoords, err := gateCoords(5)\n\tfmt.Println(coords)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "15\n<nil>", description: "Valid depth returns coordinates and nil error" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "st-go-10",
+    themeId: "stranger-things",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "Entering the Upside Down",
+    narrative:
+      "Entering the Upside Down requires a confirmed gate reading. If the reading fails — if the depth is invalid — Hopper must be warned before anyone crosses. Go's error handling pattern keeps the team safe: always check the error before proceeding.",
+    prompt:
+      "Call `gateCoords(0)` (which returns an error when depth is 0). Check if `err != nil` — if so, print `\"Error:\"` followed by the error. Otherwise print the coordinates.",
+    hint: "Use `coords, err := gateCoords(0)`. Then `if err != nil { fmt.Println(\"Error:\", err) } else { fmt.Println(coords) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc gateCoords(depth int) (int, error) {\n\tif depth <= 0 {\n\t\treturn 0, errors.New("invalid depth")\n\t}\n\treturn depth * 3, nil\n}\n\nfunc main() {\n\tcoords, err := gateCoords(0)\n\tif err != nil {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(coords)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc gateCoords(depth int) (int, error) {\n\tif depth <= 0 {\n\t\treturn 0, errors.New("invalid depth")\n\t}\n\treturn depth * 3, nil\n}\n\nfunc main() {\n\tcoords, err := gateCoords(0)\n\t// Check if err != nil and print "Error:" + err, else print coords\n\tif ___ {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(coords)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Error: invalid depth", description: "Depth 0 triggers the error path" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

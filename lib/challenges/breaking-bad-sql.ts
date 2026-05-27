@@ -102,4 +102,124 @@ export const breakingBadSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "beginner",
   },
+  {
+    id: "bb-sql-06",
+    themeId: "breaking-bad",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Batches and Their Products",
+    narrative:
+      "Walter White's operation is expanding. The `batches` table tracks each production run and references `products` by product name. Mike needs a combined report showing batch details alongside product purity to verify quality control.",
+    prompt:
+      "Write a query that selects `batches.batch_id`, `products.name`, `products.purity`, and `batches.quantity_grams` by performing an INNER JOIN between `batches` and `products` on `batches.product_name = products.name`.",
+    hint: "Use `INNER JOIN products ON batches.product_name = products.name`.",
+    solution: `SELECT batches.batch_id, products.name, products.purity, batches.quantity_grams\nFROM batches\nINNER JOIN products ON batches.product_name = products.name;`,
+    starterCode: `-- Batches and Their Products\n-- Join batches with products on product name\n\nSELECT batches.batch_id, products.name, products.purity, batches.quantity_grams\nFROM batches\n___ JOIN products ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN products ON batches.product_name = products.name",
+        description: "Joins batches and products tables",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-sql-07",
+    themeId: "breaking-bad",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "High-Volume Territories",
+    narrative:
+      "Lydia wants a list of only the distribution territories moving more than 100 pounds total — the truly significant routes. Use GROUP BY and HAVING to filter the noise.",
+    prompt:
+      "Write a query that selects `territory` and `SUM(quantity_lbs) AS total_quantity` from `deliveries`, grouped by `territory`, filtered with HAVING to show only territories with total quantity greater than 100, ordered by `total_quantity` descending.",
+    hint: "Use `HAVING SUM(quantity_lbs) > 100` after `GROUP BY territory`.",
+    solution: `SELECT territory, SUM(quantity_lbs) AS total_quantity\nFROM deliveries\nGROUP BY territory\nHAVING SUM(quantity_lbs) > 100\nORDER BY total_quantity DESC;`,
+    starterCode: `-- High-Volume Territories\n-- Find territories moving more than 100 lbs total\n\nSELECT territory, SUM(quantity_lbs) AS total_quantity\nFROM deliveries\nGROUP BY territory\nHAVING ___\nORDER BY total_quantity DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING SUM(quantity_lbs) > 100",
+        description: "Filters for high-volume territories",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-sql-08",
+    themeId: "breaking-bad",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Purer Than Average",
+    narrative:
+      "Jesse insists that only the best product goes out. Walt needs to find all products whose purity exceeds the average purity across their entire catalog — the ones that meet Heisenberg's standard.",
+    prompt:
+      "Write a query that selects `name` and `purity` from `products` WHERE `purity` is greater than the average purity of all products (use a subquery).",
+    hint: "Use `WHERE purity > (SELECT AVG(purity) FROM products)`.",
+    solution: `SELECT name, purity\nFROM products\nWHERE purity > (SELECT AVG(purity) FROM products);`,
+    starterCode: `-- Purer Than Average\n-- Find products with above-average purity\n\nSELECT name, purity\nFROM products\nWHERE purity > (___ AVG(purity) FROM products);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE purity > (SELECT AVG(purity) FROM products)",
+        description: "Subquery finds above-average purity products",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-sql-09",
+    themeId: "breaking-bad",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Product Grade Classification",
+    narrative:
+      "Heisenberg's product line needs to be officially graded for the distribution network. A classification system will help distributors know what they're working with — and what premium they can charge.",
+    prompt:
+      "Write a query that selects `name`, `purity`, and a computed `grade`: 'Blue Sky' when purity >= 99, 'Premium' when purity >= 90, 'Standard' otherwise.",
+    hint: "Use `CASE WHEN purity >= 99 THEN 'Blue Sky' WHEN purity >= 90 THEN 'Premium' ELSE 'Standard' END AS grade`.",
+    solution: `SELECT\n  name,\n  purity,\n  CASE\n    WHEN purity >= 99 THEN 'Blue Sky'\n    WHEN purity >= 90 THEN 'Premium'\n    ELSE 'Standard'\n  END AS grade\nFROM products;`,
+    starterCode: `-- Product Grade Classification\n-- Classify each product by purity grade\n\nSELECT\n  name,\n  purity,\n  CASE\n    WHEN purity >= 99 THEN 'Blue Sky'\n    WHEN purity >= 90 THEN ___\n    ELSE ___\n  END AS grade\nFROM products;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN purity >= 99 THEN 'Blue Sky'",
+        description: "Classifies products into quality grades",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "bb-sql-10",
+    themeId: "breaking-bad",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "Distribution Network Report",
+    narrative:
+      "Mike needs a full distribution intelligence report: which products from high-purity batches are moving through high-volume territories. This is the kind of data that keeps the operation running — and the DEA guessing.",
+    prompt:
+      "Write a query that JOINs `batches` and `products` on `product_name = products.name`, selects `products.name`, `COUNT(*) AS batch_count`, and `SUM(batches.quantity_grams) AS total_grams`, filters to `products.purity >= 90`, groups by `products.name`, and orders by `total_grams` descending.",
+    hint: "Chain INNER JOIN ... WHERE purity >= 90 GROUP BY products.name ORDER BY total_grams DESC.",
+    solution: `SELECT\n  products.name,\n  COUNT(*) AS batch_count,\n  SUM(batches.quantity_grams) AS total_grams\nFROM batches\nINNER JOIN products ON batches.product_name = products.name\nWHERE products.purity >= 90\nGROUP BY products.name\nORDER BY total_grams DESC;`,
+    starterCode: `-- Distribution Network Report\n-- Join, filter, group, and summarize production data\n\nSELECT\n  products.name,\n  COUNT(*) AS batch_count,\n  SUM(batches.quantity_grams) AS total_grams\nFROM batches\nINNER JOIN products ON ___\nWHERE products.purity >= 90\nGROUP BY ___\nORDER BY total_grams DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN products ON batches.product_name = products.name",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

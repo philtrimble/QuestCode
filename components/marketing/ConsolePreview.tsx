@@ -19,7 +19,11 @@ const THEME_COLORS: Record<string, { badge: string; text: string; border: string
   "game-of-thrones":  { badge: "bg-yellow-950/50 border-yellow-600/40",text: "text-yellow-500",border: "border-yellow-600/30", glow: "shadow-[0_0_30px_rgba(180,83,9,0.15)]" },
   "the-matrix":       { badge: "bg-green-950/50 border-green-400/40",text: "text-green-300",  border: "border-green-400/30",  glow: "shadow-[0_0_30px_rgba(0,255,65,0.15)]" },
   "rick-and-morty":   { badge: "bg-cyan-950/50 border-cyan-500/40",  text: "text-cyan-400",   border: "border-cyan-500/30",   glow: "shadow-[0_0_30px_rgba(6,182,212,0.15)]" },
-  "squid-game":       { badge: "bg-pink-950/50 border-pink-500/40",  text: "text-pink-400",   border: "border-pink-500/30",   glow: "shadow-[0_0_30px_rgba(236,72,153,0.15)]" },
+  "squid-game":           { badge: "bg-pink-950/50 border-pink-500/40",   text: "text-pink-400",   border: "border-pink-500/30",   glow: "shadow-[0_0_30px_rgba(236,72,153,0.15)]" },
+  "arrested-development": { badge: "bg-orange-950/50 border-orange-500/40",text: "text-orange-400", border: "border-orange-500/30", glow: "shadow-[0_0_30px_rgba(249,115,22,0.15)]" },
+  "barbie":               { badge: "bg-fuchsia-950/50 border-fuchsia-500/40",text: "text-fuchsia-400",border: "border-fuchsia-500/30",glow: "shadow-[0_0_30px_rgba(217,70,239,0.15)]" },
+  "sex-and-the-city":     { badge: "bg-rose-950/50 border-rose-500/40",    text: "text-rose-400",   border: "border-rose-500/30",   glow: "shadow-[0_0_30px_rgba(244,63,94,0.15)]" },
+  "sopranos":             { badge: "bg-red-950/50 border-red-800/40",       text: "text-red-400",    border: "border-red-800/30",    glow: "shadow-[0_0_30px_rgba(153,27,27,0.15)]" },
 };
 
 export default function ConsolePreview() {

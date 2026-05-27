@@ -101,4 +101,124 @@ export const squidGameSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "intermediate",
   },
+  {
+    id: "sg-sql-06",
+    themeId: "squid-game",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Players and Their Games",
+    narrative:
+      "The Front Man has two tables: `players` and `games`, linked by the round each player participated in. He needs a combined view to confirm which players were present for which games — no one leaves the island without being accounted for.",
+    prompt:
+      "Write a query that selects `players.name`, `players.status`, and `games.game_name` by performing an INNER JOIN between `players` and `games` on `players.current_round = games.round_number`.",
+    hint: "Use `INNER JOIN games ON players.current_round = games.round_number`.",
+    solution: `SELECT players.name, players.status, games.game_name\nFROM players\nINNER JOIN games ON players.current_round = games.round_number;`,
+    starterCode: `-- Players and Their Games\n-- Join players with games on round number\n\nSELECT players.name, players.status, games.game_name\nFROM players\n___ JOIN games ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN games ON players.current_round = games.round_number",
+        description: "Joins players and games tables",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-sql-07",
+    themeId: "squid-game",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "Teams With Survivors",
+    narrative:
+      "The Front Man tracks team compositions. He needs to know which teams still have more than one living player — those are the teams that still pose a strategic challenge in the upcoming games.",
+    prompt:
+      "Write a query that selects `team_id` and `COUNT(*) AS survivor_count` from `players` WHERE `status = 'alive'`, grouped by `team_id`, filtered with HAVING to show only teams with more than 1 survivor, ordered by `survivor_count` descending.",
+    hint: "Use `WHERE status = 'alive'` then `GROUP BY team_id` then `HAVING COUNT(*) > 1`.",
+    solution: `SELECT team_id, COUNT(*) AS survivor_count\nFROM players\nWHERE status = 'alive'\nGROUP BY team_id\nHAVING COUNT(*) > 1\nORDER BY survivor_count DESC;`,
+    starterCode: `-- Teams With Survivors\n-- Find teams with more than one surviving player\n\nSELECT team_id, COUNT(*) AS survivor_count\nFROM players\nWHERE status = 'alive'\nGROUP BY team_id\nHAVING ___\nORDER BY survivor_count DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING COUNT(*) > 1",
+        description: "Filters for teams with multiple survivors",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-sql-08",
+    themeId: "squid-game",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Desperate Players",
+    narrative:
+      "The games prey on desperation. The guards have identified that players with debt above the average are the most motivated — and most dangerous. Find every player carrying more than average debt.",
+    prompt:
+      "Write a query that selects `player_number`, `name`, and `debt_amount` from `players` WHERE `debt_amount` is greater than the average debt across all players (use a subquery).",
+    hint: "Use `WHERE debt_amount > (SELECT AVG(debt_amount) FROM players)`.",
+    solution: `SELECT player_number, name, debt_amount\nFROM players\nWHERE debt_amount > (SELECT AVG(debt_amount) FROM players);`,
+    starterCode: `-- Desperate Players\n-- Find players with above-average debt\n\nSELECT player_number, name, debt_amount\nFROM players\nWHERE debt_amount > (___ AVG(debt_amount) FROM players);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE debt_amount > (SELECT AVG(debt_amount) FROM players)",
+        description: "Subquery finds players with above-average debt",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-sql-09",
+    themeId: "squid-game",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Debt Risk Classification",
+    narrative:
+      "The VIPs want a risk assessment for each player based on their financial desperation. Players with the most to lose make for the most entertaining viewing. Classify each player's debt level into a risk tier.",
+    prompt:
+      "Write a query that selects `name`, `debt_amount`, and a computed `risk_tier`: 'Extreme' when debt_amount >= 400000000, 'High' when debt_amount >= 50000000, 'Moderate' otherwise.",
+    hint: "Use `CASE WHEN debt_amount >= 400000000 THEN 'Extreme' WHEN debt_amount >= 50000000 THEN 'High' ELSE 'Moderate' END AS risk_tier`.",
+    solution: `SELECT\n  name,\n  debt_amount,\n  CASE\n    WHEN debt_amount >= 400000000 THEN 'Extreme'\n    WHEN debt_amount >= 50000000 THEN 'High'\n    ELSE 'Moderate'\n  END AS risk_tier\nFROM players;`,
+    starterCode: `-- Debt Risk Classification\n-- Classify each player by debt risk tier\n\nSELECT\n  name,\n  debt_amount,\n  CASE\n    WHEN debt_amount >= 400000000 THEN 'Extreme'\n    WHEN debt_amount >= 50000000 THEN ___\n    ELSE ___\n  END AS risk_tier\nFROM players;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN debt_amount >= 400000000 THEN 'Extreme'",
+        description: "Classifies players into debt risk tiers",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "sg-sql-10",
+    themeId: "squid-game",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "Final Games Survivor Report",
+    narrative:
+      "The Front Man needs a final comprehensive report: survivor data joined with game records, filtered to the most dangerous rounds, and summarized by game to determine how many players survived each event.",
+    prompt:
+      "Write a query that JOINs `players` and `games` on `current_round = games.round_number`, selects `games.game_name`, `COUNT(*) AS survivors`, and `AVG(players.debt_amount) AS avg_debt`, filters to `players.status = 'alive'`, groups by `games.game_name`, and orders by `survivors` descending.",
+    hint: "Chain INNER JOIN ... WHERE status = 'alive' GROUP BY games.game_name ORDER BY survivors DESC.",
+    solution: `SELECT\n  games.game_name,\n  COUNT(*) AS survivors,\n  AVG(players.debt_amount) AS avg_debt\nFROM players\nINNER JOIN games ON players.current_round = games.round_number\nWHERE players.status = 'alive'\nGROUP BY games.game_name\nORDER BY survivors DESC;`,
+    starterCode: `-- Final Games Survivor Report\n-- Join, filter, group, and rank game survivor data\n\nSELECT\n  games.game_name,\n  COUNT(*) AS survivors,\n  AVG(players.debt_amount) AS avg_debt\nFROM players\nINNER JOIN games ON ___\nWHERE players.status = 'alive'\nGROUP BY ___\nORDER BY survivors DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN games ON players.current_round = games.round_number",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

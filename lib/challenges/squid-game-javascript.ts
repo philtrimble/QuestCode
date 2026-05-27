@@ -101,4 +101,104 @@ export const squidGameJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "sg-js-06",
+    themeId: "squid-game",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "The Front Man's Announcement",
+    narrative:
+      "The Front Man communicates with the guards through an intercom system. Announcements arrive from field staff in inconsistent formatting — they must be normalized before broadcasting to all players over the facility speakers.",
+    prompt:
+      "Given `const announcement = \"  red light green light  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) `.replace(\"GREEN LIGHT\", \"STOP\")`. Log the result.",
+    hint: "Chain methods: `announcement.trim().toUpperCase().replace(...)`",
+    solution: `const announcement = "  red light green light  ";\nconst broadcast = announcement.trim().toUpperCase().replace("GREEN LIGHT", "STOP");\nconsole.log(broadcast);`,
+    starterCode: `// The Front Man's Announcement\n// Trim, uppercase, then replace "GREEN LIGHT" with "STOP"\n\nconst announcement = "  red light green light  ";\nconst broadcast = announcement.trim().___.___;\nconsole.log(broadcast);  // Should print: RED LIGHT STOP`,
+    testCases: [
+      { input: "", expected: "RED LIGHT STOP", description: "Formatted game announcement" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-js-07",
+    themeId: "squid-game",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Dalgona Difficulty Ratings",
+    narrative:
+      "Game 3 is the Dalgona cookie challenge. Each shape has a difficulty rating. The Front Man has decided to raise the difficulty by doubling every shape's rating for the next iteration of the games.",
+    prompt:
+      "Given `const difficulty = [3, 7, 5, 9, 4]` (shape difficulty ratings), use `.map()` to create `harder` where each rating is multiplied by `2`. Log `harder`.",
+    hint: "Use `difficulty.map(d => d * 2)` to double each rating.",
+    solution: `const difficulty = [3, 7, 5, 9, 4];\nconst harder = difficulty.map(d => d * 2);\nconsole.log(harder);`,
+    starterCode: `// Dalgona Difficulty Ratings\n// Use .map() to double each shape's difficulty rating\n\nconst difficulty = [3, 7, 5, 9, 4];\nconst harder = difficulty.map(___);\nconsole.log(harder);  // Should print: [6, 14, 10, 18, 8]`,
+    testCases: [
+      { input: "", expected: "[6, 14, 10, 18, 8]", description: "All difficulty ratings doubled" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-js-08",
+    themeId: "squid-game",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Final Prize Pool Tally",
+    narrative:
+      "The games are over. The Front Man's accountants need to verify the final prize pool by summing every incremental deposit made to the vault throughout the competition. Player 456 needs to know what he won.",
+    prompt:
+      "Given `const deposits = [4500000000, 3200000000, 5800000000, 2900000000, 3100000000]`, use `.reduce()` to calculate the total prize pool. Log the result.",
+    hint: "Use `deposits.reduce((total, d) => total + d, 0)` to sum all deposits.",
+    solution: `const deposits = [4500000000, 3200000000, 5800000000, 2900000000, 3100000000];\nconst total = deposits.reduce((acc, d) => acc + d, 0);\nconsole.log(total);`,
+    starterCode: `// Final Prize Pool Tally\n// Use .reduce() to sum all vault deposits\n\nconst deposits = [4500000000, 3200000000, 5800000000, 2900000000, 3100000000];\nconst total = deposits.reduce(___);\nconsole.log(total);  // Should print: 19500000000`,
+    testCases: [
+      { input: "", expected: "19500000000", description: "Total prize pool amount" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-js-09",
+    themeId: "squid-game",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Forming the Final Alliance",
+    narrative:
+      "Player 456 and Player 067 have been building alliances throughout the games. Before the final round, they combine their allies into one group and identify who will take the first and second positions in the formation.",
+    prompt:
+      "Given `const gi_hun = [\"Player 456\", \"Player 001\", \"Player 101\"]` and `const sae_byeok = [\"Player 067\", \"Player 212\", \"Player 240\"]`, spread-combine into `alliance`. Destructure the first two as `pos1` and `pos2`. Log both.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const gi_hun = ["Player 456", "Player 001", "Player 101"];\nconst sae_byeok = ["Player 067", "Player 212", "Player 240"];\nconst alliance = [...gi_hun, ...sae_byeok];\nconst [pos1, pos2] = alliance;\nconsole.log(pos1);\nconsole.log(pos2);`,
+    starterCode: `// Forming the Final Alliance\n// Spread-combine the arrays, then destructure the first two positions\n\nconst gi_hun = ["Player 456", "Player 001", "Player 101"];\nconst sae_byeok = ["Player 067", "Player 212", "Player 240"];\nconst alliance = [...];\nconst [pos1, pos2] = alliance;\nconsole.log(pos1);\nconsole.log(pos2);`,
+    testCases: [
+      { input: "", expected: "Player 456\nPlayer 001", description: "First two positions in the alliance" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "sg-js-10",
+    themeId: "squid-game",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "Game Statistics Report",
+    narrative:
+      "After the games conclude, the Front Man files a statistics report with the VIP investors. The report must list every game and its elimination count in a clean readable format.",
+    prompt:
+      "Given `const stats = { redLightGreenLight: 255, honeycomb: 14, tug_of_war: 92, marbles: 75, glassBridge: 6 }`, use `Object.keys()` to iterate and log each game and its count in the format `\"redLightGreenLight: 255\"`.",
+    hint: "Use `Object.keys(stats).forEach(key => console.log(key + \": \" + stats[key]))`.",
+    solution: `const stats = { redLightGreenLight: 255, honeycomb: 14, tug_of_war: 92, marbles: 75, glassBridge: 6 };\nObject.keys(stats).forEach(key => {\n  console.log(key + ": " + stats[key]);\n});`,
+    starterCode: `// Game Statistics Report\n// Use Object.keys() to log each game and its elimination count\n\nconst stats = { redLightGreenLight: 255, honeycomb: 14, tug_of_war: 92, marbles: 75, glassBridge: 6 };\nObject.keys(stats).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "redLightGreenLight: 255\nhoneycomb: 14\ntug_of_war: 92\nmarbles: 75\nglassBridge: 6", description: "Full game statistics report" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

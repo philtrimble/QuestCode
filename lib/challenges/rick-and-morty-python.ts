@@ -103,4 +103,105 @@ export const rickAndMortyPythonChallenges: Challenge[] = [
     concept: "Dictionaries",
     difficulty: "intermediate",
   },
+  {
+    id: "rm-py-06",
+    themeId: "rick-and-morty",
+    languageId: "python",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Rick's Burp-Translator",
+    narrative:
+      "Rick's speech is full of burps, stutters, and random capitalization. Morty has built a burp-translator to clean up Rick's transmissions before Beth hears them. It strips the noise, lowers everything to readable case, and replaces 'Morty' with his full name.",
+    prompt:
+      "Write a function called `clean_rick(text)` that:\n1. Strips whitespace with `.strip()`\n2. Converts to lowercase with `.lower()`\n3. Replaces `\"morty\"` with `\"Morty Smith\"` using `.replace()`\nReturn the result. Test with `clean_rick(\"  MORTY get in the ship MORTY  \")`.",
+    hint: "Chain `.strip().lower().replace(\"morty\", \"Morty Smith\")` on the input string.",
+    solution: `def clean_rick(text):\n    return text.strip().lower().replace("morty", "Morty Smith")\n\nprint(clean_rick("  MORTY get in the ship MORTY  "))`,
+    starterCode: `# Rick's Burp-Translator\n\ndef clean_rick(text):\n    return text.strip().lower().replace(___, ___)\n\nprint(clean_rick("  MORTY get in the ship MORTY  "))  # morty smith get in the ship morty smith`,
+    testCases: [
+      { input: "  MORTY get in the ship MORTY  ", expected: "morty smith get in the ship morty smith", description: "Stripped, lowercased, Morty replaced with full name" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-py-07",
+    themeId: "rick-and-morty",
+    languageId: "python",
+    order: 7,
+    title: "List Comprehension",
+    themedTitle: "Citadel of Ricks IQ Filter",
+    narrative:
+      "The Citadel of Ricks only admits Ricks with an IQ over 200. Rick Prime is reviewing the interdimensional applications. Any Rick below the threshold gets rejected — probably to become a Jerry.",
+    prompt:
+      "Use a list comprehension to create `qualified_ricks` from `iq_scores = [180, 210, 195, 225, 205, 175, 230, 190]` that contains only values greater than `200`. Print the result.",
+    hint: "List comprehension: `[x for x in iq_scores if x > 200]`.",
+    solution: `iq_scores = [180, 210, 195, 225, 205, 175, 230, 190]\nqualified_ricks = [x for x in iq_scores if x > 200]\nprint(qualified_ricks)`,
+    starterCode: `# Citadel of Ricks IQ Filter\n\niq_scores = [180, 210, 195, 225, 205, 175, 230, 190]\nqualified_ricks = [___ for ___ in iq_scores if ___ > 200]\nprint(qualified_ricks)`,
+    testCases: [
+      { input: "", expected: "[210, 225, 205, 230]", description: "IQ scores above 200" },
+    ],
+    concept: "List Comprehension",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-py-08",
+    themeId: "rick-and-morty",
+    languageId: "python",
+    order: 8,
+    title: "Nested Data Structures",
+    themedTitle: "The Interdimensional Passport Log",
+    narrative:
+      "Rick keeps a log of every dimension he's visited — each entry is a dictionary with the dimension ID, a description, and whether it was destroyed. Summer is trying to find out which dimension has the best slushy.",
+    prompt:
+      "Given:\n`dimensions = [{\"id\": \"C-137\", \"desc\": \"Prime dimension\", \"destroyed\": False}, {\"id\": \"J-19\", \"desc\": \"Cronenberg world\", \"destroyed\": True}, {\"id\": \"K-83\", \"desc\": \"Slushy dimension\", \"destroyed\": False}]`\nWrite a function `get_desc(dimensions, dim_id)` that returns the `desc` for the matching dimension. Test with `get_desc(dimensions, \"K-83\")`.",
+    hint: "Loop through the list and check `d[\"id\"] == dim_id`, then return `d[\"desc\"]`.",
+    solution: `dimensions = [\n    {"id": "C-137", "desc": "Prime dimension", "destroyed": False},\n    {"id": "J-19", "desc": "Cronenberg world", "destroyed": True},\n    {"id": "K-83", "desc": "Slushy dimension", "destroyed": False}\n]\n\ndef get_desc(dimensions, dim_id):\n    for d in dimensions:\n        if d["id"] == dim_id:\n            return d["desc"]\n\nprint(get_desc(dimensions, "K-83"))`,
+    starterCode: `# The Interdimensional Passport Log\n\ndimensions = [\n    {"id": "C-137", "desc": "Prime dimension", "destroyed": False},\n    {"id": "J-19", "desc": "Cronenberg world", "destroyed": True},\n    {"id": "K-83", "desc": "Slushy dimension", "destroyed": False}\n]\n\ndef get_desc(dimensions, dim_id):\n    for d in dimensions:\n        if d[___] == dim_id:\n            return d[___]\n\nprint(get_desc(dimensions, "K-83"))  # Should print: Slushy dimension`,
+    testCases: [
+      { input: "K-83", expected: "Slushy dimension", description: "Returns the description for dimension K-83" },
+    ],
+    concept: "Nested Data Structures",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-py-09",
+    themeId: "rick-and-morty",
+    languageId: "python",
+    order: 9,
+    title: "Sorting",
+    themedTitle: "Ranking the Ricks",
+    narrative:
+      "The Citadel of Ricks holds annual rankings. Every Rick is scored on their smartness quotient. Rick C-137 insists on seeing the full ranked list — not because he cares, but because he already knows he's first.",
+    prompt:
+      "Sort `ricks = [{\"id\": \"C-137\", \"iq\": 230}, {\"id\": \"D-716\", \"iq\": 205}, {\"id\": \"J-22\", \"iq\": 195}, {\"id\": \"K-99\", \"iq\": 218}]` by `\"iq\"` in descending order. Print each Rick's id and IQ.",
+    hint: "Use `sorted(ricks, key=lambda x: x[\"iq\"], reverse=True)`.",
+    solution: `ricks = [\n    {"id": "C-137", "iq": 230},\n    {"id": "D-716", "iq": 205},\n    {"id": "J-22", "iq": 195},\n    {"id": "K-99", "iq": 218}\n]\n\nranked = sorted(ricks, key=lambda x: x["iq"], reverse=True)\nfor r in ranked:\n    print(f"{r['id']}: {r['iq']}")`,
+    starterCode: `# Ranking the Ricks\n\nricks = [\n    {"id": "C-137", "iq": 230},\n    {"id": "D-716", "iq": 205},\n    {"id": "J-22", "iq": 195},\n    {"id": "K-99", "iq": 218}\n]\n\nranked = sorted(ricks, key=lambda x: x[___], reverse=True)\nfor r in ranked:\n    print(f"{r['id']}: {r['iq']}")`,
+    testCases: [
+      { input: "", expected: "C-137: 230\nK-99: 218\nD-716: 205\nJ-22: 195", description: "Ricks sorted by IQ descending" },
+    ],
+    concept: "Sorting",
+    difficulty: "advanced",
+  },
+  {
+    id: "rm-py-10",
+    themeId: "rick-and-morty",
+    languageId: "python",
+    order: 10,
+    title: "Exception Handling",
+    themedTitle: "The Portal Gun Misfire",
+    narrative:
+      "Rick's portal gun occasionally receives invalid dimension codes — especially when Jerry accidentally grabs the remote. When an invalid code is entered, the gun must report the error without exploding. Morty is very insistent on this point.",
+    prompt:
+      "Write a function `dial_dimension(code)` that tries to split `code` by `\"-\"` and checks that it has exactly 2 parts. If valid, return `f\"Dialing dimension {code}\"`. If `code` is not a string or the format is wrong, return `\"Invalid dimension code — try again, Morty\"`.\nTest with `dial_dimension(\"C-137\")` and `dial_dimension(\"badcode\")`.",
+    hint: "Use `try/except`. In the `try` block, use `code.split(\"-\")` and check `len(parts) == 2`. In `except`, return the error string.",
+    solution: `def dial_dimension(code):\n    try:\n        parts = code.split("-")\n        if len(parts) != 2:\n            raise ValueError\n        return f"Dialing dimension {code}"\n    except (ValueError, AttributeError):\n        return "Invalid dimension code — try again, Morty"\n\nprint(dial_dimension("C-137"))\nprint(dial_dimension("badcode"))`,
+    starterCode: `# The Portal Gun Misfire\n\ndef dial_dimension(code):\n    try:\n        parts = code.split("-")\n        if len(parts) != 2:\n            raise ValueError\n        return f"Dialing dimension {code}"\n    except (ValueError, AttributeError):\n        return "Invalid dimension code — try again, Morty"\n\nprint(dial_dimension("C-137"))    # Dialing dimension C-137\nprint(dial_dimension("badcode"))  # Invalid dimension code — try again, Morty`,
+    testCases: [
+      { input: "C-137", expected: "Dialing dimension C-137", description: "Valid dimension code dials successfully" },
+      { input: "badcode", expected: "Invalid dimension code — try again, Morty", description: "Invalid format is caught gracefully" },
+    ],
+    concept: "Exception Handling",
+    difficulty: "advanced",
+  },
 ];

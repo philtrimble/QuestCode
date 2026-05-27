@@ -121,4 +121,124 @@ export const strangerThingsSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "intermediate",
   },
+  {
+    id: "st-sql-06",
+    themeId: "stranger-things",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Lab Reports vs. Sightings",
+    narrative:
+      "Chief Hopper has discovered that Hawkins National Laboratory keeps its own records in a `labs` table that cross-references the `sightings` table by `location`. To build a complete picture, he needs to JOIN both tables so the team can see the official lab notes alongside each sighting.",
+    prompt:
+      "Write a query that selects `sightings.location`, `sightings.creature`, and `labs.classification` by performing an INNER JOIN between `sightings` and `labs` on `sightings.location = labs.location`.",
+    hint: "Use `INNER JOIN labs ON sightings.location = labs.location`. Reference columns with `table.column` notation.",
+    solution: `SELECT sightings.location, sightings.creature, labs.classification\nFROM sightings\nINNER JOIN labs ON sightings.location = labs.location;`,
+    starterCode: `-- Lab Reports vs. Sightings\n-- Join sightings and labs on matching location\n\nSELECT sightings.location, sightings.creature, labs.classification\nFROM sightings\n___ JOIN labs ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN labs ON sightings.location = labs.location",
+        description: "Joins sightings and labs on location",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-sql-07",
+    themeId: "stranger-things",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "High-Frequency Creatures",
+    narrative:
+      "The party needs to focus their efforts. Dustin wants to know which creatures have appeared in more than one sighting — single appearances could be noise, but repeat creatures signal a real pattern. GROUP and filter with HAVING.",
+    prompt:
+      "Write a query that selects `creature` and `COUNT(*) AS sighting_count` from `sightings`, grouped by `creature`, filtered to only include creatures with more than 1 sighting, ordered by `sighting_count` descending.",
+    hint: "Use `GROUP BY creature` then `HAVING COUNT(*) > 1`. Remember: HAVING filters groups, WHERE filters rows.",
+    solution: `SELECT creature, COUNT(*) AS sighting_count\nFROM sightings\nGROUP BY creature\nHAVING COUNT(*) > 1\nORDER BY sighting_count DESC;`,
+    starterCode: `-- High-Frequency Creatures\n-- Find creatures with more than one sighting\n\nSELECT creature, COUNT(*) AS sighting_count\nFROM sightings\nGROUP BY creature\nHAVING ___\nORDER BY sighting_count DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING COUNT(*) > 1",
+        description: "Filters for creatures seen more than once",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-sql-08",
+    themeId: "stranger-things",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Above-Average Threats",
+    narrative:
+      "Dr. Owens needs a list of every sighting that is more threatening than average — the ones that demand immediate military response. Use a subquery to calculate the average threat level and filter against it.",
+    prompt:
+      "Write a query that selects `location`, `creature`, and `threat_level` from `sightings` WHERE `threat_level` is greater than the average `threat_level` (use a subquery with `SELECT AVG(threat_level) FROM sightings`).",
+    hint: "Use `WHERE threat_level > (SELECT AVG(threat_level) FROM sightings)` — the subquery runs first.",
+    solution: `SELECT location, creature, threat_level\nFROM sightings\nWHERE threat_level > (SELECT AVG(threat_level) FROM sightings);`,
+    starterCode: `-- Above-Average Threats\n-- Find sightings with threat_level above the overall average\n\nSELECT location, creature, threat_level\nFROM sightings\nWHERE threat_level > (___ AVG(threat_level) FROM sightings);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE threat_level > (SELECT AVG(threat_level) FROM sightings)",
+        description: "Filters for above-average threat sightings using a subquery",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-sql-09",
+    themeId: "stranger-things",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Threat Classification System",
+    narrative:
+      "The Hawkins Lab needs to classify every sighting into a threat tier so first responders know how to react. Write a query that assigns a human-readable label based on the numeric threat level.",
+    prompt:
+      "Write a query that selects `location`, `creature`, `threat_level`, and a computed column `threat_tier` using CASE WHEN: when `threat_level >= 9` then 'Critical', when `threat_level >= 6` then 'High', else 'Moderate'.",
+    hint: "Use `CASE WHEN threat_level >= 9 THEN 'Critical' WHEN threat_level >= 6 THEN 'High' ELSE 'Moderate' END AS threat_tier`.",
+    solution: `SELECT\n  location,\n  creature,\n  threat_level,\n  CASE\n    WHEN threat_level >= 9 THEN 'Critical'\n    WHEN threat_level >= 6 THEN 'High'\n    ELSE 'Moderate'\n  END AS threat_tier\nFROM sightings;`,
+    starterCode: `-- Threat Classification System\n-- Classify each sighting's threat level as Critical, High, or Moderate\n\nSELECT\n  location,\n  creature,\n  threat_level,\n  CASE\n    WHEN threat_level >= 9 THEN 'Critical'\n    WHEN threat_level >= 6 THEN ___\n    ELSE ___\n  END AS threat_tier\nFROM sightings;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN threat_level >= 9 THEN 'Critical'",
+        description: "Assigns threat tier labels using CASE WHEN",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "st-sql-10",
+    themeId: "stranger-things",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "Full Upside Down Briefing",
+    narrative:
+      "Before the final confrontation, Chief Hopper needs a comprehensive briefing document. He wants a joined report of high-threat sightings with lab classifications, grouped and summarized so the team knows exactly what they're facing.",
+    prompt:
+      "Write a query that JOINs `sightings` and `labs` on `location`, selects `sightings.creature`, `labs.classification`, and `COUNT(*) AS encounter_count`, filters to `sightings.threat_level >= 8`, groups by `sightings.creature` and `labs.classification`, and orders by `encounter_count` descending.",
+    hint: "Chain: INNER JOIN ... ON ... WHERE threat_level >= 8 GROUP BY creature, classification ORDER BY encounter_count DESC.",
+    solution: `SELECT\n  sightings.creature,\n  labs.classification,\n  COUNT(*) AS encounter_count\nFROM sightings\nINNER JOIN labs ON sightings.location = labs.location\nWHERE sightings.threat_level >= 8\nGROUP BY sightings.creature, labs.classification\nORDER BY encounter_count DESC;`,
+    starterCode: `-- Full Upside Down Briefing\n-- Join, filter, group, and order sighting data\n\nSELECT\n  sightings.creature,\n  labs.classification,\n  COUNT(*) AS encounter_count\nFROM sightings\nINNER JOIN labs ON ___\nWHERE sightings.threat_level >= 8\nGROUP BY ___, ___\nORDER BY encounter_count DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN labs ON sightings.location = labs.location",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

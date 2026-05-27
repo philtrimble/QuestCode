@@ -106,4 +106,109 @@ export const gameOfThronesJavaChallenges: Challenge[] = [
     concept: "Loops & Summation",
     difficulty: "intermediate",
   },
+  {
+    id: "got-java-06",
+    themeId: "game-of-thrones",
+    languageId: "java",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "The Raven's Message",
+    narrative:
+      "A raven arrives at Castle Black with a critical message from the south. Jon Snow needs to read it in full uppercase for the entire Night's Watch to hear, confirm it mentions 'winter', and check its length against the raven registry.",
+    prompt:
+      "Inside `main`, declare a `String` variable `message` set to `\"winter is coming from the north\"`. Print it in all uppercase using `toUpperCase()`. Print whether it contains `\"winter\"` using `contains()`. Print its length using `length()`.",
+    hint: "Call `message.toUpperCase()`, `message.contains(\"winter\")`, and `message.length()` — each in its own `System.out.println()`.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        String message = "winter is coming from the north";\n        System.out.println(message.toUpperCase());\n        System.out.println(message.contains("winter"));\n        System.out.println(message.length());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        String message = "winter is coming from the north";\n        // Print message in uppercase\n        System.out.println(message.___);\n        // Print whether it contains "winter"\n        System.out.println(message.___);\n        // Print the length\n        System.out.println(message.___);\n    }\n}`,
+    testCases: [
+      { input: "", expected: "WINTER IS COMING FROM THE NORTH", description: "Message in uppercase" },
+      { input: "", expected: "true", description: "Message contains 'winter'" },
+      { input: "", expected: "31", description: "Message length is 31 characters" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-java-07",
+    themeId: "game-of-thrones",
+    languageId: "java",
+    order: 7,
+    title: "ArrayList",
+    themedTitle: "The Dragon Roster",
+    narrative:
+      "Daenerys's three dragons are her greatest weapons. When Viserion fell beyond the Wall, the roster had to be updated. Rhaegal was later added to a secondary registry. Tyrion needs the current count and the second dragon's name.",
+    prompt:
+      "Import `java.util.ArrayList`. Create an `ArrayList<String>` called `dragons`. Add `\"Drogon\"`, `\"Rhaegal\"`, `\"Viserion\"`. Remove `\"Viserion\"`. Add `\"Ghost\"`. Print the size, then print the element at index 1.",
+    hint: "Use `list.add()`, `list.remove()`, `list.size()`, and `list.get(index)` for the four operations.",
+    solution: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> dragons = new ArrayList<>();\n        dragons.add("Drogon");\n        dragons.add("Rhaegal");\n        dragons.add("Viserion");\n        dragons.remove("Viserion");\n        dragons.add("Ghost");\n        System.out.println(dragons.size());\n        System.out.println(dragons.get(1));\n    }\n}`,
+    starterCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> dragons = new ArrayList<>();\n        dragons.add("Drogon");\n        dragons.add("Rhaegal");\n        dragons.add("Viserion");\n        // Remove "Viserion"\n        dragons.remove(___);\n        // Add "Ghost"\n        dragons.add(___);\n        System.out.println(dragons.size());\n        System.out.println(dragons.get(1));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "3", description: "Roster has 3 entries after changes" },
+      { input: "", expected: "Rhaegal", description: "Element at index 1 is Rhaegal" },
+    ],
+    concept: "ArrayList",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-java-08",
+    themeId: "game-of-thrones",
+    languageId: "java",
+    order: 8,
+    title: "HashMap",
+    themedTitle: "The Great Houses Allegiance Map",
+    narrative:
+      "The Small Council tracks how many bannermen each house can field. Tyrion needs to look up the Stark count and verify whether the Martells are in the registry before committing to the alliance.",
+    prompt:
+      "Import `java.util.HashMap`. Create a `HashMap<String, Integer>` called `allegiances`. Add: `\"Stark\"` → `20000`, `\"Lannister\"` → `35000`, `\"Tyrell\"` → `25000`. Print the bannerman count for `\"Stark\"`. Print whether `\"Martell\"` is a key using `containsKey()`.",
+    hint: "Use `map.put(key, value)`, `map.get(key)`, and `map.containsKey(key)` for the operations.",
+    solution: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> allegiances = new HashMap<>();\n        allegiances.put("Stark", 20000);\n        allegiances.put("Lannister", 35000);\n        allegiances.put("Tyrell", 25000);\n        System.out.println(allegiances.get("Stark"));\n        System.out.println(allegiances.containsKey("Martell"));\n    }\n}`,
+    starterCode: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> allegiances = new HashMap<>();\n        allegiances.put("Stark", 20000);\n        allegiances.put("Lannister", 35000);\n        allegiances.put("Tyrell", 25000);\n        // Print the bannerman count for "Stark"\n        System.out.println(allegiances.get(___));\n        // Print whether "Martell" is a key\n        System.out.println(allegiances.containsKey(___));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "20000", description: "Stark has 20000 bannermen" },
+      { input: "", expected: "false", description: "Martell is not in the allegiance map" },
+    ],
+    concept: "HashMap",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-java-09",
+    themeId: "game-of-thrones",
+    languageId: "java",
+    order: 9,
+    title: "Multiple Methods",
+    themedTitle: "The Battle of the Bastards Calculator",
+    narrative:
+      "Jon Snow needs a two-step battle outcome system. First, compute a battle score from troops and morale. Then classify the outcome as 'Victory', 'Stalemate', or 'Defeat'. The fate of the North depends on the calculation.",
+    prompt:
+      "Write two static methods: `battleScore(int troops, int morale)` that returns `troops * morale / 100`, and `battleOutcome(int troops, int morale)` that calls `battleScore` and returns `\"Victory\"` if score is 80 or above, `\"Stalemate\"` if 40 or above, and `\"Defeat\"` otherwise. Call `battleOutcome` from `main` with `(5000, 90)` and `(1000, 30)` and print the results.",
+    hint: "In `battleOutcome`, call `battleScore(troops, morale)` and store the result, then classify with if/else.",
+    solution: `public class Main {\n    public static int battleScore(int troops, int morale) {\n        return troops * morale / 100;\n    }\n\n    public static String battleOutcome(int troops, int morale) {\n        int score = battleScore(troops, morale);\n        if (score >= 80) {\n            return "Victory";\n        } else if (score >= 40) {\n            return "Stalemate";\n        } else {\n            return "Defeat";\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(battleOutcome(5000, 90));  // Victory\n        System.out.println(battleOutcome(1000, 30));  // Defeat\n    }\n}`,
+    starterCode: `public class Main {\n    public static int battleScore(int troops, int morale) {\n        // Return troops * morale / 100\n        return ___;\n    }\n\n    public static String battleOutcome(int troops, int morale) {\n        int score = battleScore(troops, morale);\n        // Return "Victory" if >= 80, "Stalemate" if >= 40, "Defeat" otherwise\n        if (score >= 80) {\n            return ___;\n        } else if (score >= 40) {\n            return ___;\n        } else {\n            return ___;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(battleOutcome(5000, 90));  // Victory\n        System.out.println(battleOutcome(1000, 30));  // Defeat\n    }\n}`,
+    testCases: [
+      { input: "5000, 90", expected: "Victory", description: "Score 4500 — Victory" },
+      { input: "1000, 30", expected: "Defeat", description: "Score 300 — Victory" },
+    ],
+    concept: "Multiple Methods",
+    difficulty: "advanced",
+  },
+  {
+    id: "got-java-10",
+    themeId: "game-of-thrones",
+    languageId: "java",
+    order: 10,
+    title: "StringBuilder",
+    themedTitle: "The Royal Decree",
+    narrative:
+      "Every royal decree from the Iron Throne must be formally assembled from its component parts before being read aloud in court. Tyrion drafts each segment separately, then uses StringBuilder to compose the final proclamation.",
+    prompt:
+      "Use a `StringBuilder` to build a decree. Append `\"ROYAL DECREE | \"`, then `\"From: The Iron Throne\"`, then `\" | \"`, then `\"To: All Subjects\"`, then `\" | \"`, then `\"Let it be known: Winter has come\"`. Print the result using `toString()`.",
+    hint: "Create `StringBuilder sb = new StringBuilder();` then call `sb.append()` for each part. End with `System.out.println(sb.toString())`.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        sb.append("ROYAL DECREE | ");\n        sb.append("From: The Iron Throne");\n        sb.append(" | ");\n        sb.append("To: All Subjects");\n        sb.append(" | ");\n        sb.append("Let it be known: Winter has come");\n        System.out.println(sb.toString());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        sb.append("ROYAL DECREE | ");\n        sb.append("From: The Iron Throne");\n        sb.append(" | ");\n        sb.append(___);\n        sb.append(" | ");\n        sb.append(___);\n        System.out.println(sb.toString());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "ROYAL DECREE | From: The Iron Throne | To: All Subjects | Let it be known: Winter has come", description: "Full decree assembled correctly" },
+    ],
+    concept: "StringBuilder",
+    difficulty: "advanced",
+  },
 ];

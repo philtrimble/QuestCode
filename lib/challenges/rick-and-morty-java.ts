@@ -107,4 +107,109 @@ export const rickAndMortyJavaChallenges: Challenge[] = [
     concept: "Loops & Summation",
     difficulty: "intermediate",
   },
+  {
+    id: "rm-java-06",
+    themeId: "rick-and-morty",
+    languageId: "java",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Meeseeks Identity Verification",
+    narrative:
+      "Mr. Meeseeks exist for one purpose and one purpose only. Before a Meeseeks can be deployed, the Citadel of Ricks verifies its ID string — checking it's uppercase, confirming it contains the word 'MEESEEKS', and measuring its length. Rick demands precision.",
+    prompt:
+      "Declare `String id = \"mr. meeseeks\"`. Use `str.toUpperCase()` to convert it and store in `upper`. Use `upper.contains(\"MEESEEKS\")` and print the result. Then print `upper.length()`.",
+    hint: "Call `id.toUpperCase()` and assign to a new variable. Then call `.contains()` and `.length()` on that variable.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        String id = "mr. meeseeks";\n        String upper = id.toUpperCase();\n        System.out.println(upper);\n        System.out.println(upper.contains("MEESEEKS"));\n        System.out.println(upper.length());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        String id = "mr. meeseeks";\n        String upper = id.___();\n        System.out.println(upper);\n        System.out.println(upper.contains(___));\n        System.out.println(upper.___());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "MR. MEESEEKS", description: "Uppercased ID string" },
+      { input: "", expected: "true", description: "Contains MEESEEKS" },
+      { input: "", expected: "12", description: "Length of MR. MEESEEKS is 12" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-java-07",
+    themeId: "rick-and-morty",
+    languageId: "java",
+    order: 7,
+    title: "ArrayList",
+    themedTitle: "Interdimensional Council Roster",
+    narrative:
+      "The Citadel of Ricks maintains a roster of every Rick variant on the council. New Ricks are added when they graduate from the portal gun qualification test. Rick C-137 refuses to attend, but the list must still be accurate.",
+    prompt:
+      "Import `java.util.ArrayList`. Create `ArrayList<String> council = new ArrayList<>()`. Add `\"Rick C-137\"`, `\"Rick D-99\"`, and `\"Rick J-22\"`. Print the size. Then print the element at index 1.",
+    hint: "Use `council.add(\"...\")` to add elements. `council.size()` gives the count. `council.get(1)` gets the second element.",
+    solution: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> council = new ArrayList<>();\n        council.add("Rick C-137");\n        council.add("Rick D-99");\n        council.add("Rick J-22");\n        System.out.println(council.size());\n        System.out.println(council.get(1));\n    }\n}`,
+    starterCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> council = new ArrayList<>();\n        council.add(___);\n        council.add(___);\n        council.add(___);\n        System.out.println(council.size());\n        System.out.println(council.get(1));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "3", description: "Three Ricks on the council" },
+      { input: "", expected: "Rick D-99", description: "Index 1 is Rick D-99" },
+    ],
+    concept: "ArrayList",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-java-08",
+    themeId: "rick-and-morty",
+    languageId: "java",
+    order: 8,
+    title: "HashMap",
+    themedTitle: "Portal Gun Dimension Scores",
+    narrative:
+      "Rick rates every dimension he visits on a scale of 1 to 100. He keeps the scores in a map so he can quickly check whether a dimension is worth revisiting. Dimension C-137 always gets a 95. He's biased and he doesn't care.",
+    prompt:
+      "Import `java.util.HashMap`. Create `HashMap<String, Integer> scores = new HashMap<>()`. Put `\"C-137\"` with value `95`, `\"Froopyland\"` with `72`, and `\"Pizza\"` with `88`. Print whether it `containsKey(\"Froopyland\")`. Then print `scores.get(\"C-137\")`.",
+    hint: "Use `scores.put(key, value)` to add entries. `scores.containsKey(\"Froopyland\")` returns a boolean. `scores.get(\"C-137\")` retrieves a value.",
+    solution: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> scores = new HashMap<>();\n        scores.put("C-137", 95);\n        scores.put("Froopyland", 72);\n        scores.put("Pizza", 88);\n        System.out.println(scores.containsKey("Froopyland"));\n        System.out.println(scores.get("C-137"));\n    }\n}`,
+    starterCode: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> scores = new HashMap<>();\n        scores.put(___, ___);\n        scores.put(___, ___);\n        scores.put(___, ___);\n        System.out.println(scores.containsKey("Froopyland"));\n        System.out.println(scores.get("C-137"));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "true", description: "Froopyland is in the map" },
+      { input: "", expected: "95", description: "C-137 scores a 95" },
+    ],
+    concept: "HashMap",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-java-09",
+    themeId: "rick-and-morty",
+    languageId: "java",
+    order: 9,
+    title: "Multiple Methods",
+    themedTitle: "Portal Fluid Chain Reaction",
+    narrative:
+      "Rick's portal fluid synthesis involves a chain of calculations. First you compute the raw energy from a dimension code, then you apply a portal efficiency multiplier. One method calls the other. Morty tried to understand it once. He gave up after the second method.",
+    prompt:
+      "Write two static methods: `dimensionEnergy(int code)` that returns `code * 42`, and `portalCost(int code)` that calls `dimensionEnergy(code)` and returns the result divided by `7`. In `main`, print `portalCost(14)`.",
+    hint: "Inside `portalCost`, call `dimensionEnergy(code)` and divide the result by 7. Methods can call other methods in the same class.",
+    solution: `public class Main {\n    public static int dimensionEnergy(int code) {\n        return code * 42;\n    }\n\n    public static int portalCost(int code) {\n        return dimensionEnergy(code) / 7;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(portalCost(14));  // 84\n    }\n}`,
+    starterCode: `public class Main {\n    public static int dimensionEnergy(int code) {\n        return code * 42;\n    }\n\n    public static int portalCost(int code) {\n        // Call dimensionEnergy(code) and divide by 7\n        return ___ / 7;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(portalCost(14));  // 84\n    }\n}`,
+    testCases: [
+      { input: "14", expected: "84", description: "portalCost(14) = dimensionEnergy(14)/7 = 588/7 = 84" },
+    ],
+    concept: "Multiple Methods",
+    difficulty: "advanced",
+  },
+  {
+    id: "rm-java-10",
+    themeId: "rick-and-morty",
+    languageId: "java",
+    order: 10,
+    title: "StringBuilder",
+    themedTitle: "Wubba Lubba Dub Dub Generator",
+    narrative:
+      "Rick's catchphrase needs to be assembled dynamically. The Citadel archives require a full list of Rick's signature outbursts, each appended in sequence and then output as a single string. It's science, Morty.",
+    prompt:
+      "Create a `StringBuilder sb = new StringBuilder()`. In a `for` loop from 1 to 4, append `\"Wubba Lubba Dub Dub #\" + i + \"\\n\"`. After the loop, print `sb.toString()`.",
+    hint: "Use `sb.append(\"...\")` inside the loop. Call `sb.toString()` to convert to a String for printing.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        for (int i = 1; i <= 4; i++) {\n            sb.append("Wubba Lubba Dub Dub #" + i + "\\n");\n        }\n        System.out.print(sb.toString());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        for (int i = 1; i <= 4; i++) {\n            sb.append(___);\n        }\n        System.out.print(sb.toString());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "Wubba Lubba Dub Dub #1", description: "First catchphrase in the string" },
+      { input: "", expected: "Wubba Lubba Dub Dub #4", description: "Fourth catchphrase in the string" },
+    ],
+    concept: "StringBuilder",
+    difficulty: "advanced",
+  },
 ];

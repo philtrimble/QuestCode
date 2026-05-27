@@ -49,9 +49,18 @@ export default function HeroSection() {
         {/* Theme preview pills */}
         <div className="flex flex-wrap justify-center gap-3 mb-4">
           {[
-            { label: "🔴 Stranger Things", color: "border-red-500/40 text-red-400" },
-            { label: "🔵 Severance", color: "border-blue-500/40 text-blue-400" },
-            { label: "🟢 Breaking Bad", color: "border-green-500/40 text-green-400" },
+            { label: "🔦 Stranger Things",   color: "border-red-500/40 text-red-400" },
+            { label: "🛗 Severance",          color: "border-blue-500/40 text-blue-400" },
+            { label: "⚗️ Breaking Bad",       color: "border-green-500/40 text-green-400" },
+            { label: "📄 The Office",         color: "border-yellow-500/40 text-yellow-400" },
+            { label: "⚔️ Game of Thrones",    color: "border-yellow-600/40 text-yellow-500" },
+            { label: "💊 The Matrix",         color: "border-green-400/40 text-green-300" },
+            { label: "🛸 Rick and Morty",     color: "border-cyan-500/40 text-cyan-400" },
+            { label: "🔺 Squid Game",           color: "border-pink-500/40 text-pink-400" },
+            { label: "🍌 Arrested Development", color: "border-orange-500/40 text-orange-400" },
+            { label: "👗 Barbie",               color: "border-fuchsia-500/40 text-fuchsia-400" },
+            { label: "👠 Sex and the City",     color: "border-rose-500/40 text-rose-400" },
+            { label: "🦆 The Sopranos",         color: "border-red-800/40 text-red-500" },
           ].map(({ label, color }) => (
             <span
               key={label}

@@ -121,4 +121,124 @@ export const severanceSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "intermediate",
   },
+  {
+    id: "sv-sql-06",
+    themeId: "severance",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Employees and Their Departments",
+    narrative:
+      "Mr. Milchick needs a comprehensive report combining employee records from the `employees` table with official department data from the `departments` table. The Board requires complete transparency — at least on the severed floor.",
+    prompt:
+      "Write a query that selects `employees.name`, `employees.refinement_score`, and `departments.budget` by performing an INNER JOIN between `employees` and `departments` on `employees.department = departments.name`.",
+    hint: "Use `INNER JOIN departments ON employees.department = departments.name` to link the tables.",
+    solution: `SELECT employees.name, employees.refinement_score, departments.budget\nFROM employees\nINNER JOIN departments ON employees.department = departments.name;`,
+    starterCode: `-- Employees and Their Departments\n-- Join employees with departments on department name\n\nSELECT employees.name, employees.refinement_score, departments.budget\nFROM employees\n___ JOIN departments ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN departments ON employees.department = departments.name",
+        description: "Joins employees and departments tables",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-sql-07",
+    themeId: "severance",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "Departments Worth Monitoring",
+    narrative:
+      "The Board suspects some departments are understaffed. Harmony Cobel needs to identify departments with more than one employee so that truly isolated workers can be flagged for additional oversight — or wellness checks.",
+    prompt:
+      "Write a query that selects `department` and `COUNT(*) AS headcount` from `employees`, grouped by `department`, filtered with HAVING to show only departments with more than 1 employee, ordered by `headcount` descending.",
+    hint: "Use `HAVING COUNT(*) > 1` after `GROUP BY department`.",
+    solution: `SELECT department, COUNT(*) AS headcount\nFROM employees\nGROUP BY department\nHAVING COUNT(*) > 1\nORDER BY headcount DESC;`,
+    starterCode: `-- Departments Worth Monitoring\n-- Find departments with more than one employee\n\nSELECT department, COUNT(*) AS headcount\nFROM employees\nGROUP BY department\nHAVING ___\nORDER BY headcount DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING COUNT(*) > 1",
+        description: "Filters departments with more than one employee",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-sql-08",
+    themeId: "severance",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Above-Average Refiners",
+    narrative:
+      "The waffle party committee needs to identify employees performing above the company average. Kier Eagan's vision demands excellence, and excellence must be measured against the collective mean.",
+    prompt:
+      "Write a query that selects `name`, `department`, and `refinement_score` from `employees` WHERE `refinement_score` is greater than the average `refinement_score` (use a subquery).",
+    hint: "Use `WHERE refinement_score > (SELECT AVG(refinement_score) FROM employees)`.",
+    solution: `SELECT name, department, refinement_score\nFROM employees\nWHERE refinement_score > (SELECT AVG(refinement_score) FROM employees);`,
+    starterCode: `-- Above-Average Refiners\n-- Find employees scoring above the company average\n\nSELECT name, department, refinement_score\nFROM employees\nWHERE refinement_score > (___ AVG(refinement_score) FROM employees);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE refinement_score > (SELECT AVG(refinement_score) FROM employees)",
+        description: "Subquery finds above-average refinement scores",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-sql-09",
+    themeId: "severance",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Performance Classification",
+    narrative:
+      "Lumon's annual review cycle requires each employee to be classified into a performance tier. The system does not explain what happens to employees in the lowest tier. It simply categorizes them.",
+    prompt:
+      "Write a query that selects `name`, `refinement_score`, and a computed `performance_tier`: 'Outstanding' when score >= 900, 'Proficient' when score >= 700, 'Developing' otherwise.",
+    hint: "Use `CASE WHEN refinement_score >= 900 THEN 'Outstanding' WHEN refinement_score >= 700 THEN 'Proficient' ELSE 'Developing' END AS performance_tier`.",
+    solution: `SELECT\n  name,\n  refinement_score,\n  CASE\n    WHEN refinement_score >= 900 THEN 'Outstanding'\n    WHEN refinement_score >= 700 THEN 'Proficient'\n    ELSE 'Developing'\n  END AS performance_tier\nFROM employees;`,
+    starterCode: `-- Performance Classification\n-- Assign a performance tier to each employee\n\nSELECT\n  name,\n  refinement_score,\n  CASE\n    WHEN refinement_score >= 900 THEN 'Outstanding'\n    WHEN refinement_score >= 700 THEN ___\n    ELSE ___\n  END AS performance_tier\nFROM employees;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN refinement_score >= 900 THEN 'Outstanding'",
+        description: "Classifies employees into performance tiers",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "sv-sql-10",
+    themeId: "severance",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "Full Department Briefing",
+    narrative:
+      "The Board's quarterly review requires a joined, filtered, and summarized report. Mr. Milchick needs department-level averages for MDR and Optics only — combined with official budget figures from the departments table.",
+    prompt:
+      "Write a query that JOINs `employees` and `departments` on `department = departments.name`, selects `employees.department`, `departments.budget`, and `AVG(employees.refinement_score) AS avg_score`, filters to departments other than 'Management', groups by `employees.department` and `departments.budget`, and orders by `avg_score` descending.",
+    hint: "Chain INNER JOIN ... WHERE department != 'Management' GROUP BY employees.department, departments.budget ORDER BY avg_score DESC.",
+    solution: `SELECT\n  employees.department,\n  departments.budget,\n  AVG(employees.refinement_score) AS avg_score\nFROM employees\nINNER JOIN departments ON employees.department = departments.name\nWHERE employees.department != 'Management'\nGROUP BY employees.department, departments.budget\nORDER BY avg_score DESC;`,
+    starterCode: `-- Full Department Briefing\n-- Join, filter, group, and summarize department data\n\nSELECT\n  employees.department,\n  departments.budget,\n  AVG(employees.refinement_score) AS avg_score\nFROM employees\nINNER JOIN departments ON ___\nWHERE employees.department != 'Management'\nGROUP BY ___, ___\nORDER BY avg_score DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN departments ON employees.department = departments.name",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

@@ -101,4 +101,104 @@ export const severanceGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "sv-go-06",
+    themeId: "severance",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "The Lumon Employee Report",
+    narrative:
+      "Milchick must generate a personalized performance report for each severed employee. The report combines the employee's name and their refinement score into a single formatted line — something Cobel can review before the waffle party decision.",
+    prompt:
+      "Use `fmt.Sprintf` to format a report. Given `name := \"Mark S\"` and `score := 96`, produce `\"Mark S achieved a refinement score of 96\"` and print it.",
+    hint: "Use `report := fmt.Sprintf(\"%s achieved a refinement score of %d\", name, score)` then `fmt.Println(report)`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tname := "Mark S"\n\tscore := 96\n\treport := fmt.Sprintf("%s achieved a refinement score of %d", name, score)\n\tfmt.Println(report)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\tname := "Mark S"\n\tscore := 96\n\t// Use fmt.Sprintf to build the report\n\treport := fmt.Sprintf(___, name, score)\n\tfmt.Println(report)\n}`,
+    testCases: [
+      { input: "", expected: "Mark S achieved a refinement score of 96", description: "Formatted employee report" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-go-07",
+    themeId: "severance",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "Department Quota Tracker",
+    narrative:
+      "Cobel tracks the quota progress of each Lumon department in real time. A map gives her instant access to any department's current units — and she never misses an anomaly in the refinement metrics.",
+    prompt:
+      "Create a map `quotas` of type `map[string]int`. Add `\"MDR\"` with value `87` and `\"O&E\"` with value `72`. Print the value for `\"MDR\"`.",
+    hint: "Use `quotas := map[string]int{}`, assign values, then access with `quotas[\"MDR\"]`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tquotas := map[string]int{}\n\tquotas["MDR"] = 87\n\tquotas["O&E"] = 72\n\tfmt.Println(quotas["MDR"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tquotas := map[string]int{}\n\t// Add MDR and O&E quotas\n\tquotas[___] = 87\n\tquotas[___] = 72\n\t// Print MDR's quota\n\tfmt.Println(quotas[___])\n}`,
+    testCases: [
+      { input: "", expected: "87", description: "MDR department quota is 87" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-go-08",
+    themeId: "severance",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "The Severed Employee Record",
+    narrative:
+      "Lumon's HR system needs a structured record for each severed employee — their name and their floor number. A Go struct provides the perfect data shape, and Cobel will personally audit every one of them.",
+    prompt:
+      "Define a struct `Employee` with fields `Name string` and `Floor int`. Create an instance with `Name: \"Helly R\"` and `Floor: 1`. Print both fields.",
+    hint: "Define `type Employee struct { Name string; Floor int }` above `main`. Create with `e := Employee{Name: \"Helly R\", Floor: 1}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Employee struct {\n\tName  string\n\tFloor int\n}\n\nfunc main() {\n\te := Employee{Name: "Helly R", Floor: 1}\n\tfmt.Println(e.Name)\n\tfmt.Println(e.Floor)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Employee struct {\n\tName  string\n\tFloor int\n}\n\nfunc main() {\n\t// Create an Employee with Name "Helly R" and Floor 1\n\te := Employee{___}\n\tfmt.Println(e.Name)\n\tfmt.Println(e.Floor)\n}`,
+    testCases: [
+      { input: "", expected: "Helly R\n1", description: "Employee name and floor number" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-go-09",
+    themeId: "severance",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "The Refinement Score Validator",
+    narrative:
+      "Before a score can be logged in Lumon's system, it must be validated. If the score is negative, the data is corrupted — possibly by a rogue innie. The validator returns both the verified score and an error, so Milchick can act accordingly.",
+    prompt:
+      "Write `validateScore(score int) (int, error)` that returns `score, nil` if `score >= 0`, or `0, errors.New(\"invalid score\")` otherwise. In `main`, call it with `85`, print both return values.",
+    hint: "Import `\"errors\"`. Check `if score < 0 { return 0, errors.New(\"invalid score\") }`. Otherwise `return score, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc validateScore(score int) (int, error) {\n\tif score < 0 {\n\t\treturn 0, errors.New("invalid score")\n\t}\n\treturn score, nil\n}\n\nfunc main() {\n\tresult, err := validateScore(85)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc validateScore(score int) (int, error) {\n\tif score < 0 {\n\t\treturn 0, errors.New("invalid score")\n\t}\n\t// Return score and nil\n\treturn ___\n}\n\nfunc main() {\n\tresult, err := validateScore(85)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "85\n<nil>", description: "Valid score returns the score and nil error" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "sv-go-10",
+    themeId: "severance",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "The Deficiency Alert",
+    narrative:
+      "When a refinement score is invalid, Cobel must be notified immediately. The alert system checks the error from the validator — if something is wrong, it prints a warning. This is how Lumon maintains its standards: no error goes unexamined.",
+    prompt:
+      "Call `validateScore(-5)`. If `err != nil`, print `\"Error:\"` followed by the error. Otherwise print the result.",
+    hint: "Use `result, err := validateScore(-5)`. Then `if err != nil { fmt.Println(\"Error:\", err) } else { fmt.Println(result) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc validateScore(score int) (int, error) {\n\tif score < 0 {\n\t\treturn 0, errors.New("invalid score")\n\t}\n\treturn score, nil\n}\n\nfunc main() {\n\tresult, err := validateScore(-5)\n\tif err != nil {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc validateScore(score int) (int, error) {\n\tif score < 0 {\n\t\treturn 0, errors.New("invalid score")\n\t}\n\treturn score, nil\n}\n\nfunc main() {\n\tresult, err := validateScore(-5)\n\t// Check for error and print accordingly\n\tif ___ {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Error: invalid score", description: "Negative score triggers the deficiency alert" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

@@ -121,4 +121,124 @@ export const gameOfThronesSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "intermediate",
   },
+  {
+    id: "got-sql-06",
+    themeId: "game-of-thrones",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Battles and the Houses That Fought",
+    narrative:
+      "The Maester's archive contains two tables: `battles` recording every major engagement, and `houses` recording each noble house. Tyrion needs them joined so the Small Council can see which houses fought which battles — and who survived.",
+    prompt:
+      "Write a query that selects `battles.name`, `battles.year`, and `houses.region` by performing an INNER JOIN between `battles` and `houses` on `battles.attacker = houses.name`.",
+    hint: "Use `INNER JOIN houses ON battles.attacker = houses.name`.",
+    solution: `SELECT battles.name, battles.year, houses.region\nFROM battles\nINNER JOIN houses ON battles.attacker = houses.name;`,
+    starterCode: `-- Battles and the Houses That Fought\n-- Join battles with houses on attacker name\n\nSELECT battles.name, battles.year, houses.region\nFROM battles\n___ JOIN houses ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN houses ON battles.attacker = houses.name",
+        description: "Joins battles and houses tables",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-sql-07",
+    themeId: "game-of-thrones",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "Major Military Allegiances",
+    narrative:
+      "The Hand of the King needs to know which allegiances command enough combined forces to matter in the wars to come. Filter out any allegiance with a total army smaller than 20,000 — the rest are noise.",
+    prompt:
+      "Write a query that selects `allegiance` and `SUM(army_size) AS total_strength` from `houses`, grouped by `allegiance`, filtered with HAVING to show only allegiances with total strength greater than 20000, ordered by `total_strength` descending.",
+    hint: "Use `HAVING SUM(army_size) > 20000` after `GROUP BY allegiance`.",
+    solution: `SELECT allegiance, SUM(army_size) AS total_strength\nFROM houses\nGROUP BY allegiance\nHAVING SUM(army_size) > 20000\nORDER BY total_strength DESC;`,
+    starterCode: `-- Major Military Allegiances\n-- Find allegiances with combined armies over 20,000\n\nSELECT allegiance, SUM(army_size) AS total_strength\nFROM houses\nGROUP BY allegiance\nHAVING ___\nORDER BY total_strength DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING SUM(army_size) > 20000",
+        description: "Filters for allegiances with significant combined forces",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-sql-08",
+    themeId: "game-of-thrones",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Mightier Than Most",
+    narrative:
+      "Cersei wants to know which houses field armies larger than the Westerosi average — the ones who could actually challenge her in open battle, and the ones she should be watching.",
+    prompt:
+      "Write a query that selects `name`, `region`, and `army_size` from `houses` WHERE `army_size` is greater than the average army size across all houses (use a subquery).",
+    hint: "Use `WHERE army_size > (SELECT AVG(army_size) FROM houses)`.",
+    solution: `SELECT name, region, army_size\nFROM houses\nWHERE army_size > (SELECT AVG(army_size) FROM houses);`,
+    starterCode: `-- Mightier Than Most\n-- Find houses with above-average army sizes\n\nSELECT name, region, army_size\nFROM houses\nWHERE army_size > (___ AVG(army_size) FROM houses);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE army_size > (SELECT AVG(army_size) FROM houses)",
+        description: "Subquery finds above-average army sizes",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-sql-09",
+    themeId: "game-of-thrones",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Military Power Rating",
+    narrative:
+      "The Master of Whisperers needs to assign power ratings to each great house for his little birds to report on. A numeric army size alone says nothing — the rating system speaks the language of politics.",
+    prompt:
+      "Write a query that selects `name`, `army_size`, and a computed `power_rating`: 'Dominant' when army_size >= 35000, 'Formidable' when army_size >= 15000, 'Minor' otherwise.",
+    hint: "Use `CASE WHEN army_size >= 35000 THEN 'Dominant' WHEN army_size >= 15000 THEN 'Formidable' ELSE 'Minor' END AS power_rating`.",
+    solution: `SELECT\n  name,\n  army_size,\n  CASE\n    WHEN army_size >= 35000 THEN 'Dominant'\n    WHEN army_size >= 15000 THEN 'Formidable'\n    ELSE 'Minor'\n  END AS power_rating\nFROM houses;`,
+    starterCode: `-- Military Power Rating\n-- Classify each house by army size power rating\n\nSELECT\n  name,\n  army_size,\n  CASE\n    WHEN army_size >= 35000 THEN 'Dominant'\n    WHEN army_size >= 15000 THEN ___\n    ELSE ___\n  END AS power_rating\nFROM houses;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN army_size >= 35000 THEN 'Dominant'",
+        description: "Classifies houses into power rating tiers",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "got-sql-10",
+    themeId: "game-of-thrones",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "War Council Intelligence Report",
+    narrative:
+      "Jon Snow must rally the North and its allies before the dead march south. He needs a complete war council report: battle history joined with house data, filtered to significant conflicts, and summarized by region.",
+    prompt:
+      "Write a query that JOINs `battles` and `houses` on `battles.attacker = houses.name`, selects `houses.region`, `COUNT(*) AS battle_count`, and `SUM(houses.army_size) AS region_strength`, filters to `houses.army_size >= 10000`, groups by `houses.region`, and orders by `battle_count` descending.",
+    hint: "Chain INNER JOIN ... WHERE army_size >= 10000 GROUP BY houses.region ORDER BY battle_count DESC.",
+    solution: `SELECT\n  houses.region,\n  COUNT(*) AS battle_count,\n  SUM(houses.army_size) AS region_strength\nFROM battles\nINNER JOIN houses ON battles.attacker = houses.name\nWHERE houses.army_size >= 10000\nGROUP BY houses.region\nORDER BY battle_count DESC;`,
+    starterCode: `-- War Council Intelligence Report\n-- Join, filter, group, and rank regional battle data\n\nSELECT\n  houses.region,\n  COUNT(*) AS battle_count,\n  SUM(houses.army_size) AS region_strength\nFROM battles\nINNER JOIN houses ON ___\nWHERE houses.army_size >= 10000\nGROUP BY ___\nORDER BY battle_count DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN houses ON battles.attacker = houses.name",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

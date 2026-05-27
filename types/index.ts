@@ -8,7 +8,11 @@ export type ThemeId =
   | "game-of-thrones"
   | "the-matrix"
   | "rick-and-morty"
-  | "squid-game";
+  | "squid-game"
+  | "arrested-development"
+  | "barbie"
+  | "sex-and-the-city"
+  | "sopranos";
 
 export interface Theme {
   id: ThemeId;
@@ -64,6 +68,29 @@ export interface Challenge {
   testCases: TestCase[];
   concept: string;      // e.g. "Variables & Data Types"
   difficulty: DifficultyLevel;
+}
+
+// ─── Final Challenge ─────────────────────────────────────────────────────────
+
+export interface FinalQuestion {
+  id: string;                // e.g. "st-py-final-1"
+  concept: string;           // e.g. "String Methods"
+  narrative: string;         // Short themed narrative hook
+  prompt: string;            // The coding task
+  hint: string;
+  solution: string;
+  starterCode: string;
+  testCases: TestCase[];
+  conceptKeywords: string[]; // Keywords evaluator checks for in submitted code
+}
+
+export interface FinalChallenge {
+  id: string;                // e.g. "st-py-final"
+  themeId: ThemeId;
+  languageId: LanguageId;
+  themedTitle: string;       // e.g. "The Upside Down Exam"
+  introNarrative: string;    // Flavour intro shown before questions begin
+  questions: FinalQuestion[];
 }
 
 // ─── Lessons ─────────────────────────────────────────────────────────────────

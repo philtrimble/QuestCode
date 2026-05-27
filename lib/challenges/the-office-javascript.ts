@@ -101,4 +101,104 @@ export const theOfficeJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "to-js-06",
+    themeId: "the-office",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Michael's World's Best Boss Mug",
+    narrative:
+      "Michael Scott bought himself a 'World's Best Boss' mug. He keeps messing up the engraving order — sending it with extra spaces and wrong capitalization. Pam has been tasked with writing a utility to fix his submissions before they go to the printer.",
+    prompt:
+      "Given `const engraving = \"  world's best boss  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) use `.includes()` to check if the result contains `\"BOSS\"`. Log the cleaned string, then log the boolean.",
+    hint: "Chain `.trim().toUpperCase()` first, store the result, then call `.includes(\"BOSS\")` on it.",
+    solution: `const engraving = "  world's best boss  ";\nconst clean = engraving.trim().toUpperCase();\nconsole.log(clean);\nconsole.log(clean.includes("BOSS"));`,
+    starterCode: `// Michael's World's Best Boss Mug\n// Trim and uppercase the engraving, then check if it includes "BOSS"\n\nconst engraving = "  world's best boss  ";\nconst clean = engraving.trim().___;\nconsole.log(clean);             // Should print: WORLD'S BEST BOSS\nconsole.log(clean.includes(___)  // Should print: true`,
+    testCases: [
+      { input: "", expected: "WORLD'S BEST BOSS\ntrue", description: "Cleaned engraving and BOSS confirmation" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-js-07",
+    themeId: "the-office",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Dunder Mifflin Sales Targets",
+    narrative:
+      "David Wallace has announced a 20% increase in quarterly sales targets across all Dunder Mifflin branches. Dwight needs the updated targets calculated from the current figures before he can update the whiteboard.",
+    prompt:
+      "Given `const targets = [50000, 75000, 62000, 88000, 41000]`, use `.map()` to create `updated` where every target is multiplied by `1.2`. Log `updated`.",
+    hint: "Use `targets.map(t => t * 1.2)` to apply the 20% increase.",
+    solution: `const targets = [50000, 75000, 62000, 88000, 41000];\nconst updated = targets.map(t => t * 1.2);\nconsole.log(updated);`,
+    starterCode: `// Dunder Mifflin Sales Targets\n// Use .map() to increase every target by 20%\n\nconst targets = [50000, 75000, 62000, 88000, 41000];\nconst updated = targets.map(___);\nconsole.log(updated);  // Should print: [60000, 90000, 74400, 105600, 49200]`,
+    testCases: [
+      { input: "", expected: "[60000, 90000, 74400, 105600, 49200]", description: "All targets increased by 20%" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-js-08",
+    themeId: "the-office",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Counting Schrute Bucks",
+    narrative:
+      "Dwight has been issuing Schrute Bucks as performance incentives. He needs the total Schrute Bucks in circulation to calculate the exchange rate versus Stanley Nickels — a complex monetary system only Dwight fully understands.",
+    prompt:
+      "Given `const issued = [400, 750, 200, 1100, 325]`, use `.reduce()` to calculate the total Schrute Bucks issued. Log the result.",
+    hint: "Use `issued.reduce((total, n) => total + n, 0)` to sum all values.",
+    solution: `const issued = [400, 750, 200, 1100, 325];\nconst total = issued.reduce((acc, n) => acc + n, 0);\nconsole.log(total);`,
+    starterCode: `// Counting Schrute Bucks\n// Use .reduce() to total all issued Schrute Bucks\n\nconst issued = [400, 750, 200, 1100, 325];\nconst total = issued.reduce(___);\nconsole.log(total);  // Should print: 2775`,
+    testCases: [
+      { input: "", expected: "2775", description: "Total Schrute Bucks in circulation" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-js-09",
+    themeId: "the-office",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Merging the Scranton and Stamford Branches",
+    narrative:
+      "Corporate is merging the Scranton and Stamford branches. Michael is thrilled. Jim is not. HR needs the combined employee list and the names of the first two people who will share the new open-plan workspace.",
+    prompt:
+      "Given `const scranton = [\"Michael\", \"Dwight\", \"Pam\"]` and `const stamford = [\"Jim\", \"Andy\", \"Karen\"]`, spread-combine into `merged`. Destructure the first two as `desk1` and `desk2`. Log both.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const scranton = ["Michael", "Dwight", "Pam"];\nconst stamford = ["Jim", "Andy", "Karen"];\nconst merged = [...scranton, ...stamford];\nconst [desk1, desk2] = merged;\nconsole.log(desk1);\nconsole.log(desk2);`,
+    starterCode: `// Merging the Scranton and Stamford Branches\n// Spread-combine the arrays, then destructure the first two employees\n\nconst scranton = ["Michael", "Dwight", "Pam"];\nconst stamford = ["Jim", "Andy", "Karen"];\nconst merged = [...];\nconst [desk1, desk2] = merged;\nconsole.log(desk1);\nconsole.log(desk2);`,
+    testCases: [
+      { input: "", expected: "Michael\nDwight", description: "First two employees at the merged branch" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "to-js-10",
+    themeId: "the-office",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "Schrute Farms Amenities Guide",
+    narrative:
+      "Schrute Farms Bed and Breakfast is getting a Yelp page. Dwight needs to print every amenity and its rating from the official amenities object so guests know what to expect before they book.",
+    prompt:
+      "Given `const amenities = { beets: 5, barnTour: 4, breakfast: 5, goatPetting: 3 }`, use `Object.keys()` to iterate and log each amenity and rating in the format `\"beets: 5\"`.",
+    hint: "Use `Object.keys(amenities).forEach(key => console.log(key + \": \" + amenities[key]))`.",
+    solution: `const amenities = { beets: 5, barnTour: 4, breakfast: 5, goatPetting: 3 };\nObject.keys(amenities).forEach(key => {\n  console.log(key + ": " + amenities[key]);\n});`,
+    starterCode: `// Schrute Farms Amenities Guide\n// Use Object.keys() to log each amenity and its rating\n\nconst amenities = { beets: 5, barnTour: 4, breakfast: 5, goatPetting: 3 };\nObject.keys(amenities).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "beets: 5\nbarnTour: 4\nbreakfast: 5\ngoatPetting: 3", description: "All Schrute Farms amenities and ratings" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

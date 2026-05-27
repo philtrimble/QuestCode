@@ -104,4 +104,106 @@ export const squidGamePythonChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "sg-py-06",
+    themeId: "squid-game",
+    languageId: "python",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "The Front Man's Broadcast",
+    narrative:
+      "Every announcement to the players is broadcast through the facility's intercom. The Front Man reviews each message before it goes out — it must be stripped of errors, presented in all caps, and properly reference the game rather than the players by name.",
+    prompt:
+      "Write a function called `broadcast(message)` that:\n1. Strips whitespace with `.strip()`\n2. Converts to uppercase with `.upper()`\n3. Replaces `\"PLAYER\"` with `\"CONTESTANT\"` using `.replace()`\nReturn the result. Test with `broadcast(\"  player 456 has been eliminated  \")`.",
+    hint: "Chain `.strip().upper().replace(\"PLAYER\", \"CONTESTANT\")` on the input string.",
+    solution: `def broadcast(message):\n    return message.strip().upper().replace("PLAYER", "CONTESTANT")\n\nprint(broadcast("  player 456 has been eliminated  "))`,
+    starterCode: `# The Front Man's Broadcast\n\ndef broadcast(message):\n    return message.strip().upper().replace(___, ___)\n\nprint(broadcast("  player 456 has been eliminated  "))  # CONTESTANT 456 HAS BEEN ELIMINATED`,
+    testCases: [
+      { input: "  player 456 has been eliminated  ", expected: "CONTESTANT 456 HAS BEEN ELIMINATED", description: "Stripped, uppercased, player replaced with contestant" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-py-07",
+    themeId: "squid-game",
+    languageId: "python",
+    order: 7,
+    title: "List Comprehension",
+    themedTitle: "Survivors of Red Light, Green Light",
+    narrative:
+      "After Red Light, Green Light, the Front Man reviews the survival data. Only players who completed the course in under 60 seconds are eligible to advance. Gi-hun is watching the timer obsessively from the finish line.",
+    prompt:
+      "Use a list comprehension to create `fast_survivors` from `times = [45, 72, 38, 61, 55, 80, 42, 59, 91, 48]` (seconds) that contains only values less than `60`. Print the result.",
+    hint: "List comprehension: `[x for x in times if x < 60]`.",
+    solution: `times = [45, 72, 38, 61, 55, 80, 42, 59, 91, 48]\nfast_survivors = [x for x in times if x < 60]\nprint(fast_survivors)`,
+    starterCode: `# Survivors of Red Light, Green Light\n\ntimes = [45, 72, 38, 61, 55, 80, 42, 59, 91, 48]\nfast_survivors = [___ for ___ in times if ___ < 60]\nprint(fast_survivors)`,
+    testCases: [
+      { input: "", expected: "[45, 38, 55, 42, 59, 48]", description: "Times under 60 seconds" },
+    ],
+    concept: "List Comprehension",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-py-08",
+    themeId: "squid-game",
+    languageId: "python",
+    order: 8,
+    title: "Nested Data Structures",
+    themedTitle: "The Player Dossiers",
+    narrative:
+      "The VIPs receive a full dossier on each player before every game. Each player's file is a dictionary with their number, name, and current status. The Front Man needs to look up Player 067's current status.",
+    prompt:
+      "Given:\n`players = [{\"number\": 456, \"name\": \"Gi-hun\", \"status\": \"alive\"}, {\"number\": 218, \"name\": \"Sang-woo\", \"status\": \"alive\"}, {\"number\": 67, \"name\": \"Sae-byeok\", \"status\": \"alive\"}]`\nWrite a function `get_status(players, number)` that returns the `status` for the player with the matching `number`. Test with `get_status(players, 67)`.",
+    hint: "Loop through the list and check `p[\"number\"] == number`, then return `p[\"status\"]`.",
+    solution: `players = [\n    {"number": 456, "name": "Gi-hun", "status": "alive"},\n    {"number": 218, "name": "Sang-woo", "status": "alive"},\n    {"number": 67, "name": "Sae-byeok", "status": "alive"}\n]\n\ndef get_status(players, number):\n    for p in players:\n        if p["number"] == number:\n            return p["status"]\n\nprint(get_status(players, 67))`,
+    starterCode: `# The Player Dossiers\n\nplayers = [\n    {"number": 456, "name": "Gi-hun", "status": "alive"},\n    {"number": 218, "name": "Sang-woo", "status": "alive"},\n    {"number": 67, "name": "Sae-byeok", "status": "alive"}\n]\n\ndef get_status(players, number):\n    for p in players:\n        if p[___] == number:\n            return p[___]\n\nprint(get_status(players, 67))  # Should print: alive`,
+    testCases: [
+      { input: "67", expected: "alive", description: "Player 067's status" },
+    ],
+    concept: "Nested Data Structures",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-py-09",
+    themeId: "squid-game",
+    languageId: "python",
+    order: 9,
+    title: "Sorting",
+    themedTitle: "The Dalgona Leaderboard",
+    narrative:
+      "The honeycomb challenge ranks players by how quickly they completed their dalgona shape. The Front Man reviews the leaderboard from fastest to slowest — the slowest player is eliminated last, which is somehow more terrifying.",
+    prompt:
+      "Sort `results = [{\"player\": 456, \"time\": 312}, {\"player\": 218, \"time\": 245}, {\"player\": 101, \"time\": 389}, {\"player\": 67, \"time\": 198}]` by `\"time\"` in ascending order. Print each player number and time.",
+    hint: "Use `sorted(results, key=lambda x: x[\"time\"])` — ascending is the default (no `reverse=True` needed).",
+    solution: `results = [\n    {"player": 456, "time": 312},\n    {"player": 218, "time": 245},\n    {"player": 101, "time": 389},\n    {"player": 67, "time": 198}\n]\n\nranked = sorted(results, key=lambda x: x["time"])\nfor r in ranked:\n    print(f"Player {r['player']}: {r['time']}s")`,
+    starterCode: `# The Dalgona Leaderboard\n\nresults = [\n    {"player": 456, "time": 312},\n    {"player": 218, "time": 245},\n    {"player": 101, "time": 389},\n    {"player": 67, "time": 198}\n]\n\nranked = sorted(results, key=lambda x: x[___])\nfor r in ranked:\n    print(f"Player {r['player']}: {r['time']}s")`,
+    testCases: [
+      { input: "", expected: "Player 67: 198s\nPlayer 218: 245s\nPlayer 456: 312s\nPlayer 101: 389s", description: "Players sorted by completion time ascending" },
+    ],
+    concept: "Sorting",
+    difficulty: "advanced",
+  },
+  {
+    id: "sg-py-10",
+    themeId: "squid-game",
+    languageId: "python",
+    order: 10,
+    title: "Exception Handling",
+    themedTitle: "The Glass Bridge Error",
+    narrative:
+      "The glass bridge game requires players to step on the correct panel. The panel system validates codes — but sometimes players input gibberish out of panic. The system must handle bad input without shutting down the entire bridge.",
+    prompt:
+      "Write a function `choose_panel(panel)` that tries to convert `panel` to an integer. If it's `1` or `2`, return `f\"Panel {panel} chosen — stepping forward\"`. If out of range, return `\"Invalid panel — only 1 or 2 exist\"`. If a `ValueError` occurs, return `\"Panel code unreadable — step carefully\"`.\nTest with `choose_panel(\"1\")`, `choose_panel(\"5\")`, and `choose_panel(\"left\")`.",
+    hint: "Use `try/except ValueError`. Inside `try`, convert to int, then check `if num in [1, 2]`.",
+    solution: `def choose_panel(panel):\n    try:\n        num = int(panel)\n        if num in [1, 2]:\n            return f"Panel {panel} chosen — stepping forward"\n        else:\n            return "Invalid panel — only 1 or 2 exist"\n    except ValueError:\n        return "Panel code unreadable — step carefully"\n\nprint(choose_panel("1"))\nprint(choose_panel("5"))\nprint(choose_panel("left"))`,
+    starterCode: `# The Glass Bridge Error\n\ndef choose_panel(panel):\n    try:\n        num = int(panel)\n        if num in [1, 2]:\n            return f"Panel {panel} chosen — stepping forward"\n        else:\n            return "Invalid panel — only 1 or 2 exist"\n    except ___:\n        return "Panel code unreadable — step carefully"\n\nprint(choose_panel("1"))     # Panel 1 chosen — stepping forward\nprint(choose_panel("5"))     # Invalid panel — only 1 or 2 exist\nprint(choose_panel("left"))  # Panel code unreadable — step carefully`,
+    testCases: [
+      { input: "1", expected: "Panel 1 chosen — stepping forward", description: "Valid panel choice" },
+      { input: "5", expected: "Invalid panel — only 1 or 2 exist", description: "Out-of-range panel is rejected" },
+      { input: "left", expected: "Panel code unreadable — step carefully", description: "Non-numeric input is caught" },
+    ],
+    concept: "Exception Handling",
+    difficulty: "advanced",
+  },
 ];

@@ -107,4 +107,109 @@ export const severanceJavaChallenges: Challenge[] = [
     concept: "Loops & Summation",
     difficulty: "intermediate",
   },
+  {
+    id: "sv-java-06",
+    themeId: "severance",
+    languageId: "java",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Lumon's Department Name Formatter",
+    narrative:
+      "Ms. Cobel requires all department names to be formatted precisely before appearing on official Lumon signage. The Macrodata Refinement team's name must be uppercased, its length verified, and a check performed to confirm it contains the word 'refinement'.",
+    prompt:
+      "Inside `main`, declare a `String` variable `dept` set to `\"macrodata refinement\"`. Print it in all uppercase using `toUpperCase()`. Print its length using `length()`. Print whether it contains `\"refinement\"` using `contains()`.",
+    hint: "Call `dept.toUpperCase()`, `dept.length()`, and `dept.contains(\"refinement\")` — each in its own `System.out.println()`.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        String dept = "macrodata refinement";\n        System.out.println(dept.toUpperCase());\n        System.out.println(dept.length());\n        System.out.println(dept.contains("refinement"));\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        String dept = "macrodata refinement";\n        // Print in uppercase\n        System.out.println(dept.___);\n        // Print the length\n        System.out.println(dept.___);\n        // Print whether it contains "refinement"\n        System.out.println(dept.___);\n    }\n}`,
+    testCases: [
+      { input: "", expected: "MACRODATA REFINEMENT", description: "Department name in uppercase" },
+      { input: "", expected: "20", description: "Department name length is 20" },
+      { input: "", expected: "true", description: "Name contains 'refinement'" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-java-07",
+    themeId: "severance",
+    languageId: "java",
+    order: 7,
+    title: "ArrayList",
+    themedTitle: "The MDR Team Tracker",
+    narrative:
+      "The MDR department has a fluid roster. Helly R. was added, then Irving transferred to a different floor, and a new hire named Burt joined. Dylan needs a dynamic list to keep accurate records for Ms. Cobel's weekly report.",
+    prompt:
+      "Import `java.util.ArrayList`. Create an `ArrayList<String>` called `team`. Add `\"Mark\"`, `\"Helly\"`, `\"Irving\"`, `\"Dylan\"`. Remove `\"Irving\"`. Add `\"Burt\"`. Print the size of the list, then print the element at index 1.",
+    hint: "Use `list.add()`, `list.remove()`, `list.size()`, and `list.get(index)` for the operations.",
+    solution: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> team = new ArrayList<>();\n        team.add("Mark");\n        team.add("Helly");\n        team.add("Irving");\n        team.add("Dylan");\n        team.remove("Irving");\n        team.add("Burt");\n        System.out.println(team.size());\n        System.out.println(team.get(1));\n    }\n}`,
+    starterCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> team = new ArrayList<>();\n        team.add("Mark");\n        team.add("Helly");\n        team.add("Irving");\n        team.add("Dylan");\n        // Remove "Irving"\n        team.remove(___);\n        // Add "Burt"\n        team.add(___);\n        System.out.println(team.size());\n        System.out.println(team.get(1));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "4", description: "Team has 4 members after the changes" },
+      { input: "", expected: "Helly", description: "Element at index 1 is Helly" },
+    ],
+    concept: "ArrayList",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-java-08",
+    themeId: "severance",
+    languageId: "java",
+    order: 8,
+    title: "HashMap",
+    themedTitle: "Lumon Floor Directory",
+    narrative:
+      "Lumon Industries has many mysterious floors that employees must never discuss. The security desk keeps a HashMap mapping floor names to their access level codes. Ms. Cobel wants to confirm the Perpetuity Wing entry and check whether the Testing Floor is registered.",
+    prompt:
+      "Import `java.util.HashMap`. Create a `HashMap<String, Integer>` called `floors`. Add: `\"MDR Floor\"` → `1`, `\"Perpetuity Wing\"` → `5`, `\"Testing Floor\"` → `9`. Print the access code for `\"Perpetuity Wing\"`. Print whether `\"Testing Floor\"` is a key using `containsKey()`.",
+    hint: "Use `map.put(key, value)`, `map.get(key)`, and `map.containsKey(key)` for the three operations.",
+    solution: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> floors = new HashMap<>();\n        floors.put("MDR Floor", 1);\n        floors.put("Perpetuity Wing", 5);\n        floors.put("Testing Floor", 9);\n        System.out.println(floors.get("Perpetuity Wing"));\n        System.out.println(floors.containsKey("Testing Floor"));\n    }\n}`,
+    starterCode: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> floors = new HashMap<>();\n        floors.put("MDR Floor", 1);\n        floors.put("Perpetuity Wing", 5);\n        floors.put("Testing Floor", 9);\n        // Print access code for "Perpetuity Wing"\n        System.out.println(floors.get(___));\n        // Print whether "Testing Floor" is a key\n        System.out.println(floors.containsKey(___));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "5", description: "Perpetuity Wing has access code 5" },
+      { input: "", expected: "true", description: "Testing Floor is in the directory" },
+    ],
+    concept: "HashMap",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-java-09",
+    themeId: "severance",
+    languageId: "java",
+    order: 9,
+    title: "Multiple Methods",
+    themedTitle: "The Wellness Session Evaluator",
+    narrative:
+      "Ms. Casey runs wellness sessions that evaluate employees in two stages: first compute a raw wellness score from tasks done and rest taken, then classify it with a wellness tier. The Wellness Department needs both methods working in concert to issue correct perks.",
+    prompt:
+      "Write two static methods: `wellnessScore(int tasks, int restHours)` that returns `tasks * 10 + restHours * 5`, and `wellnessTier(int tasks, int restHours)` that calls `wellnessScore` and returns `\"Flourishing\"` if the score is 100 or above, `\"Stable\"` if 60 or above, and `\"Needs Support\"` otherwise. Call `wellnessTier` from `main` with `(8, 4)` and `(3, 2)` and print the results.",
+    hint: "In `wellnessTier`, call `wellnessScore(tasks, restHours)` and store it, then use if/else to return the tier string.",
+    solution: `public class Main {\n    public static int wellnessScore(int tasks, int restHours) {\n        return tasks * 10 + restHours * 5;\n    }\n\n    public static String wellnessTier(int tasks, int restHours) {\n        int score = wellnessScore(tasks, restHours);\n        if (score >= 100) {\n            return "Flourishing";\n        } else if (score >= 60) {\n            return "Stable";\n        } else {\n            return "Needs Support";\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(wellnessTier(8, 4));  // Flourishing\n        System.out.println(wellnessTier(3, 2));  // Needs Support\n    }\n}`,
+    starterCode: `public class Main {\n    public static int wellnessScore(int tasks, int restHours) {\n        // Return tasks * 10 + restHours * 5\n        return ___;\n    }\n\n    public static String wellnessTier(int tasks, int restHours) {\n        int score = wellnessScore(tasks, restHours);\n        // Return "Flourishing" if >= 100, "Stable" if >= 60, "Needs Support" otherwise\n        if (score >= 100) {\n            return ___;\n        } else if (score >= 60) {\n            return ___;\n        } else {\n            return ___;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(wellnessTier(8, 4));  // Flourishing\n        System.out.println(wellnessTier(3, 2));  // Needs Support\n    }\n}`,
+    testCases: [
+      { input: "8, 4", expected: "Flourishing", description: "Score 100 — Flourishing tier" },
+      { input: "3, 2", expected: "Needs Support", description: "Score 40 — Needs Support tier" },
+    ],
+    concept: "Multiple Methods",
+    difficulty: "advanced",
+  },
+  {
+    id: "sv-java-10",
+    themeId: "severance",
+    languageId: "java",
+    order: 10,
+    title: "StringBuilder",
+    themedTitle: "Building the Refinement Report",
+    narrative:
+      "At the end of each quarter, the MDR team submits a formal refinement report to Ms. Cobel. The report must be assembled from several pieces of data and printed as a single string. Dylan insists on using StringBuilder for maximum efficiency.",
+    prompt:
+      "Use a `StringBuilder` to build an MDR report. Append `\"MDR REPORT | \"`, then `\"Employee: Mark S.\"`, then `\" | \"`, then `\"Bins Completed: 4\"`, then `\" | \"`, then `\"Status: Compliant\"`. Print the result using `toString()`.",
+    hint: "Declare `StringBuilder sb = new StringBuilder();` then chain multiple `sb.append()` calls. End with `System.out.println(sb.toString())`.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        sb.append("MDR REPORT | ");\n        sb.append("Employee: Mark S.");\n        sb.append(" | ");\n        sb.append("Bins Completed: 4");\n        sb.append(" | ");\n        sb.append("Status: Compliant");\n        System.out.println(sb.toString());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        sb.append("MDR REPORT | ");\n        sb.append("Employee: Mark S.");\n        sb.append(" | ");\n        sb.append(___);\n        sb.append(" | ");\n        sb.append(___);\n        System.out.println(sb.toString());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "MDR REPORT | Employee: Mark S. | Bins Completed: 4 | Status: Compliant", description: "Full MDR report string assembled" },
+    ],
+    concept: "StringBuilder",
+    difficulty: "advanced",
+  },
 ];

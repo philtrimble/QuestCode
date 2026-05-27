@@ -101,4 +101,104 @@ export const strangerThingsJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "st-js-06",
+    themeId: "stranger-things",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Decoding Eleven's Message",
+    narrative:
+      "Eleven's transmissions from the Void arrive scrambled — full of static and wrong case. Joyce has rigged up a decoder that cleans the signal: strips whitespace, forces uppercase for the important parts, and replaces known interference patterns.",
+    prompt:
+      "Given `const raw = \"  upside down  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()` the result, and (3) `.replace(\"UPSIDE DOWN\", \"THE VOID\")`. Log the final string.",
+    hint: "You can chain string methods: `raw.trim().toUpperCase().replace(...)`",
+    solution: `const raw = "  upside down  ";\nconst decoded = raw.trim().toUpperCase().replace("UPSIDE DOWN", "THE VOID");\nconsole.log(decoded);`,
+    starterCode: `// Decoding Eleven's Message\n// Trim, uppercase, then replace "UPSIDE DOWN" with "THE VOID"\n\nconst raw = "  upside down  ";\nconst decoded = raw.trim().___.___;\nconsole.log(decoded);  // Should print: THE VOID`,
+    testCases: [
+      { input: "", expected: "THE VOID", description: "Cleaned and decoded transmission" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-js-07",
+    themeId: "stranger-things",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Powering Up the Party",
+    narrative:
+      "Eleven has been training. Each member of the Party has a base power level, but after a season of preparation, every power level gets doubled. Dustin needs the new stats before the final confrontation with Vecna.",
+    prompt:
+      "Given `const powers = [3, 7, 5, 4, 6]`, use `.map()` to create a new array `boosted` where every value is multiplied by `2`. Log `boosted`.",
+    hint: "Use `powers.map(p => p * 2)` to transform every element.",
+    solution: `const powers = [3, 7, 5, 4, 6];\nconst boosted = powers.map(p => p * 2);\nconsole.log(boosted);`,
+    starterCode: `// Powering Up the Party\n// Use .map() to double every power level\n\nconst powers = [3, 7, 5, 4, 6];\nconst boosted = powers.map(___);\nconsole.log(boosted);  // Should print: [6, 14, 10, 8, 12]`,
+    testCases: [
+      { input: "", expected: "[6, 14, 10, 8, 12]", description: "All power levels doubled" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-js-08",
+    themeId: "stranger-things",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Calculating the Upside Down's Threat Score",
+    narrative:
+      "Hopper has compiled threat scores from every Demogorgon encounter across Hawkins. He needs the total threat score to know whether to call in the Department of Energy — or just handle it himself.",
+    prompt:
+      "Given `const threats = [12, 8, 25, 17, 9]`, use `.reduce()` to calculate the total threat score. Log the result.",
+    hint: "Use `threats.reduce((total, t) => total + t, 0)` to sum all values starting from 0.",
+    solution: `const threats = [12, 8, 25, 17, 9];\nconst total = threats.reduce((acc, t) => acc + t, 0);\nconsole.log(total);`,
+    starterCode: `// Calculating the Upside Down's Threat Score\n// Use .reduce() to sum all threat scores\n\nconst threats = [12, 8, 25, 17, 9];\nconst total = threats.reduce(___);\nconsole.log(total);  // Should print: 71`,
+    testCases: [
+      { input: "", expected: "71", description: "Total threat score across all encounters" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-js-09",
+    themeId: "stranger-things",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Regrouping the Party",
+    narrative:
+      "The Party split up during the final battle. Mike has the Hawkins crew; Eleven leads the California group. Now they're regrouping — combining both squads into one and pulling out the first two leaders by name.",
+    prompt:
+      "Given `const hawkins = [\"Mike\", \"Dustin\", \"Lucas\"]` and `const california = [\"Eleven\", \"Will\", \"Max\"]`, use spread to combine them into `allMembers`. Then destructure the first two elements as `leader1` and `leader2`. Log both leaders.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const hawkins = ["Mike", "Dustin", "Lucas"];\nconst california = ["Eleven", "Will", "Max"];\nconst allMembers = [...hawkins, ...california];\nconst [leader1, leader2] = allMembers;\nconsole.log(leader1);\nconsole.log(leader2);`,
+    starterCode: `// Regrouping the Party\n// Combine both arrays with spread, then destructure the first two members\n\nconst hawkins = ["Mike", "Dustin", "Lucas"];\nconst california = ["Eleven", "Will", "Max"];\nconst allMembers = [...];\nconst [leader1, leader2] = allMembers;\nconsole.log(leader1);\nconsole.log(leader2);`,
+    testCases: [
+      { input: "", expected: "Mike\nDustin", description: "First two members of the combined Party" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "st-js-10",
+    themeId: "stranger-things",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "Hawkins Lab Inventory",
+    narrative:
+      "Hopper is cataloguing everything left behind in Hawkins Lab. The inventory is stored as an object. He needs to print every item name alongside its quantity so Joyce can check what's there.",
+    prompt:
+      "Given `const inventory = { flamethrowers: 3, hazmatSuits: 5, walkieTalkies: 8, flares: 12 }`, use `Object.keys()` to iterate and log each key and value in the format `\"flamethrowers: 3\"`.",
+    hint: "Use `Object.keys(inventory).forEach(key => console.log(key + \": \" + inventory[key]))`.",
+    solution: `const inventory = { flamethrowers: 3, hazmatSuits: 5, walkieTalkies: 8, flares: 12 };\nObject.keys(inventory).forEach(key => {\n  console.log(key + ": " + inventory[key]);\n});`,
+    starterCode: `// Hawkins Lab Inventory\n// Use Object.keys() to log each item and its quantity\n\nconst inventory = { flamethrowers: 3, hazmatSuits: 5, walkieTalkies: 8, flares: 12 };\nObject.keys(inventory).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "flamethrowers: 3\nhazmatSuits: 5\nwalkieTalkies: 8\nflares: 12", description: "All inventory items listed with quantities" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

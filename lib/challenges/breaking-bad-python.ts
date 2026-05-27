@@ -104,4 +104,105 @@ export const breakingBadPythonChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "bb-py-06",
+    themeId: "breaking-bad",
+    languageId: "python",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Heisenberg's Brand Identity",
+    narrative:
+      "Walter White is meticulous about his brand. The product name must always be presented correctly — no lowercase, no extra spaces, no misspellings. Saul needs a function to clean up how the product is referred to in intercepted messages.",
+    prompt:
+      "Write a function called `normalize_brand(text)` that:\n1. Strips whitespace with `.strip()`\n2. Converts to title case with `.title()`\n3. Replaces `\"Walter\"` with `\"Heisenberg\"` using `.replace()`\nReturn the result. Test with `normalize_brand(\"  walter white makes blue sky  \")`.",
+    hint: "Chain `.strip().title().replace(\"Walter\", \"Heisenberg\")` on the input string.",
+    solution: `def normalize_brand(text):\n    return text.strip().title().replace("Walter", "Heisenberg")\n\nprint(normalize_brand("  walter white makes blue sky  "))`,
+    starterCode: `# Heisenberg's Brand Identity\n\ndef normalize_brand(text):\n    return text.strip().title().replace(___, ___)\n\nprint(normalize_brand("  walter white makes blue sky  "))  # Heisenberg White Makes Blue Sky`,
+    testCases: [
+      { input: "  walter white makes blue sky  ", expected: "Heisenberg White Makes Blue Sky", description: "Stripped, title-cased, and rebranded" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-py-07",
+    themeId: "breaking-bad",
+    languageId: "python",
+    order: 7,
+    title: "List Comprehension",
+    themedTitle: "Filtering the Worthy Batches",
+    narrative:
+      "Walter will not distribute inferior product. Jesse has a list of batch purity percentages from the week's cooks. Walt needs only the batches that meet his 90% minimum standard to be flagged for distribution.",
+    prompt:
+      "Use a list comprehension to create `worthy_batches` from `purities = [88, 94, 72, 99, 91, 85, 96, 78]` that contains only values greater than or equal to `90`. Print the result.",
+    hint: "List comprehension: `[x for x in purities if x >= 90]`.",
+    solution: `purities = [88, 94, 72, 99, 91, 85, 96, 78]\nworthy_batches = [x for x in purities if x >= 90]\nprint(worthy_batches)`,
+    starterCode: `# Filtering the Worthy Batches\n\npurities = [88, 94, 72, 99, 91, 85, 96, 78]\nworthy_batches = [___ for ___ in purities if ___ >= 90]\nprint(worthy_batches)`,
+    testCases: [
+      { input: "", expected: "[94, 99, 91, 96]", description: "Batches with purity 90 or above" },
+    ],
+    concept: "List Comprehension",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-py-08",
+    themeId: "breaking-bad",
+    languageId: "python",
+    order: 8,
+    title: "Nested Data Structures",
+    themedTitle: "The Distribution Network",
+    narrative:
+      "Mike Ehrmantraut runs a meticulous distribution network. Each distributor is tracked as a dictionary with their name, territory, and outstanding balance. Saul needs a function to look up how much a given distributor owes.",
+    prompt:
+      "Given:\n`network = [{\"name\": \"Tuco\", \"territory\": \"Albuquerque\", \"owed\": 45000}, {\"name\": \"Gus\", \"territory\": \"Southwest\", \"owed\": 0}, {\"name\": \"Lydia\", \"territory\": \"International\", \"owed\": 120000}]`\nWrite a function `get_balance(network, distributor_name)` that returns the `owed` amount for the matching distributor. Test with `get_balance(network, \"Lydia\")`.",
+    hint: "Loop through the list. For each dictionary, check `d[\"name\"] == distributor_name` and return `d[\"owed\"]`.",
+    solution: `network = [\n    {"name": "Tuco", "territory": "Albuquerque", "owed": 45000},\n    {"name": "Gus", "territory": "Southwest", "owed": 0},\n    {"name": "Lydia", "territory": "International", "owed": 120000}\n]\n\ndef get_balance(network, distributor_name):\n    for d in network:\n        if d["name"] == distributor_name:\n            return d["owed"]\n\nprint(get_balance(network, "Lydia"))`,
+    starterCode: `# The Distribution Network\n\nnetwork = [\n    {"name": "Tuco", "territory": "Albuquerque", "owed": 45000},\n    {"name": "Gus", "territory": "Southwest", "owed": 0},\n    {"name": "Lydia", "territory": "International", "owed": 120000}\n]\n\ndef get_balance(network, distributor_name):\n    for d in network:\n        if d[___] == distributor_name:\n            return d[___]\n\nprint(get_balance(network, "Lydia"))  # Should print: 120000`,
+    testCases: [
+      { input: "Lydia", expected: "120000", description: "Lydia owes 120000" },
+    ],
+    concept: "Nested Data Structures",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-py-09",
+    themeId: "breaking-bad",
+    languageId: "python",
+    order: 9,
+    title: "Sorting",
+    themedTitle: "The Purity Rankings",
+    narrative:
+      "Gus Fring demands excellence. He reviews all batch reports and ranks the cooks from highest to lowest purity. The cook at the bottom of the list will have a very bad day. Walt's results are always at the top.",
+    prompt:
+      "Sort `batches = [{\"cook\": \"Walt\", \"purity\": 99}, {\"cook\": \"Jesse\", \"purity\": 86}, {\"cook\": \"Declan\", \"purity\": 68}, {\"cook\": \"Todd\", \"purity\": 74}]` by `\"purity\"` in descending order. Print each cook's name and purity.",
+    hint: "Use `sorted(batches, key=lambda x: x[\"purity\"], reverse=True)` to sort highest purity first.",
+    solution: `batches = [\n    {"cook": "Walt", "purity": 99},\n    {"cook": "Jesse", "purity": 86},\n    {"cook": "Declan", "purity": 68},\n    {"cook": "Todd", "purity": 74}\n]\n\nranked = sorted(batches, key=lambda x: x["purity"], reverse=True)\nfor batch in ranked:\n    print(f"{batch['cook']}: {batch['purity']}")`,
+    starterCode: `# The Purity Rankings\n\nbatches = [\n    {"cook": "Walt", "purity": 99},\n    {"cook": "Jesse", "purity": 86},\n    {"cook": "Declan", "purity": 68},\n    {"cook": "Todd", "purity": 74}\n]\n\nranked = sorted(batches, key=lambda x: x[___], reverse=True)\nfor batch in ranked:\n    print(f"{batch['cook']}: {batch['purity']}")`,
+    testCases: [
+      { input: "", expected: "Walt: 99\nJesse: 86\nTodd: 74\nDeclan: 68", description: "Batches sorted by purity descending" },
+    ],
+    concept: "Sorting",
+    difficulty: "advanced",
+  },
+  {
+    id: "bb-py-10",
+    themeId: "breaking-bad",
+    languageId: "python",
+    order: 10,
+    title: "Exception Handling",
+    themedTitle: "The Lab Reaction Error",
+    narrative:
+      "Something's wrong in the lab — an unexpected chemical combination has produced an error in the monitoring system. Walt insists the system must never crash, only report gracefully. Jesse just wants to know if the beakers are going to explode.",
+    prompt:
+      "Write a function `calculate_yield(precursor, multiplier)` that tries to return `precursor / multiplier` as an integer (using `int()`). If `multiplier` is zero, a `ZeroDivisionError` will be raised — catch it and return `\"Error: division by zero — check the formula\"`.\nTest with `calculate_yield(500, 5)` and `calculate_yield(500, 0)`.",
+    hint: "Use `try/except ZeroDivisionError`. In the `try` block, return `int(precursor / multiplier)`. In the `except` block, return the error message.",
+    solution: `def calculate_yield(precursor, multiplier):\n    try:\n        return int(precursor / multiplier)\n    except ZeroDivisionError:\n        return "Error: division by zero — check the formula"\n\nprint(calculate_yield(500, 5))\nprint(calculate_yield(500, 0))`,
+    starterCode: `# The Lab Reaction Error\n\ndef calculate_yield(precursor, multiplier):\n    try:\n        return int(precursor / multiplier)\n    except ___:\n        return "Error: division by zero — check the formula"\n\nprint(calculate_yield(500, 5))   # Should print: 100\nprint(calculate_yield(500, 0))   # Should print: Error: division by zero — check the formula`,
+    testCases: [
+      { input: "500, 5", expected: "100", description: "Valid division returns the yield" },
+      { input: "500, 0", expected: "Error: division by zero — check the formula", description: "Division by zero is handled gracefully" },
+    ],
+    concept: "Exception Handling",
+    difficulty: "advanced",
+  },
 ];

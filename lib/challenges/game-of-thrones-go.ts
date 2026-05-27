@@ -101,4 +101,104 @@ export const gameOfThronesGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "got-go-06",
+    themeId: "game-of-thrones",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "The Raven's Message",
+    narrative:
+      "Ravens carry messages across the Seven Kingdoms, but the format must be standardized. The maester at the Citadel formats every letter the same way — the sender's house and the message body combined into a single sealed dispatch.",
+    prompt:
+      "Use `fmt.Sprintf` to format a raven message. Given `house := \"Stark\"` and `words := 6`, produce `\"House Stark sends 6 ravens\"` and print it.",
+    hint: "Use `msg := fmt.Sprintf(\"House %s sends %d ravens\", house, words)` then `fmt.Println(msg)`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\thouse := "Stark"\n\twords := 6\n\tmsg := fmt.Sprintf("House %s sends %d ravens", house, words)\n\tfmt.Println(msg)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\thouse := "Stark"\n\twords := 6\n\t// Use fmt.Sprintf to build the message\n\tmsg := fmt.Sprintf(___, house, words)\n\tfmt.Println(msg)\n}`,
+    testCases: [
+      { input: "", expected: "House Stark sends 6 ravens", description: "Formatted raven dispatch" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-go-07",
+    themeId: "game-of-thrones",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "The Bannermen Count",
+    narrative:
+      "The Master of Whisperers tracks the number of bannermen pledged to each house. A map gives him instant access to any house's fighting strength — useful when Daenerys asks how many soldiers will march at dawn.",
+    prompt:
+      "Create a map `bannermen` of type `map[string]int`. Add `\"Stark\"` with value `5000` and `\"Lannister\"` with value `8000`. Print the value for `\"Stark\"`.",
+    hint: "Use `bannermen := map[string]int{}`, add both entries, then access `bannermen[\"Stark\"]`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tbannermen := map[string]int{}\n\tbannermen["Stark"] = 5000\n\tbannermen["Lannister"] = 8000\n\tfmt.Println(bannermen["Stark"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tbannermen := map[string]int{}\n\t// Add Stark and Lannister\n\tbannermen[___] = 5000\n\tbannermen[___] = 8000\n\t// Print Stark's bannermen count\n\tfmt.Println(bannermen[___])\n}`,
+    testCases: [
+      { input: "", expected: "5000", description: "House Stark has 5000 bannermen" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-go-08",
+    themeId: "game-of-thrones",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "Lord's Record",
+    narrative:
+      "The Citadel requires a standardized record for every lord in Westeros. Each record holds the lord's name and the number of castles their house controls. Maester Luwin insists the data format never changes — unlike alliances.",
+    prompt:
+      "Define a struct `Lord` with fields `Name string` and `Castles int`. Create an instance with `Name: \"Tyrion\"` and `Castles: 3`. Print both fields.",
+    hint: "Define `type Lord struct { Name string; Castles int }` above `main`. Create with `l := Lord{Name: \"Tyrion\", Castles: 3}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Lord struct {\n\tName    string\n\tCastles int\n}\n\nfunc main() {\n\tl := Lord{Name: "Tyrion", Castles: 3}\n\tfmt.Println(l.Name)\n\tfmt.Println(l.Castles)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Lord struct {\n\tName    string\n\tCastles int\n}\n\nfunc main() {\n\t// Create a Lord with Name "Tyrion" and Castles 3\n\tl := Lord{___}\n\tfmt.Println(l.Name)\n\tfmt.Println(l.Castles)\n}`,
+    testCases: [
+      { input: "", expected: "Tyrion\n3", description: "Lord name and castle count" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-go-09",
+    themeId: "game-of-thrones",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "The Dragon Count",
+    narrative:
+      "Daenerys's dragon keeper must report the current count — and if any dragon is unaccounted for, an error must accompany the report. Jon Snow wants the truth, not a reassuring lie, so the function returns both the count and any error.",
+    prompt:
+      "Write `dragonCount(count int) (int, error)` that returns `count, nil` if `count > 0`, or `0, errors.New(\"no dragons\")` otherwise. In `main`, call it with `3`, print both values.",
+    hint: "Import `\"errors\"`. Check `if count <= 0 { return 0, errors.New(\"no dragons\") }`. Otherwise `return count, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc dragonCount(count int) (int, error) {\n\tif count <= 0 {\n\t\treturn 0, errors.New("no dragons")\n\t}\n\treturn count, nil\n}\n\nfunc main() {\n\tresult, err := dragonCount(3)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc dragonCount(count int) (int, error) {\n\tif count <= 0 {\n\t\treturn 0, errors.New("no dragons")\n\t}\n\t// Return count and nil\n\treturn ___\n}\n\nfunc main() {\n\tresult, err := dragonCount(3)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "3\n<nil>", description: "Three dragons accounted for" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "got-go-10",
+    themeId: "game-of-thrones",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "The Missing Dragons",
+    narrative:
+      "A raven arrives from Essos: zero dragons have been sighted. Daenerys's hand must check the error from the dragon count function before delivering the news. Handle the error properly — an unhandled error in Westeros leads to war.",
+    prompt:
+      "Call `dragonCount(0)`. If `err != nil`, print `\"Alert:\"` followed by the error. Otherwise print the count.",
+    hint: "Use `result, err := dragonCount(0)`. Then `if err != nil { fmt.Println(\"Alert:\", err) } else { fmt.Println(result) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc dragonCount(count int) (int, error) {\n\tif count <= 0 {\n\t\treturn 0, errors.New("no dragons")\n\t}\n\treturn count, nil\n}\n\nfunc main() {\n\tresult, err := dragonCount(0)\n\tif err != nil {\n\t\tfmt.Println("Alert:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc dragonCount(count int) (int, error) {\n\tif count <= 0 {\n\t\treturn 0, errors.New("no dragons")\n\t}\n\treturn count, nil\n}\n\nfunc main() {\n\tresult, err := dragonCount(0)\n\t// Check for error and print accordingly\n\tif ___ {\n\t\tfmt.Println("Alert:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Alert: no dragons", description: "Zero dragons triggers the alert" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

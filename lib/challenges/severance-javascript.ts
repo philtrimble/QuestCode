@@ -104,4 +104,104 @@ export const severanceJavaScriptChallenges: Challenge[] = [
     concept: "Loops & Accumulation",
     difficulty: "beginner",
   },
+  {
+    id: "sv-js-06",
+    themeId: "severance",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Formatting the Severed Floor Memo",
+    narrative:
+      "Lumon's internal memos arrive in inconsistent formatting — mixed case, extra spaces, and outdated department names that must be corrected before distribution. Mark S. has been tasked with sanitizing each memo before it reaches Cobel.",
+    prompt:
+      "Given `const memo = \"  welcome to lumon industries  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) `.replace(\"LUMON INDUSTRIES\", \"MACRODATA REFINEMENT\")`. Log the result.",
+    hint: "Chain methods: `memo.trim().toUpperCase().replace(...)`",
+    solution: `const memo = "  welcome to lumon industries  ";\nconst formatted = memo.trim().toUpperCase().replace("LUMON INDUSTRIES", "MACRODATA REFINEMENT");\nconsole.log(formatted);`,
+    starterCode: `// Formatting the Severed Floor Memo\n// Trim, uppercase, then replace the department name\n\nconst memo = "  welcome to lumon industries  ";\nconst formatted = memo.trim().___.___;\nconsole.log(formatted);  // Should print: WELCOME TO MACRODATA REFINEMENT`,
+    testCases: [
+      { input: "", expected: "WELCOME TO MACRODATA REFINEMENT", description: "Properly formatted Lumon memo" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-js-07",
+    themeId: "severance",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Assigning Wellness Scores",
+    narrative:
+      "The wellness program at Lumon awards bonus points on top of each employee's base score. Every employee gets a flat 10-point boost this quarter — a rare act of generosity from Ms. Cobel. Dylan needs the updated score list.",
+    prompt:
+      "Given `const scores = [72, 85, 61, 90, 78]`, use `.map()` to create `boosted` where each score has `10` added. Log `boosted`.",
+    hint: "Use `scores.map(s => s + 10)` to add 10 to every score.",
+    solution: `const scores = [72, 85, 61, 90, 78];\nconst boosted = scores.map(s => s + 10);\nconsole.log(boosted);`,
+    starterCode: `// Assigning Wellness Scores\n// Use .map() to add 10 to every score\n\nconst scores = [72, 85, 61, 90, 78];\nconst boosted = scores.map(___);\nconsole.log(boosted);  // Should print: [82, 95, 71, 100, 88]`,
+    testCases: [
+      { input: "", expected: "[82, 95, 71, 100, 88]", description: "All wellness scores boosted by 10" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-js-08",
+    themeId: "severance",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Total Macrodata Numbers Refined",
+    narrative:
+      "At the end of each quarter, Lumon tallies the total number of macrodata values refined by the MDR team. Helly needs the grand total for the quarterly report — Cobel is watching.",
+    prompt:
+      "Given `const refined = [340, 512, 298, 401, 275]`, use `.reduce()` to calculate the total numbers refined. Log the result.",
+    hint: "Use `refined.reduce((total, n) => total + n, 0)` to sum the array.",
+    solution: `const refined = [340, 512, 298, 401, 275];\nconst total = refined.reduce((acc, n) => acc + n, 0);\nconsole.log(total);`,
+    starterCode: `// Total Macrodata Numbers Refined\n// Use .reduce() to sum all refined counts\n\nconst refined = [340, 512, 298, 401, 275];\nconst total = refined.reduce(___);\nconsole.log(total);  // Should print: 1826`,
+    testCases: [
+      { input: "", expected: "1826", description: "Total macrodata values refined this quarter" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sv-js-09",
+    themeId: "severance",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Merging the Department Rosters",
+    narrative:
+      "The O&D and MDR departments are combining for a mandatory kumbaya retreat. Irving needs to merge the two rosters into one and identify the first two employees — they'll lead the awkward team-building exercises.",
+    prompt:
+      "Given `const mdr = [\"Mark\", \"Helly\", \"Irving\"]` and `const od = [\"Burt\", \"Felicia\", \"Devon\"]`, spread-combine into `allStaff`. Destructure the first two as `first` and `second`. Log both.",
+    hint: "Spread: `[...mdr, ...od]`. Destructure: `const [a, b] = array`.",
+    solution: `const mdr = ["Mark", "Helly", "Irving"];\nconst od = ["Burt", "Felicia", "Devon"];\nconst allStaff = [...mdr, ...od];\nconst [first, second] = allStaff;\nconsole.log(first);\nconsole.log(second);`,
+    starterCode: `// Merging the Department Rosters\n// Spread-combine the two arrays, then destructure the first two\n\nconst mdr = ["Mark", "Helly", "Irving"];\nconst od = ["Burt", "Felicia", "Devon"];\nconst allStaff = [...];\nconst [first, second] = allStaff;\nconsole.log(first);\nconsole.log(second);`,
+    testCases: [
+      { input: "", expected: "Mark\nHelly", description: "First two employees of the merged roster" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "sv-js-10",
+    themeId: "severance",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "Lumon Department Directory",
+    narrative:
+      "Lumon's HR system stores department head counts as an object. Dylan has been asked to print a full directory — every department name followed by its employee count — for the quarterly compliance review.",
+    prompt:
+      "Given `const departments = { MDR: 4, OD: 6, PE: 3, Wellness: 2 }`, use `Object.keys()` to iterate and log each department and its count in the format `\"MDR: 4\"`.",
+    hint: "Use `Object.keys(departments).forEach(key => console.log(key + \": \" + departments[key]))`.",
+    solution: `const departments = { MDR: 4, OD: 6, PE: 3, Wellness: 2 };\nObject.keys(departments).forEach(key => {\n  console.log(key + ": " + departments[key]);\n});`,
+    starterCode: `// Lumon Department Directory\n// Use Object.keys() to log each department and count\n\nconst departments = { MDR: 4, OD: 6, PE: 3, Wellness: 2 };\nObject.keys(departments).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "MDR: 4\nOD: 6\nPE: 3\nWellness: 2", description: "All departments and their headcounts" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

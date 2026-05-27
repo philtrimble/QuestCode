@@ -101,4 +101,104 @@ export const breakingBadJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "bb-js-06",
+    themeId: "breaking-bad",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Sanitizing the Burner Phone Messages",
+    narrative:
+      "Walt and Jesse communicate on burner phones. The messages arrive in mixed case with extra spaces — a liability if they're intercepted. Mike needs a utility to clean incoming messages before they're logged.",
+    prompt:
+      "Given `const msg = \"  say my name  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) `.replace(\"MY NAME\", \"HEISENBERG\")`. Log the result.",
+    hint: "Chain methods: `msg.trim().toUpperCase().replace(...)`",
+    solution: `const msg = "  say my name  ";\nconst clean = msg.trim().toUpperCase().replace("MY NAME", "HEISENBERG");\nconsole.log(clean);`,
+    starterCode: `// Sanitizing the Burner Phone Messages\n// Trim, uppercase, then replace "MY NAME" with "HEISENBERG"\n\nconst msg = "  say my name  ";\nconst clean = msg.trim().___.___;\nconsole.log(clean);  // Should print: SAY HEISENBERG`,
+    testCases: [
+      { input: "", expected: "SAY HEISENBERG", description: "Message cleaned and identity revealed" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-js-07",
+    themeId: "breaking-bad",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Calculating the Cut",
+    narrative:
+      "Each distributor takes a percentage cut of the product price. Walt needs to calculate the actual payout for each distributor based on their agreed percentage, applied to a $10,000 base price.",
+    prompt:
+      "Given `const cuts = [0.1, 0.15, 0.08, 0.12, 0.2]`, use `.map()` to create `payouts` where each cut is multiplied by `10000`. Log `payouts`.",
+    hint: "Use `cuts.map(c => c * 10000)` to calculate each payout.",
+    solution: `const cuts = [0.1, 0.15, 0.08, 0.12, 0.2];\nconst payouts = cuts.map(c => c * 10000);\nconsole.log(payouts);`,
+    starterCode: `// Calculating the Cut\n// Use .map() to calculate each distributor's payout from a $10,000 base\n\nconst cuts = [0.1, 0.15, 0.08, 0.12, 0.2];\nconst payouts = cuts.map(___);\nconsole.log(payouts);  // Should print: [1000, 1500, 800, 1200, 2000]`,
+    testCases: [
+      { input: "", expected: "[1000, 1500, 800, 1200, 2000]", description: "Payout amounts for each distributor" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-js-08",
+    themeId: "breaking-bad",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Counting the Money",
+    narrative:
+      "The money in the storage unit is piling up faster than Walt can launder it through the car wash. Skyler needs the exact total from all the cash stashes before she can start cooking the books.",
+    prompt:
+      "Given `const stashes = [237000, 480000, 315000, 92000, 560000]`, use `.reduce()` to calculate the total amount of cash. Log the result.",
+    hint: "Use `stashes.reduce((total, s) => total + s, 0)` to sum all stash amounts.",
+    solution: `const stashes = [237000, 480000, 315000, 92000, 560000];\nconst total = stashes.reduce((acc, s) => acc + s, 0);\nconsole.log(total);`,
+    starterCode: `// Counting the Money\n// Use .reduce() to total all the cash stashes\n\nconst stashes = [237000, 480000, 315000, 92000, 560000];\nconst total = stashes.reduce(___);\nconsole.log(total);  // Should print: 1684000`,
+    testCases: [
+      { input: "", expected: "1684000", description: "Total cash across all stashes" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-js-09",
+    themeId: "breaking-bad",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Combining the Distribution Network",
+    narrative:
+      "Gus Fring's operation and Walt's crew are merging their distribution lists. Mike needs to combine both into one master list and identify the two lead distributors who will manage the combined network.",
+    prompt:
+      "Given `const gustavo = [\"Gus\", \"Mike\", \"Tyrus\"]` and `const walter = [\"Jesse\", \"Saul\", \"Huell\"]`, spread-combine into `network`. Destructure the first two as `lead1` and `lead2`. Log both.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const gustavo = ["Gus", "Mike", "Tyrus"];\nconst walter = ["Jesse", "Saul", "Huell"];\nconst network = [...gustavo, ...walter];\nconst [lead1, lead2] = network;\nconsole.log(lead1);\nconsole.log(lead2);`,
+    starterCode: `// Combining the Distribution Network\n// Spread-combine the arrays, then destructure the first two leads\n\nconst gustavo = ["Gus", "Mike", "Tyrus"];\nconst walter = ["Jesse", "Saul", "Huell"];\nconst network = [...];\nconst [lead1, lead2] = network;\nconsole.log(lead1);\nconsole.log(lead2);`,
+    testCases: [
+      { input: "", expected: "Gus\nMike", description: "First two leads of the combined network" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "bb-js-10",
+    themeId: "breaking-bad",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "Auditing the Car Wash Revenue",
+    narrative:
+      "The A1A Car Wash is Walt's primary money laundering front. Skyler tracks revenue by service type. She needs to print every service alongside its revenue figure for the phony tax return.",
+    prompt:
+      "Given `const revenue = { basicWash: 8400, detailing: 15200, waxing: 6700, interior: 9300 }`, use `Object.keys()` to iterate and log each service and its revenue in the format `\"basicWash: 8400\"`.",
+    hint: "Use `Object.keys(revenue).forEach(key => console.log(key + \": \" + revenue[key]))`.",
+    solution: `const revenue = { basicWash: 8400, detailing: 15200, waxing: 6700, interior: 9300 };\nObject.keys(revenue).forEach(key => {\n  console.log(key + ": " + revenue[key]);\n});`,
+    starterCode: `// Auditing the Car Wash Revenue\n// Use Object.keys() to log each service and its revenue\n\nconst revenue = { basicWash: 8400, detailing: 15200, waxing: 6700, interior: 9300 };\nObject.keys(revenue).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "basicWash: 8400\ndetailing: 15200\nwaxing: 6700\ninterior: 9300", description: "All revenue streams listed" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

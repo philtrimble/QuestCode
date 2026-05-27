@@ -56,6 +56,34 @@ import { squidGameJavaChallenges } from "./squid-game-java";
 import { squidGameSQLChallenges } from "./squid-game-sql";
 import { squidGameGoChallenges } from "./squid-game-go";
 
+// Arrested Development
+import { arrestedDevelopmentPythonChallenges } from "./arrested-development-python";
+import { arrestedDevelopmentJavaScriptChallenges } from "./arrested-development-javascript";
+import { arrestedDevelopmentJavaChallenges } from "./arrested-development-java";
+import { arrestedDevelopmentSQLChallenges } from "./arrested-development-sql";
+import { arrestedDevelopmentGoChallenges } from "./arrested-development-go";
+
+// Barbie
+import { barbiePythonChallenges } from "./barbie-python";
+import { barbieJavaScriptChallenges } from "./barbie-javascript";
+import { barbieJavaChallenges } from "./barbie-java";
+import { barbieSQLChallenges } from "./barbie-sql";
+import { barbieGoChallenges } from "./barbie-go";
+
+// Sex and the City
+import { sexAndTheCityPythonChallenges } from "./sex-and-the-city-python";
+import { sexAndTheCityJavaScriptChallenges } from "./sex-and-the-city-javascript";
+import { sexAndTheCityJavaChallenges } from "./sex-and-the-city-java";
+import { sexAndTheCitySQLChallenges } from "./sex-and-the-city-sql";
+import { sexAndTheCityGoChallenges } from "./sex-and-the-city-go";
+
+// Sopranos
+import { sopranosPythonChallenges } from "./sopranos-python";
+import { sopranosJavaScriptChallenges } from "./sopranos-javascript";
+import { sopranosJavaChallenges } from "./sopranos-java";
+import { sopranosSQLChallenges } from "./sopranos-sql";
+import { sopranosGoChallenges } from "./sopranos-go";
+
 export const ALL_CHALLENGES: Record<string, Challenge[]> = {
   "stranger-things-python": strangerThingsPythonChallenges,
   "stranger-things-javascript": strangerThingsJavaScriptChallenges,
@@ -104,6 +132,30 @@ export const ALL_CHALLENGES: Record<string, Challenge[]> = {
   "squid-game-java": squidGameJavaChallenges,
   "squid-game-sql": squidGameSQLChallenges,
   "squid-game-go": squidGameGoChallenges,
+
+  "arrested-development-python": arrestedDevelopmentPythonChallenges,
+  "arrested-development-javascript": arrestedDevelopmentJavaScriptChallenges,
+  "arrested-development-java": arrestedDevelopmentJavaChallenges,
+  "arrested-development-sql": arrestedDevelopmentSQLChallenges,
+  "arrested-development-go": arrestedDevelopmentGoChallenges,
+
+  "barbie-python": barbiePythonChallenges,
+  "barbie-javascript": barbieJavaScriptChallenges,
+  "barbie-java": barbieJavaChallenges,
+  "barbie-sql": barbieSQLChallenges,
+  "barbie-go": barbieGoChallenges,
+
+  "sex-and-the-city-python": sexAndTheCityPythonChallenges,
+  "sex-and-the-city-javascript": sexAndTheCityJavaScriptChallenges,
+  "sex-and-the-city-java": sexAndTheCityJavaChallenges,
+  "sex-and-the-city-sql": sexAndTheCitySQLChallenges,
+  "sex-and-the-city-go": sexAndTheCityGoChallenges,
+
+  "sopranos-python": sopranosPythonChallenges,
+  "sopranos-javascript": sopranosJavaScriptChallenges,
+  "sopranos-java": sopranosJavaChallenges,
+  "sopranos-sql": sopranosSQLChallenges,
+  "sopranos-go": sopranosGoChallenges,
 };
 
 export function getChallenges(themeId: ThemeId, languageId: LanguageId): Challenge[] {

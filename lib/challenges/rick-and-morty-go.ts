@@ -101,4 +101,104 @@ export const rickAndMortyGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "rm-go-06",
+    themeId: "rick-and-morty",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "Rick's Dimension Label",
+    narrative:
+      "Rick needs a label generator for his interdimensional travel logs. Each entry must include the traveler's name and the dimension number — because after 137 dimensions, even Rick admits things start blurring together. Morty gets no say in the format.",
+    prompt:
+      "Use `fmt.Sprintf` to build a label. Given `traveler := \"Rick\"` and `dimension := 137`, produce `\"Rick entered dimension C-137\"` and print it.",
+    hint: "Use `label := fmt.Sprintf(\"%s entered dimension C-%d\", traveler, dimension)` then `fmt.Println(label)`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\ttraveler := "Rick"\n\tdimension := 137\n\tlabel := fmt.Sprintf("%s entered dimension C-%d", traveler, dimension)\n\tfmt.Println(label)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\ttraveler := "Rick"\n\tdimension := 137\n\t// Use fmt.Sprintf to build the label\n\tlabel := fmt.Sprintf(___, traveler, dimension)\n\tfmt.Println(label)\n}`,
+    testCases: [
+      { input: "", expected: "Rick entered dimension C-137", description: "Formatted dimension travel label" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-go-07",
+    themeId: "rick-and-morty",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "The Citadel Registry",
+    narrative:
+      "The Citadel of Ricks keeps a registry of each Rick's IQ score — because status at the Citadel is based entirely on intelligence and nothing else. Rick C-137 disputes the rankings, but the map does not care about his feelings.",
+    prompt:
+      "Create a map `registry` of type `map[string]int`. Add `\"C-137\"` with value `300` and `\"D-99\"` with value `275`. Print the value for `\"C-137\"`.",
+    hint: "Use `registry := map[string]int{}`, assign both entries, then print `registry[\"C-137\"]`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tregistry := map[string]int{}\n\tregistry["C-137"] = 300\n\tregistry["D-99"] = 275\n\tfmt.Println(registry["C-137"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tregistry := map[string]int{}\n\t// Add C-137 and D-99\n\tregistry[___] = 300\n\tregistry[___] = 275\n\t// Print C-137's IQ\n\tfmt.Println(registry[___])\n}`,
+    testCases: [
+      { input: "", expected: "300", description: "Rick C-137 has an IQ of 300" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-go-08",
+    themeId: "rick-and-morty",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "The Adventure Log Entry",
+    narrative:
+      "Beth has started keeping a proper log of every adventure so she can hold Rick accountable. Each entry needs a destination and a danger rating. A struct is the only way to keep it organized — Rick would just use a paper napkin.",
+    prompt:
+      "Define a struct `Adventure` with fields `Destination string` and `Danger int`. Create an instance with `Destination: \"Blips and Chitz\"` and `Danger: 4`. Print both fields.",
+    hint: "Define `type Adventure struct { Destination string; Danger int }` above `main`. Create with `a := Adventure{Destination: \"Blips and Chitz\", Danger: 4}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Adventure struct {\n\tDestination string\n\tDanger      int\n}\n\nfunc main() {\n\ta := Adventure{Destination: "Blips and Chitz", Danger: 4}\n\tfmt.Println(a.Destination)\n\tfmt.Println(a.Danger)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Adventure struct {\n\tDestination string\n\tDanger      int\n}\n\nfunc main() {\n\t// Create an Adventure with Destination "Blips and Chitz" and Danger 4\n\ta := Adventure{___}\n\tfmt.Println(a.Destination)\n\tfmt.Println(a.Danger)\n}`,
+    testCases: [
+      { input: "", expected: "Blips and Chitz\n4", description: "Adventure destination and danger level" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "rm-go-09",
+    themeId: "rick-and-morty",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "The Portal Calibrator",
+    narrative:
+      "Rick's portal gun only works with a positive frequency. If someone sets the frequency to zero — which Morty has done twice — the calibrator must return an error so Rick knows to confiscate the gun again. It returns both the calibrated frequency and any error.",
+    prompt:
+      "Write `calibrate(freq int) (int, error)` that returns `freq * 10, nil` if `freq > 0`, or `0, errors.New(\"invalid frequency\")` otherwise. In `main`, call it with `7`, print both values.",
+    hint: "Import `\"errors\"`. Check `if freq <= 0 { return 0, errors.New(\"invalid frequency\") }`. Otherwise `return freq * 10, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc calibrate(freq int) (int, error) {\n\tif freq <= 0 {\n\t\treturn 0, errors.New("invalid frequency")\n\t}\n\treturn freq * 10, nil\n}\n\nfunc main() {\n\tresult, err := calibrate(7)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc calibrate(freq int) (int, error) {\n\tif freq <= 0 {\n\t\treturn 0, errors.New("invalid frequency")\n\t}\n\t// Return freq * 10 and nil\n\treturn ___\n}\n\nfunc main() {\n\tresult, err := calibrate(7)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "70\n<nil>", description: "Frequency 7 calibrates to 70" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "rm-go-10",
+    themeId: "rick-and-morty",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "Portal Gun Malfunction",
+    narrative:
+      "Morty set the frequency to zero again. The portal gun makes a sad noise. The calibrator returns an error and someone needs to check it — because an unchecked error in this family leads to an entire dimension getting destroyed. Handle it properly.",
+    prompt:
+      "Call `calibrate(0)`. If `err != nil`, print `\"Malfunction:\"` followed by the error. Otherwise print the result.",
+    hint: "Use `result, err := calibrate(0)`. Then `if err != nil { fmt.Println(\"Malfunction:\", err) } else { fmt.Println(result) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc calibrate(freq int) (int, error) {\n\tif freq <= 0 {\n\t\treturn 0, errors.New("invalid frequency")\n\t}\n\treturn freq * 10, nil\n}\n\nfunc main() {\n\tresult, err := calibrate(0)\n\tif err != nil {\n\t\tfmt.Println("Malfunction:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc calibrate(freq int) (int, error) {\n\tif freq <= 0 {\n\t\treturn 0, errors.New("invalid frequency")\n\t}\n\treturn freq * 10, nil\n}\n\nfunc main() {\n\tresult, err := calibrate(0)\n\t// Check for error and print accordingly\n\tif ___ {\n\t\tfmt.Println("Malfunction:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Malfunction: invalid frequency", description: "Zero frequency triggers the malfunction" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

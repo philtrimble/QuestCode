@@ -101,4 +101,104 @@ export const breakingBadGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "bb-go-06",
+    themeId: "breaking-bad",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "Heisenberg's Label",
+    narrative:
+      "Every batch of Blue Sky needs a label. Walter insists on precision — the product name and the purity percentage must be formatted exactly right, because imprecision is for lesser chemists. Jesse just wants to know what to write on the bag.",
+    prompt:
+      "Use `fmt.Sprintf` to format a label. Given `product := \"Blue Sky\"` and `purity := 99`, produce `\"Blue Sky purity: 99%\"` and print it.",
+    hint: "Use `label := fmt.Sprintf(\"%s purity: %d%%\", product, purity)`. The `%%` prints a literal percent sign.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tproduct := "Blue Sky"\n\tpurity := 99\n\tlabel := fmt.Sprintf("%s purity: %d%%", product, purity)\n\tfmt.Println(label)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\tproduct := "Blue Sky"\n\tpurity := 99\n\t// Use fmt.Sprintf to build the label\n\tlabel := fmt.Sprintf(___, product, purity)\n\tfmt.Println(label)\n}`,
+    testCases: [
+      { input: "", expected: "Blue Sky purity: 99%", description: "Formatted batch label" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-go-07",
+    themeId: "breaking-bad",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "The Distribution Ledger",
+    narrative:
+      "Saul has set up a coded ledger to track each distributor and the number of units they are responsible for. Mike can look up any name in the map without leaving a paper trail. Walt insists the math must always be exact.",
+    prompt:
+      "Create a map `ledger` of type `map[string]int`. Add `\"Jesse\"` with value `50` and `\"Saul\"` with value `20`. Print the value for `\"Jesse\"`.",
+    hint: "Use `ledger := map[string]int{}`, assign both entries, then print `ledger[\"Jesse\"]`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tledger := map[string]int{}\n\tledger["Jesse"] = 50\n\tledger["Saul"] = 20\n\tfmt.Println(ledger["Jesse"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tledger := map[string]int{}\n\t// Add Jesse and Saul\n\tledger[___] = 50\n\tledger[___] = 20\n\t// Print Jesse's units\n\tfmt.Println(ledger[___])\n}`,
+    testCases: [
+      { input: "", expected: "50", description: "Jesse is responsible for 50 units" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-go-08",
+    themeId: "breaking-bad",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "The Cook Profile",
+    narrative:
+      "Mike needs a proper data record for each cook — the chemist's alias and their purity rating. A struct keeps the information tight and queryable. Walt refuses to go by anything other than Heisenberg.",
+    prompt:
+      "Define a struct `Cook` with fields `Alias string` and `Purity int`. Create an instance with `Alias: \"Heisenberg\"` and `Purity: 99`. Print both fields.",
+    hint: "Define `type Cook struct { Alias string; Purity int }` above `main`. Create with `c := Cook{Alias: \"Heisenberg\", Purity: 99}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Cook struct {\n\tAlias  string\n\tPurity int\n}\n\nfunc main() {\n\tc := Cook{Alias: "Heisenberg", Purity: 99}\n\tfmt.Println(c.Alias)\n\tfmt.Println(c.Purity)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Cook struct {\n\tAlias  string\n\tPurity int\n}\n\nfunc main() {\n\t// Create a Cook with Alias "Heisenberg" and Purity 99\n\tc := Cook{___}\n\tfmt.Println(c.Alias)\n\tfmt.Println(c.Purity)\n}`,
+    testCases: [
+      { input: "", expected: "Heisenberg\n99", description: "Cook alias and purity level" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "bb-go-09",
+    themeId: "breaking-bad",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "The Purity Verifier",
+    narrative:
+      "Before any batch ships, it must pass the purity verifier. The function returns both the verified purity and an error — because if someone claims a purity below 96, something went wrong in the lab and Walt needs to know immediately.",
+    prompt:
+      "Write `verifyPurity(purity int) (int, error)` that returns `purity, nil` if `purity >= 96`, or `0, errors.New(\"below standard\")` otherwise. In `main`, call it with `98`, print both values.",
+    hint: "Import `\"errors\"`. Check `if purity < 96 { return 0, errors.New(\"below standard\") }`. Otherwise `return purity, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc verifyPurity(purity int) (int, error) {\n\tif purity < 96 {\n\t\treturn 0, errors.New("below standard")\n\t}\n\treturn purity, nil\n}\n\nfunc main() {\n\tresult, err := verifyPurity(98)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc verifyPurity(purity int) (int, error) {\n\tif purity < 96 {\n\t\treturn 0, errors.New("below standard")\n\t}\n\t// Return purity and nil\n\treturn ___\n}\n\nfunc main() {\n\tresult, err := verifyPurity(98)\n\tfmt.Println(result)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "98\n<nil>", description: "98% purity passes verification" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "bb-go-10",
+    themeId: "breaking-bad",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "Rejected Batch",
+    narrative:
+      "A cook came in at 94% purity — well below Walt's standard. The verifier returns an error, and the system must log it before Gus finds out. Proper error handling is the difference between a warning and a disaster.",
+    prompt:
+      "Call `verifyPurity(94)`. If `err != nil`, print `\"Rejected:\"` followed by the error. Otherwise print the purity.",
+    hint: "Use `result, err := verifyPurity(94)`. Then `if err != nil { fmt.Println(\"Rejected:\", err) } else { fmt.Println(result) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc verifyPurity(purity int) (int, error) {\n\tif purity < 96 {\n\t\treturn 0, errors.New("below standard")\n\t}\n\treturn purity, nil\n}\n\nfunc main() {\n\tresult, err := verifyPurity(94)\n\tif err != nil {\n\t\tfmt.Println("Rejected:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc verifyPurity(purity int) (int, error) {\n\tif purity < 96 {\n\t\treturn 0, errors.New("below standard")\n\t}\n\treturn purity, nil\n}\n\nfunc main() {\n\tresult, err := verifyPurity(94)\n\t// Check for error and print accordingly\n\tif ___ {\n\t\tfmt.Println("Rejected:", err)\n\t} else {\n\t\tfmt.Println(result)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Rejected: below standard", description: "94% purity is rejected" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

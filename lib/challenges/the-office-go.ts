@@ -101,4 +101,104 @@ export const theOfficeGoChallenges: Challenge[] = [
     concept: "Loops",
     difficulty: "intermediate",
   },
+  {
+    id: "to-go-06",
+    themeId: "the-office",
+    languageId: "go",
+    order: 6,
+    title: "String Formatting",
+    themedTitle: "Michael's Award Announcement",
+    narrative:
+      "It is once again Dundie season. Michael Scott has taken it upon himself to personally format every award announcement — because the IT department's templates lack personality. Each announcement combines the winner's name and their award title.",
+    prompt:
+      "Use `fmt.Sprintf` to format an announcement. Given `winner := \"Dwight\"` and `award := \"Volunteer Sheriff\"`, produce `\"And the Dundie goes to Dwight for Volunteer Sheriff\"` and print it.",
+    hint: "Use `msg := fmt.Sprintf(\"And the Dundie goes to %s for %s\", winner, award)` then `fmt.Println(msg)`.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\twinner := "Dwight"\n\taward := "Volunteer Sheriff"\n\tmsg := fmt.Sprintf("And the Dundie goes to %s for %s", winner, award)\n\tfmt.Println(msg)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\twinner := "Dwight"\n\taward := "Volunteer Sheriff"\n\t// Use fmt.Sprintf to build the announcement\n\tmsg := fmt.Sprintf(___, winner, award)\n\tfmt.Println(msg)\n}`,
+    testCases: [
+      { input: "", expected: "And the Dundie goes to Dwight for Volunteer Sheriff", description: "Formatted Dundie announcement" },
+    ],
+    concept: "String Formatting",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-go-07",
+    themeId: "the-office",
+    languageId: "go",
+    order: 7,
+    title: "Maps",
+    themedTitle: "The Scranton Branch Sales Map",
+    narrative:
+      "Dwight tracks every salesperson's monthly units in a map so he can compare his numbers to Jim's at a glance. The map must be accurate — Dwight will not tolerate data that has been tampered with by a certain someone.",
+    prompt:
+      "Create a map `sales` of type `map[string]int`. Add `\"Dwight\"` with value `52` and `\"Jim\"` with value `44`. Print the value for `\"Dwight\"`.",
+    hint: "Use `sales := map[string]int{}`, then assign and access entries by name.",
+    solution: `package main\n\nimport "fmt"\n\nfunc main() {\n\tsales := map[string]int{}\n\tsales["Dwight"] = 52\n\tsales["Jim"] = 44\n\tfmt.Println(sales["Dwight"])\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\nfunc main() {\n\t// Create the map\n\tsales := map[string]int{}\n\t// Add Dwight and Jim\n\tsales[___] = 52\n\tsales[___] = 44\n\t// Print Dwight's sales\n\tfmt.Println(sales[___])\n}`,
+    testCases: [
+      { input: "", expected: "52", description: "Dwight sold 52 units" },
+    ],
+    concept: "Maps",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-go-08",
+    themeId: "the-office",
+    languageId: "go",
+    order: 8,
+    title: "Structs",
+    themedTitle: "Employee of the Month",
+    narrative:
+      "The HR system needs a structured record for Employee of the Month. Toby insisted on a proper data format after the last incident where Michael wrote the winner's name in gold glitter. The struct will hold the name and the number of years at Dunder Mifflin.",
+    prompt:
+      "Define a struct `Employee` with fields `Name string` and `Years int`. Create an instance with `Name: \"Pam\"` and `Years: 9`. Print both fields.",
+    hint: "Define `type Employee struct { Name string; Years int }` above `main`. Create with `e := Employee{Name: \"Pam\", Years: 9}`.",
+    solution: `package main\n\nimport "fmt"\n\ntype Employee struct {\n\tName  string\n\tYears int\n}\n\nfunc main() {\n\te := Employee{Name: "Pam", Years: 9}\n\tfmt.Println(e.Name)\n\tfmt.Println(e.Years)\n}`,
+    starterCode: `package main\n\nimport "fmt"\n\ntype Employee struct {\n\tName  string\n\tYears int\n}\n\nfunc main() {\n\t// Create an Employee with Name "Pam" and Years 9\n\te := Employee{___}\n\tfmt.Println(e.Name)\n\tfmt.Println(e.Years)\n}`,
+    testCases: [
+      { input: "", expected: "Pam\n9", description: "Employee name and years of service" },
+    ],
+    concept: "Structs",
+    difficulty: "intermediate",
+  },
+  {
+    id: "to-go-09",
+    themeId: "the-office",
+    languageId: "go",
+    order: 9,
+    title: "Multiple Return Values",
+    themedTitle: "The Commission Calculator",
+    narrative:
+      "Jim needs a reliable commission calculator that returns both the payout and an error — because Michael once approved a negative commission and the accounting department is still recovering. The function catches impossible values before they hit the payroll system.",
+    prompt:
+      "Write `commission(sales int) (int, error)` that returns `sales / 10, nil` if `sales > 0`, or `0, errors.New(\"no sales\")` otherwise. In `main`, call it with `300`, print both values.",
+    hint: "Import `\"errors\"`. Check `if sales <= 0 { return 0, errors.New(\"no sales\") }`. Otherwise `return sales / 10, nil`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc commission(sales int) (int, error) {\n\tif sales <= 0 {\n\t\treturn 0, errors.New("no sales")\n\t}\n\treturn sales / 10, nil\n}\n\nfunc main() {\n\tpayout, err := commission(300)\n\tfmt.Println(payout)\n\tfmt.Println(err)\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc commission(sales int) (int, error) {\n\tif sales <= 0 {\n\t\treturn 0, errors.New("no sales")\n\t}\n\t// Return sales / 10 and nil\n\treturn ___\n}\n\nfunc main() {\n\tpayout, err := commission(300)\n\tfmt.Println(payout)\n\tfmt.Println(err)\n}`,
+    testCases: [
+      { input: "", expected: "30\n<nil>", description: "300 in sales yields a 30 commission" },
+    ],
+    concept: "Multiple Return Values",
+    difficulty: "advanced",
+  },
+  {
+    id: "to-go-10",
+    themeId: "the-office",
+    languageId: "go",
+    order: 10,
+    title: "Error Handling",
+    themedTitle: "The Zero-Sales Incident",
+    narrative:
+      "Ryan submitted a zero-sales report for the third time. The commission function returns an error, and this time Toby has configured the system to log every error properly. Michael wants to fire Ryan again, but the error handling procedure runs first.",
+    prompt:
+      "Call `commission(0)`. If `err != nil`, print `\"Error:\"` followed by the error. Otherwise print the payout.",
+    hint: "Use `payout, err := commission(0)`. Then `if err != nil { fmt.Println(\"Error:\", err) } else { fmt.Println(payout) }`.",
+    solution: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc commission(sales int) (int, error) {\n\tif sales <= 0 {\n\t\treturn 0, errors.New("no sales")\n\t}\n\treturn sales / 10, nil\n}\n\nfunc main() {\n\tpayout, err := commission(0)\n\tif err != nil {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(payout)\n\t}\n}`,
+    starterCode: `package main\n\nimport (\n\t"errors"\n\t"fmt"\n)\n\nfunc commission(sales int) (int, error) {\n\tif sales <= 0 {\n\t\treturn 0, errors.New("no sales")\n\t}\n\treturn sales / 10, nil\n}\n\nfunc main() {\n\tpayout, err := commission(0)\n\t// Check for error and print accordingly\n\tif ___ {\n\t\tfmt.Println("Error:", err)\n\t} else {\n\t\tfmt.Println(payout)\n\t}\n}`,
+    testCases: [
+      { input: "", expected: "Error: no sales", description: "Zero sales triggers the error path" },
+    ],
+    concept: "Error Handling",
+    difficulty: "advanced",
+  },
 ];

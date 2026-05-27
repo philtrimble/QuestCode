@@ -105,4 +105,105 @@ export const strangerThingsPythonChallenges: Challenge[] = [
     concept: "Dictionaries",
     difficulty: "beginner",
   },
+  {
+    id: "st-py-06",
+    themeId: "stranger-things",
+    languageId: "python",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Eleven's Walkie-Talkie Transmission",
+    narrative:
+      "Eleven is trying to communicate through the Upside Down's interference. The message arrives garbled — extra whitespace, wrong capitalization, and scrambled words. Mike needs you to clean the signal before it's too late.",
+    prompt:
+      "Write a function called `clean_transmission(message)` that:\n1. Strips leading/trailing whitespace with `.strip()`\n2. Converts the message to uppercase with `.upper()`\n3. Replaces the word `\"UNKNOWN\"` with `\"ELEVEN\"` using `.replace()`\nReturn the cleaned string. Test with `clean_transmission(\"  unknown is safe  \")`.",
+    hint: "Chain your string methods: first `.strip()`, then `.upper()`, then `.replace()`. You can call them one after another on the same string.",
+    solution: `def clean_transmission(message):\n    return message.strip().upper().replace("UNKNOWN", "ELEVEN")\n\nprint(clean_transmission("  unknown is safe  "))`,
+    starterCode: `# Eleven's Walkie-Talkie Transmission\n# Clean the incoming signal\n\ndef clean_transmission(message):\n    # Strip whitespace, uppercase, replace "UNKNOWN" with "ELEVEN"\n    return message.strip().upper().replace(___, ___)\n\nprint(clean_transmission("  unknown is safe  "))  # Should print: ELEVEN IS SAFE`,
+    testCases: [
+      { input: "  unknown is safe  ", expected: "ELEVEN IS SAFE", description: "Strips, uppercases, and replaces the placeholder" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-py-07",
+    themeId: "stranger-things",
+    languageId: "python",
+    order: 7,
+    title: "List Comprehension",
+    themedTitle: "The Upside Down Creatures",
+    narrative:
+      "Dustin has catalogued every creature from the Upside Down in his notebook. He needs a filtered list showing only the creatures whose names are longer than 8 characters — the big ones are always the most dangerous.",
+    prompt:
+      "Use a list comprehension to create a new list called `big_creatures` from `creatures = [\"Demogorgon\", \"Dart\", \"Mind Flayer\", \"Demodog\", \"Demobat\", \"Shadow Monster\"]` that contains only creatures with names longer than 8 characters. Print the result.",
+    hint: "List comprehension syntax: `[item for item in list if condition]`. Check length with `len(item) > 8`.",
+    solution: `creatures = ["Demogorgon", "Dart", "Mind Flayer", "Demodog", "Demobat", "Shadow Monster"]\nbig_creatures = [c for c in creatures if len(c) > 8]\nprint(big_creatures)`,
+    starterCode: `# The Upside Down Creatures\n# Filter creatures whose names are longer than 8 characters\n\ncreatures = ["Demogorgon", "Dart", "Mind Flayer", "Demodog", "Demobat", "Shadow Monster"]\nbig_creatures = [___ for ___ in creatures if len(___) > 8]\nprint(big_creatures)`,
+    testCases: [
+      { input: "", expected: "['Demogorgon', 'Mind Flayer', 'Shadow Monster']", description: "Only creatures with names longer than 8 chars" },
+    ],
+    concept: "List Comprehension",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-py-08",
+    themeId: "stranger-things",
+    languageId: "python",
+    order: 8,
+    title: "Nested Data Structures",
+    themedTitle: "Hawkins Lab's Research Files",
+    narrative:
+      "Dr. Brenner kept detailed files on each of his test subjects. The documents have been recovered from the Hawkins National Laboratory — each subject is a dictionary inside a master list. Joyce needs you to find subject 011.",
+    prompt:
+      "You have a list of subject dictionaries:\n`subjects = [{\"id\": \"009\", \"name\": \"Unknown\", \"power\": \"none\"}, {\"id\": \"011\", \"name\": \"Eleven\", \"power\": \"telekinesis\"}, {\"id\": \"008\", \"name\": \"Kali\", \"power\": \"illusions\"}]`\nWrite a function `find_subject(subjects, subject_id)` that returns the `name` of the subject whose `id` matches `subject_id`. Test with `find_subject(subjects, \"011\")`.",
+    hint: "Loop through the list and check each dictionary's `\"id\"` key with `subject[\"id\"] == subject_id`.",
+    solution: `subjects = [\n    {"id": "009", "name": "Unknown", "power": "none"},\n    {"id": "011", "name": "Eleven", "power": "telekinesis"},\n    {"id": "008", "name": "Kali", "power": "illusions"}\n]\n\ndef find_subject(subjects, subject_id):\n    for subject in subjects:\n        if subject["id"] == subject_id:\n            return subject["name"]\n\nprint(find_subject(subjects, "011"))`,
+    starterCode: `# Hawkins Lab's Research Files\n\nsubjects = [\n    {"id": "009", "name": "Unknown", "power": "none"},\n    {"id": "011", "name": "Eleven", "power": "telekinesis"},\n    {"id": "008", "name": "Kali", "power": "illusions"}\n]\n\ndef find_subject(subjects, subject_id):\n    for subject in subjects:\n        if subject[___] == subject_id:\n            return subject[___]\n\nprint(find_subject(subjects, "011"))  # Should print: Eleven`,
+    testCases: [
+      { input: "011", expected: "Eleven", description: "Returns the name of subject 011" },
+    ],
+    concept: "Nested Data Structures",
+    difficulty: "intermediate",
+  },
+  {
+    id: "st-py-09",
+    themeId: "stranger-things",
+    languageId: "python",
+    order: 9,
+    title: "Sorting",
+    themedTitle: "The Party's Power Rankings",
+    narrative:
+      "Hopper is ranking the party members by threat level to determine who faces the Demogorgons first. He needs them sorted from lowest to highest threat score so tactical decisions can be made quickly.",
+    prompt:
+      "You have a list of party members with threat scores:\n`party = [{\"name\": \"Mike\", \"threat\": 3}, {\"name\": \"Eleven\", \"threat\": 10}, {\"name\": \"Dustin\", \"threat\": 4}, {\"name\": \"Lucas\", \"threat\": 6}, {\"name\": \"Will\", \"threat\": 2}]`\nUse `sorted()` with a `key=` parameter to sort by `\"threat\"` score ascending. Print the name and threat score of each member in sorted order.",
+    hint: "Use `sorted(party, key=lambda x: x[\"threat\"])` to sort by the threat value. Then loop through to print each member.",
+    solution: `party = [\n    {"name": "Mike", "threat": 3},\n    {"name": "Eleven", "threat": 10},\n    {"name": "Dustin", "threat": 4},\n    {"name": "Lucas", "threat": 6},\n    {"name": "Will", "threat": 2}\n]\n\nranked = sorted(party, key=lambda x: x["threat"])\nfor member in ranked:\n    print(f"{member['name']}: {member['threat']}")`,
+    starterCode: `# The Party's Power Rankings\n\nparty = [\n    {"name": "Mike", "threat": 3},\n    {"name": "Eleven", "threat": 10},\n    {"name": "Dustin", "threat": 4},\n    {"name": "Lucas", "threat": 6},\n    {"name": "Will", "threat": 2}\n]\n\nranked = sorted(party, key=lambda x: x[___])\nfor member in ranked:\n    print(f"{member['name']}: {member['threat']}")`,
+    testCases: [
+      { input: "", expected: "Will: 2\nMike: 3\nDustin: 4\nLucas: 6\nEleven: 10", description: "Party members sorted by threat score ascending" },
+    ],
+    concept: "Sorting",
+    difficulty: "advanced",
+  },
+  {
+    id: "st-py-10",
+    themeId: "stranger-things",
+    languageId: "python",
+    order: 10,
+    title: "Exception Handling",
+    themedTitle: "The Gate Won't Open",
+    narrative:
+      "Eleven is trying to open a gate to find Will, but the interdimensional coordinates might be invalid. If bad data is passed to the portal system, it crashes. Joyce needs you to wrap the code in exception handling so the gate attempt is graceful even when things go wrong.",
+    prompt:
+      "Write a function `open_gate(coordinate)` that tries to convert `coordinate` to an integer using `int()`. If it succeeds, return `f\"Gate opened at coordinate {coordinate}\"`.\nIf a `ValueError` is raised, return `\"Invalid coordinate — gate failed to open\"`.\nTest with `open_gate(\"42\")` and `open_gate(\"upside_down\")`.",
+    hint: "Use a `try` block to attempt the conversion and an `except ValueError` block to catch the error. Return the appropriate string from each block.",
+    solution: `def open_gate(coordinate):\n    try:\n        int(coordinate)\n        return f"Gate opened at coordinate {coordinate}"\n    except ValueError:\n        return "Invalid coordinate — gate failed to open"\n\nprint(open_gate("42"))\nprint(open_gate("upside_down"))`,
+    starterCode: `# The Gate Won't Open\n\ndef open_gate(coordinate):\n    try:\n        int(coordinate)\n        return f"Gate opened at coordinate {coordinate}"\n    except ___:\n        return "Invalid coordinate — gate failed to open"\n\nprint(open_gate("42"))           # Gate opened at coordinate 42\nprint(open_gate("upside_down"))  # Invalid coordinate — gate failed to open`,
+    testCases: [
+      { input: "42", expected: "Gate opened at coordinate 42", description: "Valid coordinate opens the gate" },
+      { input: "upside_down", expected: "Invalid coordinate — gate failed to open", description: "Invalid coordinate is handled gracefully" },
+    ],
+    concept: "Exception Handling",
+    difficulty: "advanced",
+  },
 ];

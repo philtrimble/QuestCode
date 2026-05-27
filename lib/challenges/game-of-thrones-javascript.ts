@@ -101,4 +101,104 @@ export const gameOfThronesJavaScriptChallenges: Challenge[] = [
     concept: "Array Methods",
     difficulty: "intermediate",
   },
+  {
+    id: "got-js-06",
+    themeId: "game-of-thrones",
+    languageId: "javascript",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Formatting the Raven Scroll",
+    narrative:
+      "The ravens carry scrolls, and scrolls must be legible. The maester's apprentice keeps sending messages in inconsistent formatting — lowercase, padded with spaces. Before the scroll is sent to Castle Black, it must be properly formatted.",
+    prompt:
+      "Given `const scroll = \"  winter is coming  \"`, use string methods to: (1) `.trim()` whitespace, (2) `.toUpperCase()`, and (3) `.replace(\"WINTER\", \"THE DEAD\")`. Log the result.",
+    hint: "Chain methods: `scroll.trim().toUpperCase().replace(...)`",
+    solution: `const scroll = "  winter is coming  ";\nconst formatted = scroll.trim().toUpperCase().replace("WINTER", "THE DEAD");\nconsole.log(formatted);`,
+    starterCode: `// Formatting the Raven Scroll\n// Trim, uppercase, then replace "WINTER" with "THE DEAD"\n\nconst scroll = "  winter is coming  ";\nconst formatted = scroll.trim().___.___;\nconsole.log(formatted);  // Should print: THE DEAD IS COMING`,
+    testCases: [
+      { input: "", expected: "THE DEAD IS COMING", description: "Formatted raven scroll" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-js-07",
+    themeId: "game-of-thrones",
+    languageId: "javascript",
+    order: 7,
+    title: ".map()",
+    themedTitle: "Daenerys's Dragon Fire Power",
+    narrative:
+      "Daenerys's three dragons have been growing. Each dragon's fire power rating doubles as they mature through a new growth cycle. Missandei needs the updated ratings before the war council meeting.",
+    prompt:
+      "Given `const firePower = [40, 65, 55]` (Drogon, Rhaegal, Viserion), use `.map()` to create `matured` where each power is multiplied by `2`. Log `matured`.",
+    hint: "Use `firePower.map(f => f * 2)` to double each dragon's power.",
+    solution: `const firePower = [40, 65, 55];\nconst matured = firePower.map(f => f * 2);\nconsole.log(matured);`,
+    starterCode: `// Daenerys's Dragon Fire Power\n// Use .map() to double each dragon's fire power\n\nconst firePower = [40, 65, 55];\nconst matured = firePower.map(___);\nconsole.log(matured);  // Should print: [80, 130, 110]`,
+    testCases: [
+      { input: "", expected: "[80, 130, 110]", description: "All dragon fire powers doubled" },
+    ],
+    concept: ".map()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-js-08",
+    themeId: "game-of-thrones",
+    languageId: "javascript",
+    order: 8,
+    title: ".reduce()",
+    themedTitle: "Counting the Fallen at the Battle of Winterfell",
+    narrative:
+      "The Battle of Winterfell was devastating. The Night's Watch, the wildlings, the Dothraki, the Unsullied — each force suffered losses. Jon Snow needs the total death count before the ravens can be sent.",
+    prompt:
+      "Given `const losses = [312, 580, 240, 415, 178]`, use `.reduce()` to calculate the total fallen. Log the result.",
+    hint: "Use `losses.reduce((total, l) => total + l, 0)` to sum all casualties.",
+    solution: `const losses = [312, 580, 240, 415, 178];\nconst total = losses.reduce((acc, l) => acc + l, 0);\nconsole.log(total);`,
+    starterCode: `// Counting the Fallen at the Battle of Winterfell\n// Use .reduce() to total all casualty counts\n\nconst losses = [312, 580, 240, 415, 178];\nconst total = losses.reduce(___);\nconsole.log(total);  // Should print: 1725`,
+    testCases: [
+      { input: "", expected: "1725", description: "Total fallen at the Battle of Winterfell" },
+    ],
+    concept: ".reduce()",
+    difficulty: "intermediate",
+  },
+  {
+    id: "got-js-09",
+    themeId: "game-of-thrones",
+    languageId: "javascript",
+    order: 9,
+    title: "Spread & Destructuring",
+    themedTitle: "Uniting the Great Houses",
+    narrative:
+      "Daenerys and Jon are forging an alliance. Their respective house rosters must be combined into a unified council, and the first two names will be seated at the head of the war table.",
+    prompt:
+      "Given `const targaryens = [\"Daenerys\", \"Viserys\", \"Rhaegar\"]` and `const starks = [\"Jon\", \"Sansa\", \"Arya\"]`, spread-combine into `council`. Destructure the first two as `seat1` and `seat2`. Log both.",
+    hint: "Spread: `[...arr1, ...arr2]`. Destructure: `const [a, b] = array`.",
+    solution: `const targaryens = ["Daenerys", "Viserys", "Rhaegar"];\nconst starks = ["Jon", "Sansa", "Arya"];\nconst council = [...targaryens, ...starks];\nconst [seat1, seat2] = council;\nconsole.log(seat1);\nconsole.log(seat2);`,
+    starterCode: `// Uniting the Great Houses\n// Spread-combine the arrays, then destructure the first two council members\n\nconst targaryens = ["Daenerys", "Viserys", "Rhaegar"];\nconst starks = ["Jon", "Sansa", "Arya"];\nconst council = [...];\nconst [seat1, seat2] = council;\nconsole.log(seat1);\nconsole.log(seat2);`,
+    testCases: [
+      { input: "", expected: "Daenerys\nViserys", description: "First two seats at the war council" },
+    ],
+    concept: "Spread & Destructuring",
+    difficulty: "advanced",
+  },
+  {
+    id: "got-js-10",
+    themeId: "game-of-thrones",
+    languageId: "javascript",
+    order: 10,
+    title: "Object.keys() & Iteration",
+    themedTitle: "The Small Council Agenda",
+    narrative:
+      "Tyrion has prepared an agenda for the Small Council meeting. Each agenda item has a priority level. He needs to print every item alongside its priority so the council can see what they're walking into.",
+    prompt:
+      "Given `const agenda = { succession: 1, dragons: 2, treasury: 3, borders: 4 }`, use `Object.keys()` to iterate and log each item and priority in the format `\"succession: 1\"`.",
+    hint: "Use `Object.keys(agenda).forEach(key => console.log(key + \": \" + agenda[key]))`.",
+    solution: `const agenda = { succession: 1, dragons: 2, treasury: 3, borders: 4 };\nObject.keys(agenda).forEach(key => {\n  console.log(key + ": " + agenda[key]);\n});`,
+    starterCode: `// The Small Council Agenda\n// Use Object.keys() to log each agenda item and its priority\n\nconst agenda = { succession: 1, dragons: 2, treasury: 3, borders: 4 };\nObject.keys(agenda).forEach(key => {\n  console.log(___);\n});`,
+    testCases: [
+      { input: "", expected: "succession: 1\ndragons: 2\ntreasury: 3\nborders: 4", description: "Full Small Council agenda" },
+    ],
+    concept: "Object.keys() & Iteration",
+    difficulty: "advanced",
+  },
 ];

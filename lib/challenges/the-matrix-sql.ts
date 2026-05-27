@@ -121,4 +121,124 @@ export const theMatrixSQLChallenges: Challenge[] = [
     concept: "GROUP BY",
     difficulty: "intermediate",
   },
+  {
+    id: "mx-sql-06",
+    themeId: "the-matrix",
+    languageId: "sql",
+    order: 6,
+    title: "INNER JOIN",
+    themedTitle: "Anomalies and Their Agents",
+    narrative:
+      "The Architect needs a consolidated view linking each anomaly record with the agent assigned to handle it. The `anomalies` table and the `agents` table share a relationship through the `assigned_agent` column. Merge them before the next iteration begins.",
+    prompt:
+      "Write a query that selects `anomalies.type`, `anomalies.threat_level`, and `agents.designation` by performing an INNER JOIN between `anomalies` and `agents` on `anomalies.assigned_agent = agents.name`.",
+    hint: "Use `INNER JOIN agents ON anomalies.assigned_agent = agents.name`.",
+    solution: `SELECT anomalies.type, anomalies.threat_level, agents.designation\nFROM anomalies\nINNER JOIN agents ON anomalies.assigned_agent = agents.name;`,
+    starterCode: `-- Anomalies and Their Agents\n-- Join anomalies with agents on assigned_agent\n\nSELECT anomalies.type, anomalies.threat_level, agents.designation\nFROM anomalies\n___ JOIN agents ON ___;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN agents ON anomalies.assigned_agent = agents.name",
+        description: "Joins anomalies and agents tables",
+      },
+    ],
+    concept: "INNER JOIN",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-sql-07",
+    themeId: "the-matrix",
+    languageId: "sql",
+    order: 7,
+    title: "HAVING",
+    themedTitle: "Overloaded Agents",
+    narrative:
+      "The system is experiencing cascading failures. Neo and Morpheus need to know which agents have been assigned more than one anomaly — those agents are either overwhelmed or dangerously capable.",
+    prompt:
+      "Write a query that selects `assigned_agent` and `COUNT(*) AS assignment_count` from `anomalies`, grouped by `assigned_agent`, filtered with HAVING to show only agents with more than 1 assignment, ordered by `assignment_count` descending.",
+    hint: "Use `HAVING COUNT(*) > 1` after `GROUP BY assigned_agent`.",
+    solution: `SELECT assigned_agent, COUNT(*) AS assignment_count\nFROM anomalies\nGROUP BY assigned_agent\nHAVING COUNT(*) > 1\nORDER BY assignment_count DESC;`,
+    starterCode: `-- Overloaded Agents\n-- Find agents assigned to more than one anomaly\n\nSELECT assigned_agent, COUNT(*) AS assignment_count\nFROM anomalies\nGROUP BY assigned_agent\nHAVING ___\nORDER BY assignment_count DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "HAVING COUNT(*) > 1",
+        description: "Filters for agents with multiple assignments",
+      },
+    ],
+    concept: "HAVING",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-sql-08",
+    themeId: "the-matrix",
+    languageId: "sql",
+    order: 8,
+    title: "Subquery",
+    themedTitle: "Above-Threshold Anomalies",
+    narrative:
+      "The Oracle has foreseen that only the anomalies exceeding the average threat level will trigger the system reboot. Trinity needs to isolate exactly those records before the machines can respond.",
+    prompt:
+      "Write a query that selects `type`, `assigned_agent`, and `threat_level` from `anomalies` WHERE `threat_level` is greater than the average threat level across all anomalies (use a subquery).",
+    hint: "Use `WHERE threat_level > (SELECT AVG(threat_level) FROM anomalies)`.",
+    solution: `SELECT type, assigned_agent, threat_level\nFROM anomalies\nWHERE threat_level > (SELECT AVG(threat_level) FROM anomalies);`,
+    starterCode: `-- Above-Threshold Anomalies\n-- Find anomalies with above-average threat levels\n\nSELECT type, assigned_agent, threat_level\nFROM anomalies\nWHERE threat_level > (___ AVG(threat_level) FROM anomalies);`,
+    testCases: [
+      {
+        input: "",
+        expected: "WHERE threat_level > (SELECT AVG(threat_level) FROM anomalies)",
+        description: "Subquery isolates above-average threat anomalies",
+      },
+    ],
+    concept: "Subquery",
+    difficulty: "intermediate",
+  },
+  {
+    id: "mx-sql-09",
+    themeId: "the-matrix",
+    languageId: "sql",
+    order: 9,
+    title: "CASE WHEN",
+    themedTitle: "Anomaly Severity Codes",
+    narrative:
+      "The Architect classifies every anomaly into a response protocol tier. The machines don't respond to nuance — they respond to codes. Translate each threat level into the system's official severity classification.",
+    prompt:
+      "Write a query that selects `type`, `threat_level`, and a computed `severity`: 'CRITICAL' when threat_level >= 9, 'ELEVATED' when threat_level >= 6, 'MONITORED' otherwise.",
+    hint: "Use `CASE WHEN threat_level >= 9 THEN 'CRITICAL' WHEN threat_level >= 6 THEN 'ELEVATED' ELSE 'MONITORED' END AS severity`.",
+    solution: `SELECT\n  type,\n  threat_level,\n  CASE\n    WHEN threat_level >= 9 THEN 'CRITICAL'\n    WHEN threat_level >= 6 THEN 'ELEVATED'\n    ELSE 'MONITORED'\n  END AS severity\nFROM anomalies;`,
+    starterCode: `-- Anomaly Severity Codes\n-- Classify each anomaly by threat severity code\n\nSELECT\n  type,\n  threat_level,\n  CASE\n    WHEN threat_level >= 9 THEN 'CRITICAL'\n    WHEN threat_level >= 6 THEN ___\n    ELSE ___\n  END AS severity\nFROM anomalies;`,
+    testCases: [
+      {
+        input: "",
+        expected: "CASE WHEN threat_level >= 9 THEN 'CRITICAL'",
+        description: "Classifies anomalies into severity codes",
+      },
+    ],
+    concept: "CASE WHEN",
+    difficulty: "advanced",
+  },
+  {
+    id: "mx-sql-10",
+    themeId: "the-matrix",
+    languageId: "sql",
+    order: 10,
+    title: "Multi-clause Query",
+    themedTitle: "Simulation Integrity Report",
+    narrative:
+      "The sixth version of the Matrix is failing. The Architect needs a complete integrity report: agent workloads joined with anomaly data, filtered to critical threats, grouped to show which agents face the most dangerous conditions.",
+    prompt:
+      "Write a query that JOINs `anomalies` and `agents` on `assigned_agent = agents.name`, selects `agents.designation`, `COUNT(*) AS anomaly_count`, and `AVG(anomalies.threat_level) AS avg_threat`, filters to `anomalies.threat_level >= 7`, groups by `agents.designation`, and orders by `avg_threat` descending.",
+    hint: "Chain INNER JOIN ... WHERE threat_level >= 7 GROUP BY agents.designation ORDER BY avg_threat DESC.",
+    solution: `SELECT\n  agents.designation,\n  COUNT(*) AS anomaly_count,\n  AVG(anomalies.threat_level) AS avg_threat\nFROM anomalies\nINNER JOIN agents ON anomalies.assigned_agent = agents.name\nWHERE anomalies.threat_level >= 7\nGROUP BY agents.designation\nORDER BY avg_threat DESC;`,
+    starterCode: `-- Simulation Integrity Report\n-- Join, filter, group, and rank agent threat data\n\nSELECT\n  agents.designation,\n  COUNT(*) AS anomaly_count,\n  AVG(anomalies.threat_level) AS avg_threat\nFROM anomalies\nINNER JOIN agents ON ___\nWHERE anomalies.threat_level >= 7\nGROUP BY ___\nORDER BY avg_threat DESC;`,
+    testCases: [
+      {
+        input: "",
+        expected: "INNER JOIN agents ON anomalies.assigned_agent = agents.name",
+        description: "Multi-clause query combining JOIN, WHERE, GROUP BY, ORDER BY",
+      },
+    ],
+    concept: "Multi-clause Query",
+    difficulty: "advanced",
+  },
 ];

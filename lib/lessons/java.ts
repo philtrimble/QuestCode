@@ -939,4 +939,1847 @@ export const javaLessons: Record<string, Lesson> = {
       "Print after the loop — not inside — to get the final result.",
     ],
   },
+
+  // ─── Arrested Development ─────────────────────────────────────────────────
+
+  "ad-java-01": {
+    intro: "George Bluth Sr. kept two sets of books for the Bluth Company — one for the IRS, one for the truth. This program covers the legitimate inventory: item name, quantity on hand, and the going price per unit.",
+    concept: "Java is statically typed: every variable must declare its type. `String` holds text (always double-quoted), `int` holds whole numbers, and `double` holds decimals. Statements end with a semicolon.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String item = "frozen banana";
+        int quantity = 250;
+        double priceEach = 1.50;
+        System.out.println(item);
+        System.out.println(quantity);
+        System.out.println(priceEach);
+    }
+}`,
+    exampleOutput: "frozen banana\n250\n1.5",
+    notes: "Three variables of three different types are declared and printed. `System.out.println()` prints the value and advances to a new line.",
+    keyPoints: [
+      "Every variable needs a type: `String`, `int`, `double`, `boolean`.",
+      "`String` values use double quotes; char literals use single quotes.",
+      "Statements end with `;`.",
+      "`System.out.println(val)` prints `val` followed by a newline.",
+    ],
+  },
+
+  "ad-java-02": {
+    intro: "Tobias is auditioning for an acting role and needs the casting director to understand his background. If he has an acting credit, he leads with that. Otherwise he falls back on his medical career — but only partially.",
+    concept: "An `if/else` block routes execution to one of two paths based on a boolean condition. Only one branch runs; the other is skipped.",
+    example: `public class Main {
+    static void introduce(boolean hasCredit) {
+        if (hasCredit) {
+            System.out.println("Actor and analyst.");
+        } else {
+            System.out.println("Analyst and actor-in-waiting.");
+        }
+    }
+    public static void main(String[] args) {
+        introduce(true);
+        introduce(false);
+    }
+}`,
+    exampleOutput: "Actor and analyst.\nAnalyst and actor-in-waiting.",
+    notes: "Called twice with different booleans. Each call executes exactly one branch of the `if/else`.",
+    keyPoints: [
+      "`if (condition) { }` runs the block when `condition` is `true`.",
+      "`else { }` runs when the condition is `false`.",
+      "Boolean variables don't need `== true`: just use `if (hasCredit)`.",
+      "Both `true` and `false` paths are tested here.",
+    ],
+  },
+
+  "ad-java-03": {
+    intro: "There's always money in the banana stand — $250,000 hidden in the walls. George Sr.'s accountant wrote a method to calculate how much money is stored based on units and value per unit.",
+    concept: "A `static` method in Java is called directly on the class without creating an instance. You declare its return type, name, and parameter list. `return` sends the computed value back to the caller.",
+    example: `public class Main {
+    static int totalValue(int units, int valueEach) {
+        return units * valueEach;
+    }
+    public static void main(String[] args) {
+        System.out.println(totalValue(250, 1000));
+    }
+}`,
+    exampleOutput: "250000",
+    notes: "`250 * 1000 = 250000`. The method computes the product and returns it; `main` prints the returned value.",
+    keyPoints: [
+      "`static int methodName(int a, int b) { return ...; }` — declare type, name, params.",
+      "`return` exits the method and sends the value back.",
+      "Call a static method from `main`: `ClassName.methodName(...)` or just `methodName(...)`.",
+      "The return type must match what you actually return.",
+    ],
+  },
+
+  "ad-java-04": {
+    intro: "Michael needs a printed roster of the Bluth family for the company restructuring meeting. Each name goes on its own line, enumerated cleanly using a for-each loop.",
+    concept: "Java arrays hold a fixed-size sequence of elements of the same type. A for-each loop iterates over every element without needing an index.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String[] family = {"Michael", "George Sr.", "Lucille", "Buster"};
+        for (String member : family) {
+            System.out.println(member);
+        }
+    }
+}`,
+    exampleOutput: "Michael\nGeorge Sr.\nLucille\nBuster",
+    notes: "The for-each loop reads as \"for each String `member` in `family`, run the block\". Cleaner than a traditional index loop when you don't need the index.",
+    keyPoints: [
+      "Array declaration: `String[] name = {\"a\", \"b\", \"c\"};`",
+      "For-each: `for (Type var : array) { ... }` — iterates every element.",
+      "`System.out.println()` prints each name on its own line.",
+      "Arrays have a fixed length set at creation.",
+    ],
+  },
+
+  "ad-java-05": {
+    intro: "Gob is running the 'Stair Car' tour for investors. Each lap is announced over the PA. He needs a numbered printout: one announcement per lap, for exactly four laps around the parking lot.",
+    concept: "A `for` loop with a counter variable repeats a block a known number of times. The counter can be used inside the loop body to produce numbered output.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 4; i++) {
+            System.out.println("Stair Car lap " + i);
+        }
+    }
+}`,
+    exampleOutput: "Stair Car lap 1\nStair Car lap 2\nStair Car lap 3\nStair Car lap 4",
+    notes: "`i` starts at `1`, the loop runs while `i <= 4`, and `i++` increments after each iteration. String concatenation with `+` builds the message.",
+    keyPoints: [
+      "For loop: `for (init; condition; update) { body }`.",
+      "Start at `1` when you want human-readable numbering.",
+      "String concatenation: `\"text\" + variable` builds a combined string.",
+      "`System.out.println()` prints and moves to the next line.",
+    ],
+  },
+
+  // ─── Barbie ───────────────────────────────────────────────────────────────
+
+  "ba-java-01": {
+    intro: "Barbie's Dream House is legendary. It needs to be properly documented: the address, the number of floors, and the price — all declared in a typed Java program before the open house.",
+    concept: "Java variables must declare their type before use. `String` holds text, `int` holds whole numbers, and `double` holds decimals. `System.out.println()` prints a value and adds a newline.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String address = "1 Dream House Lane";
+        int floors = 3;
+        double price = 1250000.00;
+        System.out.println(address);
+        System.out.println(floors);
+        System.out.println(price);
+    }
+}`,
+    exampleOutput: "1 Dream House Lane\n3\n1250000.0",
+    notes: "Three typed variables declared and printed. Java prints `double` values with a trailing `.0` if no fractional part is displayed.",
+    keyPoints: [
+      "Declare type before name: `String address = \"...\";`",
+      "Use `double` for decimals; `int` for whole numbers.",
+      "`System.out.println()` adds a newline after the value.",
+      "Java won't let you use a variable before declaring it.",
+    ],
+  },
+
+  "ba-java-02": {
+    intro: "The Barbie Dream Closet has a minimum pink ratio — at least 80% of outfits must be pink. This program checks whether a given percentage qualifies, or whether the wardrobe needs a redesign.",
+    concept: "`if/else` evaluates a boolean condition. If it's `true`, the first block runs. If `false`, the `else` block runs. Exactly one block executes per call.",
+    example: `public class Main {
+    static void checkWardrobe(int pinkPercent) {
+        if (pinkPercent >= 80) {
+            System.out.println("Dream Closet certified!");
+        } else {
+            System.out.println("Add more pink.");
+        }
+    }
+    public static void main(String[] args) {
+        checkWardrobe(90);
+        checkWardrobe(60);
+    }
+}`,
+    exampleOutput: "Dream Closet certified!\nAdd more pink.",
+    notes: "90 ≥ 80 so the first call passes; 60 < 80 so the second call hits the `else`. Each call runs exactly one branch.",
+    keyPoints: [
+      "`if (condition)` — the block runs when condition is `true`.",
+      "`else` handles every case where the `if` condition was `false`.",
+      "Comparison operator `>=` checks greater-than-or-equal.",
+      "The method is `static` — it can be called from `main` without an instance.",
+    ],
+  },
+
+  "ba-java-03": {
+    intro: "Barbie is planning her fashion week wardrobe. Each outfit requires a base cost plus accessories. The stylist's calculation method ensures everyone bills consistently — no surprises on the invoice.",
+    concept: "A `static` method packages reusable logic. Declare the return type, name, and parameters; the `return` statement sends the computed value back to the caller.",
+    example: `public class Main {
+    static int outfitCost(int base, int accessories) {
+        return base + accessories;
+    }
+    public static void main(String[] args) {
+        System.out.println(outfitCost(200, 75));
+    }
+}`,
+    exampleOutput: "275",
+    notes: "`200 + 75 = 275`. The method adds the two parameters and returns the result. `main` prints the returned value.",
+    keyPoints: [
+      "Method signature: `static int name(int a, int b)`.",
+      "`return expr;` exits the method and sends `expr` back.",
+      "The return type in the signature must match the returned value.",
+      "Call from `main` as: `outfitCost(200, 75)`.",
+    ],
+  },
+
+  "ba-java-04": {
+    intro: "Barbie has held every career — astronaut, doctor, president, teacher. For the career fair, all her job titles need to be printed on placards, one per line.",
+    concept: "An array stores a fixed-size sequence of same-typed elements. A for-each loop visits every element in order, requiring no manual index management.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String[] careers = {"Astronaut", "Doctor", "President", "Teacher"};
+        for (String career : careers) {
+            System.out.println(career);
+        }
+    }
+}`,
+    exampleOutput: "Astronaut\nDoctor\nPresident\nTeacher",
+    notes: "The for-each loop reads as \"for each `career` in `careers`\". No index needed; each element is printed on its own line.",
+    keyPoints: [
+      "`String[] arr = {\"a\", \"b\"};` — array literal with curly braces.",
+      "For-each: `for (String s : arr) { ... }` — clean and index-free.",
+      "`System.out.println(s)` prints the element and a newline.",
+      "Arrays are fixed-length; use `ArrayList` when you need to grow.",
+    ],
+  },
+
+  "ba-java-05": {
+    intro: "Every morning in Barbieland, each Barbie waves good morning to the others. This program prints a numbered wave for each Barbie in the lineup — six Barbies, six cheerful greetings.",
+    concept: "A `for` loop with a counter repeats a block a specific number of times. The counter variable can be embedded in the output to produce numbered lines.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 6; i++) {
+            System.out.println("Good morning from Barbie " + i + "!");
+        }
+    }
+}`,
+    exampleOutput: "Good morning from Barbie 1!\nGood morning from Barbie 2!\nGood morning from Barbie 3!\nGood morning from Barbie 4!\nGood morning from Barbie 5!\nGood morning from Barbie 6!",
+    notes: "`i` runs from 1 to 6 inclusive. String concatenation builds each greeting with the current value of `i`.",
+    keyPoints: [
+      "For loop: `for (int i = 1; i <= n; i++) { ... }` runs `n` times.",
+      "`i++` is shorthand for `i = i + 1`.",
+      "Use `+` to concatenate strings and numbers: `\"Barbie \" + 3` → `\"Barbie 3\"`.",
+      "Start counter at `1` for human-readable numbering.",
+    ],
+  },
+
+  // ─── Sex and the City ─────────────────────────────────────────────────────
+
+  "sc-java-01": {
+    intro: "Carrie Bradshaw's shoe collection is legendary. She has the pair name, how many pairs she owns, and the average cost per pair — all stored in properly typed Java variables before she tells Mr. Big the total.",
+    concept: "Java's static typing requires declaring a type for every variable. `String` holds text, `int` holds whole numbers, `double` holds decimals with a fractional part.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String brand = "Manolo Blahnik";
+        int pairs = 112;
+        double avgCost = 525.00;
+        System.out.println(brand);
+        System.out.println(pairs);
+        System.out.println(avgCost);
+    }
+}`,
+    exampleOutput: "Manolo Blahnik\n112\n525.0",
+    notes: "Three variables of three types declared and printed. Java prints `double` with at least one decimal place.",
+    keyPoints: [
+      "Declare with type: `String brand = \"...\";`",
+      "`int` for whole numbers, `double` for decimals, `boolean` for true/false.",
+      "`System.out.println()` prints and adds a newline.",
+      "Every statement ends with `;`.",
+    ],
+  },
+
+  "sc-java-02": {
+    intro: "Samantha evaluates every man by one simple metric: investment potential. If he scores above 70, she'll see him again. Otherwise, she's already mentally moved on.",
+    concept: "`if/else` routes execution to exactly one of two blocks based on a boolean condition. You can compare numbers with `>`, `<`, `>=`, `<=`, `==`, or `!=`.",
+    example: `public class Main {
+    static void evaluate(int score) {
+        if (score > 70) {
+            System.out.println("Worth seeing again.");
+        } else {
+            System.out.println("Next!");
+        }
+    }
+    public static void main(String[] args) {
+        evaluate(85);
+        evaluate(55);
+    }
+}`,
+    exampleOutput: "Worth seeing again.\nNext!",
+    notes: "85 > 70 passes; 55 > 70 fails. Each call takes exactly one path through the conditional.",
+    keyPoints: [
+      "`if (score > 70)` — only runs the block when `score` is greater than 70.",
+      "`else` is the catch-all when the condition is false.",
+      "Comparison operators work on numbers: `>`, `<`, `>=`, `<=`.",
+      "Method parameters let you reuse the same logic with different inputs.",
+    ],
+  },
+
+  "sc-java-03": {
+    intro: "Carrie is paid per word for her columns. Her editor wants a method that calculates total earnings: words written multiplied by the rate per word. Clean and consistent billing.",
+    concept: "A `static` method packages reusable arithmetic. Declare the return type, parameters, and use `return` to send the result back.",
+    example: `public class Main {
+    static double earnings(int words, double ratePerWord) {
+        return words * ratePerWord;
+    }
+    public static void main(String[] args) {
+        System.out.println(earnings(1200, 2.50));
+    }
+}`,
+    exampleOutput: "3000.0",
+    notes: "`1200 * 2.50 = 3000.0`. The method returns a `double` and `main` prints it.",
+    keyPoints: [
+      "Mixed-type arithmetic: `int * double` promotes to `double`.",
+      "Return type in signature must match the returned value type.",
+      "`static` methods belong to the class and don't need an instance to call.",
+      "`System.out.println()` on a `double` prints the decimal representation.",
+    ],
+  },
+
+  "sc-java-04": {
+    intro: "Carrie keeps a mental list of significant exes — Big, Aidan, Petrovsky, Berger. For the memoir, they need to be printed in order, one per line.",
+    concept: "A Java array holds a fixed sequence of same-typed values. A for-each loop visits every element in declaration order, printing each on its own line.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String[] exes = {"Big", "Aidan", "Petrovsky", "Berger"};
+        for (String ex : exes) {
+            System.out.println(ex);
+        }
+    }
+}`,
+    exampleOutput: "Big\nAidan\nPetrovsky\nBerger",
+    notes: "The for-each loop iterates every element in order. No index is needed when you just want to process each element.",
+    keyPoints: [
+      "Array literal: `String[] arr = {\"a\", \"b\", \"c\"};`",
+      "For-each: `for (String s : arr)` — reads \"for each String s in arr\".",
+      "`System.out.println(s)` prints `s` and advances to the next line.",
+      "Arrays are fixed-size; the order matches the declaration.",
+    ],
+  },
+
+  "sc-java-05": {
+    intro: "The girls are on their third round of Cosmos. Charlotte is counting rounds so they can split the bill fairly at the end of the night.",
+    concept: "A `for` loop with a counter repeats a block a specific number of times, optionally embedding the counter in the output.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Round " + i + " of Cosmos ordered.");
+        }
+    }
+}`,
+    exampleOutput: "Round 1 of Cosmos ordered.\nRound 2 of Cosmos ordered.\nRound 3 of Cosmos ordered.",
+    notes: "`i` increments from 1 to 3. String concatenation builds the output message on each iteration.",
+    keyPoints: [
+      "For loop: `for (int i = start; i <= end; i++) { ... }`.",
+      "`i++` increments the counter after each iteration.",
+      "Concatenate with `+`: `\"Round \" + i + \" of Cosmos ordered.\"`.",
+      "The loop body runs once per value of `i` in the range.",
+    ],
+  },
+
+  // ─── Sopranos ─────────────────────────────────────────────────────────────
+
+  "sp-java-01": {
+    intro: "Satriale's Pork Store is the front — and the hangout. Paulie needs a proper inventory program to track the store's most important items for the weekly order.",
+    concept: "Java requires each variable to declare its type. `String` for text, `int` for whole numbers, `double` for decimals. Every statement ends with a semicolon.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String item = "capicola";
+        int stock = 48;
+        double pricePerLb = 12.99;
+        System.out.println(item);
+        System.out.println(stock);
+        System.out.println(pricePerLb);
+    }
+}`,
+    exampleOutput: "capicola\n48\n12.99",
+    notes: "Three variables of three types declared and printed. Java displays `12.99` as-is for `double` values that have a precise decimal representation.",
+    keyPoints: [
+      "Every variable must have a declared type before use.",
+      "`String`, `int`, `double`, `boolean` are the most common types.",
+      "`System.out.println(val)` prints `val` with a trailing newline.",
+      "Statements end with `;`.",
+    ],
+  },
+
+  "sp-java-02": {
+    intro: "The FBI is moving witnesses around again. Tony needs a quick check: if a crew member has been relocated, print a warning. Otherwise, confirm they're still around.",
+    concept: "`if/else` evaluates a boolean and executes one of two branches. Boolean parameters are used directly in the condition — no need for `== true`.",
+    example: `public class Main {
+    static void checkStatus(boolean relocated) {
+        if (relocated) {
+            System.out.println("Gone. Don't ask.");
+        } else {
+            System.out.println("Still with us.");
+        }
+    }
+    public static void main(String[] args) {
+        checkStatus(true);
+        checkStatus(false);
+    }
+}`,
+    exampleOutput: "Gone. Don't ask.\nStill with us.",
+    notes: "When `relocated` is `true`, the first branch runs. When `false`, the `else` runs. Each call hits exactly one path.",
+    keyPoints: [
+      "`if (relocated)` — boolean variables don't need `== true`.",
+      "`else` runs when the `if` condition is false.",
+      "Static methods are called from `main` without an instance.",
+      "Test both `true` and `false` to verify both branches work.",
+    ],
+  },
+
+  "sp-java-03": {
+    intro: "Every capo kicks up a percentage of earnings to Tony. Bobby keeps track of the numbers. Write a method so the math is consistent and nobody gets shorted.",
+    concept: "A `static` method packages reusable logic. Declare the return type, name, and parameter types. `return` sends the computed value back to the calling code.",
+    example: `public class Main {
+    static int tribute(int earnings, int percent) {
+        return earnings * percent / 100;
+    }
+    public static void main(String[] args) {
+        System.out.println(tribute(50000, 15));
+    }
+}`,
+    exampleOutput: "7500",
+    notes: "`50000 * 15 / 100 = 7500`. Integer division truncates — using all `int` values here keeps the result a whole number.",
+    keyPoints: [
+      "`static int tribute(int earnings, int percent)` — return type, name, params.",
+      "`return earnings * percent / 100;` computes and returns the result.",
+      "Integer division drops the remainder: `7 / 2 = 3` in `int` math.",
+      "Call from `main`: `tribute(50000, 15)` passes arguments by position.",
+    ],
+  },
+
+  "sp-java-04": {
+    intro: "Tony needs a printed roster of his senior crew for a sit-down with New York. It needs to be clean, formal, and not include anyone who's currently a problem.",
+    concept: "Arrays hold a fixed-size sequence of elements. A for-each loop iterates every element in order without needing an explicit index.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String[] crew = {"Tony", "Paulie", "Silvio", "Christopher"};
+        for (String member : crew) {
+            System.out.println(member);
+        }
+    }
+}`,
+    exampleOutput: "Tony\nPaulie\nSilvio\nChristopher",
+    notes: "The for-each visits every element in declaration order. Each name is printed on its own line.",
+    keyPoints: [
+      "Array literal: `String[] arr = {\"a\", \"b\", \"c\"};`",
+      "For-each: `for (String s : arr)` iterates all elements.",
+      "No index needed when you just want to process each element.",
+      "`System.out.println()` adds a newline after each element.",
+    ],
+  },
+
+  "sp-java-05": {
+    intro: "Tony has been seeing Dr. Melfi every week for years. The insurance company needs a printout of each session on record for this quarter — four sessions, clearly documented.",
+    concept: "A `for` loop with a counter variable repeats a block a known number of times. Embed the counter in the output to produce numbered lines.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 4; i++) {
+            System.out.println("Session #" + i + " with Dr. Melfi");
+        }
+    }
+}`,
+    exampleOutput: "Session #1 with Dr. Melfi\nSession #2 with Dr. Melfi\nSession #3 with Dr. Melfi\nSession #4 with Dr. Melfi",
+    notes: "`i` goes from 1 to 4 inclusive. Concatenation builds the session label on each pass.",
+    keyPoints: [
+      "For loop: `for (int i = 1; i <= 4; i++)` — start, condition, increment.",
+      "`i++` increments after each iteration.",
+      "String + int concatenation: Java converts the int to a string automatically.",
+      "The loop body executes once for each value of `i` in the range.",
+    ],
+  },
+
+  // ─── Lesson 06 — String Methods ───────────────────────────────────────────
+
+  "st-java-06": {
+    intro: "Mike intercepts one of Dr. Brenner's lab memos. He uses Java's String methods to normalise the text — uppercasing it, checking whether 'eleven' appears, and slicing a prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` and `.toLowerCase()` change case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String memo = "eleven has escaped the lab";
+        System.out.println(memo.toUpperCase());
+        System.out.println(memo.contains("eleven"));
+        System.out.println(memo.substring(0, 6));
+    }
+}`,
+    exampleOutput: "ELEVEN HAS ESCAPED THE LAB\ntrue\neleven",
+    notes: "`.toUpperCase()` returns a new uppercase String. `.contains()` returns a boolean. `.substring(0, 6)` extracts characters at indices 0–5.",
+    keyPoints: [
+      "Java Strings are immutable — all methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` returns `true` or `false`.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "sv-java-06": {
+    intro: "Helly R. processes MDR file codes in Java. She uppercases each code for display, checks for 'refined', and extracts the batch prefix with `substring`.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` and `.toLowerCase()` change case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String code = "refined-batch-04";
+        System.out.println(code.toUpperCase());
+        System.out.println(code.contains("refined"));
+        System.out.println(code.substring(0, 7));
+    }
+}`,
+    exampleOutput: "REFINED-BATCH-04\ntrue\nrefined",
+    notes: "`.toUpperCase()` converts the full string. `.contains()` returns true. `.substring(0, 7)` gives the first 7 characters.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` do not modify the original.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "bb-java-06": {
+    intro: "Jesse formats the batch labels for Gus's distribution network. He uppercases each label, checks that 'blue' is present, and extracts the purity code prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts part of the string.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String label = "blue-sky-batch";
+        System.out.println(label.toUpperCase());
+        System.out.println(label.contains("blue"));
+        System.out.println(label.substring(0, 8));
+    }
+}`,
+    exampleOutput: "BLUE-SKY-BATCH\ntrue\nblue-sky",
+    notes: "`.toUpperCase()` capitalises every character. `.contains('blue')` returns true. `.substring(0, 8)` extracts the first 8 characters.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` return new String objects.",
+      "`.contains(str)` returns a boolean.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "to-java-06": {
+    intro: "Pam is standardising the employee directory in Java. She uppercases each name, checks whether 'Scranton' is present in an address, and extracts a short code prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String entry = "jim-halpert-scranton";
+        System.out.println(entry.toUpperCase());
+        System.out.println(entry.contains("scranton"));
+        System.out.println(entry.substring(0, 3));
+    }
+}`,
+    exampleOutput: "JIM-HALPERT-SCRANTON\ntrue\njim",
+    notes: "`.toUpperCase()` converts the full entry. `.contains()` returns true. `.substring(0, 3)` extracts `'jim'`.",
+    keyPoints: [
+      "Strings are immutable in Java.",
+      "`.toUpperCase()` / `.toLowerCase()` return new Strings.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "got-java-06": {
+    intro: "The Grand Maester formats house names for the Citadel registry. He uppercases each name, checks for 'lannister', and extracts the house abbreviation.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String house = "lannister-golden-tooth";
+        System.out.println(house.toUpperCase());
+        System.out.println(house.contains("lannister"));
+        System.out.println(house.substring(0, 9));
+    }
+}`,
+    exampleOutput: "LANNISTER-GOLDEN-TOOTH\ntrue\nlannistr",
+    notes: "`.toUpperCase()` capitalises everything. `.contains('lannister')` returns true. `.substring(0, 9)` extracts 9 characters.",
+    keyPoints: [
+      "Strings are immutable in Java.",
+      "`.toUpperCase()` / `.toLowerCase()` return new Strings.",
+      "`.contains(str)` returns a boolean.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "mx-java-06": {
+    intro: "Neo intercepts an agent code string. He uses Java String methods to uppercase it, verify it contains 'agent', and extract the sector prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String agentCode = "agent-smith-sector-7";
+        System.out.println(agentCode.toUpperCase());
+        System.out.println(agentCode.contains("agent"));
+        System.out.println(agentCode.substring(0, 5));
+    }
+}`,
+    exampleOutput: "AGENT-SMITH-SECTOR-7\ntrue\nagent",
+    notes: "`.toUpperCase()` capitalises every character. `.contains('agent')` returns true. `.substring(0, 5)` gives `'agent'`.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "rm-java-06": {
+    intro: "Rick labels portal cartridges with dimension codes. Morty uses Java to uppercase each label, verify it contains 'c-137', and extract the prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String cartridge = "c-137-portal-fluid";
+        System.out.println(cartridge.toUpperCase());
+        System.out.println(cartridge.contains("c-137"));
+        System.out.println(cartridge.substring(0, 5));
+    }
+}`,
+    exampleOutput: "C-137-PORTAL-FLUID\ntrue\nc-137",
+    notes: "`.toUpperCase()` capitalises everything. `.contains('c-137')` returns true. `.substring(0, 5)` extracts the dimension code.",
+    keyPoints: [
+      "Strings are immutable in Java.",
+      "`.toUpperCase()` / `.toLowerCase()` return new Strings.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "sg-java-06": {
+    intro: "The game organisers format player codes in Java. Each code is uppercased for display, verified to contain 'player', and trimmed to just the number portion.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String code = "player-456-gi-hun";
+        System.out.println(code.toUpperCase());
+        System.out.println(code.contains("player"));
+        System.out.println(code.substring(7, 10));
+    }
+}`,
+    exampleOutput: "PLAYER-456-GI-HUN\ntrue\n456",
+    notes: "`.toUpperCase()` uppercases everything. `.contains('player')` returns true. `.substring(7, 10)` extracts the player number.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` returns a boolean.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "ad-java-06": {
+    intro: "The Bluth Company's asset names need formatting for the SEC audit. Michael uppercases each name, checks for 'banana', and extracts the asset type prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String asset = "banana-stand-newport";
+        System.out.println(asset.toUpperCase());
+        System.out.println(asset.contains("banana"));
+        System.out.println(asset.substring(0, 6));
+    }
+}`,
+    exampleOutput: "BANANA-STAND-NEWPORT\ntrue\nbanana",
+    notes: "`.toUpperCase()` converts the entire string. `.contains('banana')` returns true. `.substring(0, 6)` gives `'banana'`.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "ba-java-06": {
+    intro: "Barbie's career title needs formatting for the official Barbieland registry. She uppercases it, checks for 'barbie', and extracts the career name portion.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String career = "barbie-astronaut-2024";
+        System.out.println(career.toUpperCase());
+        System.out.println(career.contains("barbie"));
+        System.out.println(career.substring(7, 16));
+    }
+}`,
+    exampleOutput: "BARBIE-ASTRONAUT-2024\ntrue\nastronaut",
+    notes: "`.toUpperCase()` uppercases everything. `.contains('barbie')` returns true. `.substring(7, 16)` extracts `'astronaut'`.",
+    keyPoints: [
+      "Strings are immutable in Java.",
+      "`.toUpperCase()` / `.toLowerCase()` return new Strings.",
+      "`.contains(str)` returns a boolean.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "sc-java-06": {
+    intro: "Carrie's column titles come back from the editor in mixed case. She uses Java to uppercase the title, check it contains 'love', and extract the teaser word.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String title = "love in new york city";
+        System.out.println(title.toUpperCase());
+        System.out.println(title.contains("love"));
+        System.out.println(title.substring(0, 4));
+    }
+}`,
+    exampleOutput: "LOVE IN NEW YORK CITY\ntrue\nlove",
+    notes: "`.toUpperCase()` capitalises every letter. `.contains('love')` returns true. `.substring(0, 4)` extracts `'love'`.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` is case-sensitive.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  "sp-java-06": {
+    intro: "Carmela formats venue names from Tony's records. She uppercases each name, verifies 'bada' is present, and extracts the venue prefix.",
+    concept: "Java Strings have built-in methods. `.toUpperCase()` changes case. `.contains(str)` checks for a substring. `.substring(start, end)` extracts a portion.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        String venue = "bada-bing-club-nj";
+        System.out.println(venue.toUpperCase());
+        System.out.println(venue.contains("bada"));
+        System.out.println(venue.substring(0, 4));
+    }
+}`,
+    exampleOutput: "BADA-BING-CLUB-NJ\ntrue\nbada",
+    notes: "`.toUpperCase()` converts everything. `.contains('bada')` returns true. `.substring(0, 4)` extracts `'bada'`.",
+    keyPoints: [
+      "Strings are immutable — methods return new Strings.",
+      "`.toUpperCase()` / `.toLowerCase()` change case.",
+      "`.contains(str)` returns a boolean.",
+      "`.substring(start, end)` — `end` is exclusive.",
+    ],
+  },
+
+  // ─── Lesson 07 — ArrayList ────────────────────────────────────────────────
+
+  "st-java-07": {
+    intro: "The Party keeps a dynamic roster — members join and leave. Dustin uses an `ArrayList` to track them, adding and printing the crew size.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append items, `.size()` for the count, and `.get(index)` to retrieve by position.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> party = new ArrayList<>();
+        party.add("Mike");
+        party.add("Eleven");
+        party.add("Dustin");
+        System.out.println(party.size());
+        System.out.println(party.get(1));
+    }
+}`,
+    exampleOutput: "3\nEleven",
+    notes: "`.add()` appends to the list. `.size()` returns 3. `.get(1)` retrieves the element at index 1 — `'Eleven'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add(item)` appends; `.get(index)` retrieves; `.size()` counts.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "sv-java-07": {
+    intro: "The MDR team keeps a dynamic list of refined data batches. Mark uses an `ArrayList` to store batch IDs and check the current count.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> batches = new ArrayList<>();
+        batches.add("Batch-01");
+        batches.add("Batch-02");
+        batches.add("Batch-03");
+        System.out.println(batches.size());
+        System.out.println(batches.get(0));
+    }
+}`,
+    exampleOutput: "3\nBatch-01",
+    notes: "`.add()` appends each batch. `.size()` returns 3. `.get(0)` returns `'Batch-01'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add(item)` appends; `.get(index)` retrieves; `.size()` counts.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "bb-java-07": {
+    intro: "Walt keeps a dynamic list of cook locations that grows as the operation expands. He uses an `ArrayList` to manage the list and count the sites.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> locations = new ArrayList<>();
+        locations.add("RV");
+        locations.add("Superlab");
+        locations.add("Laundry");
+        System.out.println(locations.size());
+        System.out.println(locations.get(1));
+    }
+}`,
+    exampleOutput: "3\nSuperlab",
+    notes: "`.add()` appends each location. `.size()` returns 3. `.get(1)` returns `'Superlab'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add(item)` appends; `.get(index)` retrieves; `.size()` counts.",
+      "Use `.remove(index)` to delete an item.",
+    ],
+  },
+
+  "to-java-07": {
+    intro: "Michael manages a dynamic list of Scranton branch employees that changes with hirings. He uses an `ArrayList` to store names and check the headcount.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> employees = new ArrayList<>();
+        employees.add("Michael");
+        employees.add("Dwight");
+        employees.add("Jim");
+        System.out.println(employees.size());
+        System.out.println(employees.get(2));
+    }
+}`,
+    exampleOutput: "3\nJim",
+    notes: "`.add()` appends each employee. `.size()` returns 3. `.get(2)` returns `'Jim'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add(item)` appends; `.get(index)` retrieves; `.size()` counts.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "got-java-07": {
+    intro: "The Small Council dynamically adds and removes members. Tyrion uses an `ArrayList` to track the current roster and get the count.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> council = new ArrayList<>();
+        council.add("Tyrion");
+        council.add("Varys");
+        council.add("Littlefinger");
+        System.out.println(council.size());
+        System.out.println(council.get(0));
+    }
+}`,
+    exampleOutput: "3\nTyrion",
+    notes: "`.add()` appends each member. `.size()` returns 3. `.get(0)` returns `'Tyrion'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()`, `.remove()` are core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "mx-java-07": {
+    intro: "Morpheus builds the Nebuchadnezzar crew list dynamically using an `ArrayList`, adding each operative and printing the roster size.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> crew = new ArrayList<>();
+        crew.add("Neo");
+        crew.add("Trinity");
+        crew.add("Tank");
+        System.out.println(crew.size());
+        System.out.println(crew.get(1));
+    }
+}`,
+    exampleOutput: "3\nTrinity",
+    notes: "`.add()` appends each crew member. `.size()` returns 3. `.get(1)` returns `'Trinity'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()` are core operations.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "rm-java-07": {
+    intro: "Rick keeps a dynamic list of dimensions visited on the current adventure. He uses an `ArrayList` to add each dimension and check the count.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> visited = new ArrayList<>();
+        visited.add("C-137");
+        visited.add("Cronenberg Earth");
+        visited.add("Pizza Dimension");
+        System.out.println(visited.size());
+        System.out.println(visited.get(2));
+    }
+}`,
+    exampleOutput: "3\nPizza Dimension",
+    notes: "`.add()` appends each dimension. `.size()` returns 3. `.get(2)` returns `'Pizza Dimension'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()`, `.remove()` are core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "sg-java-07": {
+    intro: "The game organisers track surviving players with a dynamic list. As players are eliminated, the list shrinks. They use an `ArrayList` to manage it.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.remove()` to delete.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> survivors = new ArrayList<>();
+        survivors.add("Gi-hun");
+        survivors.add("Sae-byeok");
+        survivors.add("Ali");
+        System.out.println(survivors.size());
+        System.out.println(survivors.get(0));
+    }
+}`,
+    exampleOutput: "3\nGi-hun",
+    notes: "`.add()` appends each survivor. `.size()` returns 3. `.get(0)` returns `'Gi-hun'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()`, `.remove()` are core operations.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "ad-java-07": {
+    intro: "Michael's witness list for the SEC trial changes every week. He uses an `ArrayList` to add witnesses dynamically and keep a count.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> witnesses = new ArrayList<>();
+        witnesses.add("Barry Zuckerkorn");
+        witnesses.add("Bob Loblaw");
+        witnesses.add("Lucille");
+        System.out.println(witnesses.size());
+        System.out.println(witnesses.get(1));
+    }
+}`,
+    exampleOutput: "3\nBob Loblaw",
+    notes: "`.add()` appends each witness. `.size()` returns 3. `.get(1)` returns `'Bob Loblaw'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()` are the core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "ba-java-07": {
+    intro: "Barbie's ever-growing career list needs to be managed dynamically. She uses an `ArrayList` to add new careers and check how many she has held.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> careers = new ArrayList<>();
+        careers.add("Astronaut");
+        careers.add("President");
+        careers.add("Doctor");
+        System.out.println(careers.size());
+        System.out.println(careers.get(0));
+    }
+}`,
+    exampleOutput: "3\nAstronaut",
+    notes: "`.add()` appends each career. `.size()` returns 3. `.get(0)` returns `'Astronaut'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()` are core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "sc-java-07": {
+    intro: "Carrie's list of potential column topics changes weekly. She uses an `ArrayList` to track them, add new ones, and check the total count.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> topics = new ArrayList<>();
+        topics.add("Love in the City");
+        topics.add("Shoes and Heartbreak");
+        topics.add("The Perfect Date");
+        System.out.println(topics.size());
+        System.out.println(topics.get(2));
+    }
+}`,
+    exampleOutput: "3\nThe Perfect Date",
+    notes: "`.add()` appends each topic. `.size()` returns 3. `.get(2)` returns the third topic.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()` are core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  "sp-java-07": {
+    intro: "Tony keeps a dynamic list of the family's current businesses. As ventures open and close, the list changes. He manages it with an `ArrayList`.",
+    concept: "An `ArrayList` is a resizable list in Java. Import `java.util.ArrayList`. Use `.add()` to append, `.size()` for count, and `.get(index)` to retrieve.",
+    example: `import java.util.ArrayList;
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> businesses = new ArrayList<>();
+        businesses.add("Bada Bing");
+        businesses.add("Waste Management");
+        businesses.add("Pizzeria");
+        System.out.println(businesses.size());
+        System.out.println(businesses.get(1));
+    }
+}`,
+    exampleOutput: "3\nWaste Management",
+    notes: "`.add()` appends each business. `.size()` returns 3. `.get(1)` returns `'Waste Management'`.",
+    keyPoints: [
+      "Import: `import java.util.ArrayList;`",
+      "Declare: `ArrayList<Type> list = new ArrayList<>();`",
+      "`.add()`, `.get()`, `.size()`, `.remove()` are core methods.",
+      "Indices start at 0.",
+    ],
+  },
+
+  // ─── Lesson 08 — HashMap ──────────────────────────────────────────────────
+
+  "st-java-08": {
+    intro: "Joyce tracks each character's current location using a `HashMap`. She maps names to places and retrieves Will's location instantly.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries, `.get(key)` to retrieve them, and `.containsKey(key)` to check existence.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> locations = new HashMap<>();
+        locations.put("Will", "Upside Down");
+        locations.put("Eleven", "Lab");
+        System.out.println(locations.get("Will"));
+        System.out.println(locations.containsKey("Eleven"));
+    }
+}`,
+    exampleOutput: "Upside Down\ntrue",
+    notes: "`.put()` adds key-value pairs. `.get('Will')` returns `'Upside Down'`. `.containsKey()` returns true for an existing key.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put(k, v)` adds/updates; `.get(k)` retrieves; `.containsKey(k)` checks.",
+      "Keys must be unique; adding the same key overwrites the value.",
+    ],
+  },
+
+  "sv-java-08": {
+    intro: "The MDR department maps each employee ID to their clearance level using a `HashMap`. Mark uses it to look up his own clearance quickly.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> clearance = new HashMap<>();
+        clearance.put("MDR-4", 2);
+        clearance.put("MDR-1", 3);
+        System.out.println(clearance.get("MDR-4"));
+        System.out.println(clearance.containsKey("MDR-1"));
+    }
+}`,
+    exampleOutput: "2\ntrue",
+    notes: "`.put()` stores each employee's clearance level. `.get('MDR-4')` returns 2. `.containsKey('MDR-1')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put(k, v)` adds/updates; `.get(k)` retrieves; `.containsKey(k)` checks.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "bb-java-08": {
+    intro: "Gus maps each distribution territory to its distributor contact using a `HashMap`. He looks up the ABQ contact instantly.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> contacts = new HashMap<>();
+        contacts.put("ABQ", "Gustavo");
+        contacts.put("Phoenix", "Tuco");
+        System.out.println(contacts.get("ABQ"));
+        System.out.println(contacts.containsKey("Phoenix"));
+    }
+}`,
+    exampleOutput: "Gustavo\ntrue",
+    notes: "`.put()` stores territory-to-contact mappings. `.get('ABQ')` returns `'Gustavo'`. `.containsKey('Phoenix')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "to-java-08": {
+    intro: "Dwight tracks each employee's desk location with a `HashMap`. He maps names to desk codes and checks if Jim has been assigned yet.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> desks = new HashMap<>();
+        desks.put("Dwight", "D-1");
+        desks.put("Jim", "D-3");
+        System.out.println(desks.get("Jim"));
+        System.out.println(desks.containsKey("Dwight"));
+    }
+}`,
+    exampleOutput: "D-3\ntrue",
+    notes: "`.put()` stores name-to-desk mappings. `.get('Jim')` returns `'D-3'`. `.containsKey('Dwight')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Keys must be unique; duplicates overwrite.",
+    ],
+  },
+
+  "got-java-08": {
+    intro: "The Grand Maester maps each house to its current allegiance using a `HashMap`. Tyrion looks up House Stark's status instantly.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> allegiances = new HashMap<>();
+        allegiances.put("Stark", "Targaryen");
+        allegiances.put("Lannister", "themselves");
+        System.out.println(allegiances.get("Stark"));
+        System.out.println(allegiances.containsKey("Lannister"));
+    }
+}`,
+    exampleOutput: "Targaryen\ntrue",
+    notes: "`.put()` stores house-to-allegiance mappings. `.get('Stark')` returns `'Targaryen'`. `.containsKey()` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core methods.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "mx-java-08": {
+    intro: "Tank maps each operative to their role on the Nebuchadnezzar using a `HashMap`. He looks up Neo's role before the mission briefing.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> roles = new HashMap<>();
+        roles.put("Neo", "The One");
+        roles.put("Morpheus", "Captain");
+        System.out.println(roles.get("Neo"));
+        System.out.println(roles.containsKey("Morpheus"));
+    }
+}`,
+    exampleOutput: "The One\ntrue",
+    notes: "`.put()` stores operative-to-role mappings. `.get('Neo')` returns `'The One'`. `.containsKey('Morpheus')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "rm-java-08": {
+    intro: "Rick maps alien codenames to their species using a `HashMap`. He looks up Squanchy's species before introducing him at the party.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> aliens = new HashMap<>();
+        aliens.put("Squanchy", "Cat Alien");
+        aliens.put("Birdperson", "Bird Species");
+        System.out.println(aliens.get("Squanchy"));
+        System.out.println(aliens.containsKey("Birdperson"));
+    }
+}`,
+    exampleOutput: "Cat Alien\ntrue",
+    notes: "`.put()` stores name-to-species mappings. `.get('Squanchy')` returns `'Cat Alien'`. `.containsKey()` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core methods.",
+      "Duplicate keys overwrite the previous value.",
+    ],
+  },
+
+  "sg-java-08": {
+    intro: "The Front Man maps player numbers to their chosen shapes for the honeycomb game. He looks up player 456's shape instantly.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<Integer, String> shapes = new HashMap<>();
+        shapes.put(456, "Umbrella");
+        shapes.put(67, "Circle");
+        System.out.println(shapes.get(456));
+        System.out.println(shapes.containsKey(67));
+    }
+}`,
+    exampleOutput: "Umbrella\ntrue",
+    notes: "`.put()` stores player-to-shape mappings. `.get(456)` returns `'Umbrella'`. `.containsKey(67)` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<Integer, String>` for integer keys.",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "ad-java-08": {
+    intro: "Michael maps each Bluth family member to their role using a `HashMap`. He looks up George Sr.'s role during the annual performance review.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> roles = new HashMap<>();
+        roles.put("George Sr.", "Founder");
+        roles.put("Michael", "President");
+        System.out.println(roles.get("George Sr."));
+        System.out.println(roles.containsKey("Michael"));
+    }
+}`,
+    exampleOutput: "Founder\ntrue",
+    notes: "`.put()` stores name-to-role mappings. `.get('George Sr.')` returns `'Founder'`. `.containsKey('Michael')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Duplicate keys overwrite.",
+    ],
+  },
+
+  "ba-java-08": {
+    intro: "Barbie maps each career to its completion status using a `HashMap`. She looks up whether she has completed 'President' before applying.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Boolean> careers = new HashMap<>();
+        careers.put("Astronaut", true);
+        careers.put("President", false);
+        System.out.println(careers.get("Astronaut"));
+        System.out.println(careers.containsKey("President"));
+    }
+}`,
+    exampleOutput: "true\ntrue",
+    notes: "`.put()` stores career-to-status mappings. `.get('Astronaut')` returns true (completed). `.containsKey('President')` returns true (it exists).",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<String, Boolean>` for boolean values.",
+      "`.put()`, `.get()`, `.containsKey()` are core methods.",
+      "Keys must be unique.",
+    ],
+  },
+
+  "sc-java-08": {
+    intro: "Carrie maps each relationship to its status using a `HashMap`. She looks up Big's status before writing the next column.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> statuses = new HashMap<>();
+        statuses.put("Big", "complicated");
+        statuses.put("Aidan", "almost");
+        System.out.println(statuses.get("Big"));
+        System.out.println(statuses.containsKey("Aidan"));
+    }
+}`,
+    exampleOutput: "complicated\ntrue",
+    notes: "`.put()` stores name-to-status mappings. `.get('Big')` returns `'complicated'`. `.containsKey('Aidan')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Duplicate keys overwrite the previous value.",
+    ],
+  },
+
+  "sp-java-08": {
+    intro: "Silvio maps each crew member to their rank using a `HashMap`. Tony looks up Christopher's rank before the meeting.",
+    concept: "A `HashMap` stores key-value pairs. Import `java.util.HashMap`. Use `.put(key, value)` to add entries and `.get(key)` to retrieve them.",
+    example: `import java.util.HashMap;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, String> ranks = new HashMap<>();
+        ranks.put("Tony", "Boss");
+        ranks.put("Christopher", "Soldier");
+        System.out.println(ranks.get("Christopher"));
+        System.out.println(ranks.containsKey("Tony"));
+    }
+}`,
+    exampleOutput: "Soldier\ntrue",
+    notes: "`.put()` stores name-to-rank mappings. `.get('Christopher')` returns `'Soldier'`. `.containsKey('Tony')` returns true.",
+    keyPoints: [
+      "Import: `import java.util.HashMap;`",
+      "Declare: `HashMap<KeyType, ValueType> map = new HashMap<>();`",
+      "`.put()`, `.get()`, `.containsKey()` are core operations.",
+      "Duplicate keys overwrite.",
+    ],
+  },
+
+  // ─── Lesson 09 — Multiple Methods ────────────────────────────────────────
+
+  "st-java-09": {
+    intro: "The Party needs two separate tools: one to greet a character, and one to calculate how many superpowers they have. Dustin writes two static methods in the same class.",
+    concept: "A class can contain multiple static methods. Each method is independent and can call others. Break logic into small, focused methods for reuse and clarity.",
+    example: `public class Main {
+    static String greet(String name) {
+        return "Hello, " + name + "!";
+    }
+    static int powerCount(int level) {
+        return level * 3;
+    }
+    public static void main(String[] args) {
+        System.out.println(greet("Eleven"));
+        System.out.println(powerCount(4));
+    }
+}`,
+    exampleOutput: "Hello, Eleven!\n12",
+    notes: "`greet()` builds a greeting string. `powerCount()` multiplies level by 3. `main()` calls both.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Methods are called by name: `greet(\"Eleven\")`.",
+      "Each method has its own return type and parameters.",
+      "Breaking code into methods makes it easier to test and reuse.",
+    ],
+  },
+
+  "sv-java-09": {
+    intro: "The Lumon MDR system needs two operations: a quota formatter and a quota checker. Mark writes two static methods in one class.",
+    concept: "A class can contain multiple static methods. Each is independent, with its own return type and parameters. Break logic into small, focused methods.",
+    example: `public class Main {
+    static String format(String id) {
+        return "ID: " + id;
+    }
+    static boolean meetsQuota(int done, int target) {
+        return done >= target;
+    }
+    public static void main(String[] args) {
+        System.out.println(format("MDR-4"));
+        System.out.println(meetsQuota(85, 80));
+    }
+}`,
+    exampleOutput: "ID: MDR-4\ntrue",
+    notes: "`format()` prepends `'ID: '`. `meetsQuota()` returns a boolean. Both are called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can exist in one class.",
+      "Each method has a return type: `String`, `boolean`, `int`, etc.",
+      "Call methods from `main()` or from other methods.",
+      "Small, focused methods are easier to test.",
+    ],
+  },
+
+  "bb-java-09": {
+    intro: "Walt's operation needs a purity formatter and a profit calculator. He writes two separate static methods in the same Java class.",
+    concept: "A class can contain multiple static methods. Each is independent, with its own return type and parameters. Methods can call each other.",
+    example: `public class Main {
+    static String formatPurity(int pct) {
+        return pct + "% pure";
+    }
+    static int profit(int revenue, int cost) {
+        return revenue - cost;
+    }
+    public static void main(String[] args) {
+        System.out.println(formatPurity(99));
+        System.out.println(profit(500000, 120000));
+    }
+}`,
+    exampleOutput: "99% pure\n380000",
+    notes: "`formatPurity()` concatenates the percentage. `profit()` subtracts cost from revenue. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has its own signature: `returnType name(params)`.",
+      "Call by name: `formatPurity(99)`.",
+      "Methods promote code reuse and readability.",
+    ],
+  },
+
+  "to-java-09": {
+    intro: "The Dunder Mifflin system needs a branch formatter and a sales checker. Michael writes two static methods to handle both operations.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Break logic into focused, reusable methods.",
+    example: `public class Main {
+    static String branchLabel(String name) {
+        return "Branch: " + name;
+    }
+    static boolean aboveQuota(int sales, int target) {
+        return sales > target;
+    }
+    public static void main(String[] args) {
+        System.out.println(branchLabel("Scranton"));
+        System.out.println(aboveQuota(65, 50));
+    }
+}`,
+    exampleOutput: "Branch: Scranton\ntrue",
+    notes: "`branchLabel()` builds a label string. `aboveQuota()` compares sales to target. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each method has its own signature and return type.",
+      "Call methods from `main()`: `branchLabel(\"Scranton\")`.",
+      "Small, focused methods improve readability.",
+    ],
+  },
+
+  "got-java-09": {
+    intro: "The Citadel's registry system needs a house formatter and a battle counter. The Grand Maester writes two static methods for both tasks.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods can call each other and be reused.",
+    example: `public class Main {
+    static String houseLabel(String name) {
+        return "House " + name;
+    }
+    static int battleBonus(int wins) {
+        return wins * 100;
+    }
+    public static void main(String[] args) {
+        System.out.println(houseLabel("Stark"));
+        System.out.println(battleBonus(7));
+    }
+}`,
+    exampleOutput: "House Stark\n700",
+    notes: "`houseLabel()` prepends `'House '`. `battleBonus()` multiplies wins by 100. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has a return type: `String`, `int`, etc.",
+      "Call by name from `main()` or other methods.",
+      "Focused methods are easier to maintain.",
+    ],
+  },
+
+  "mx-java-09": {
+    intro: "The Zion system needs two tools: a codename formatter and a threat level calculator. The Oracle writes two static methods in the same class.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods can be called from `main()` or from each other.",
+    example: `public class Main {
+    static String formatCode(String name) {
+        return "Agent: " + name;
+    }
+    static int threatLevel(int power, int speed) {
+        return power + speed;
+    }
+    public static void main(String[] args) {
+        System.out.println(formatCode("Smith"));
+        System.out.println(threatLevel(80, 90));
+    }
+}`,
+    exampleOutput: "Agent: Smith\n170",
+    notes: "`formatCode()` prepends `'Agent: '`. `threatLevel()` sums power and speed. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has its own return type and parameters.",
+      "Call from `main()` or from each other.",
+      "Small methods are easier to test and reuse.",
+    ],
+  },
+
+  "rm-java-09": {
+    intro: "Rick's portal gun software needs two routines: a dimension labeller and a portal energy calculator. He writes two static methods in one class.",
+    concept: "A class can contain multiple static methods. Each is independent, with its own return type and parameters.",
+    example: `public class Main {
+    static String dimensionLabel(String id) {
+        return "Dimension: " + id;
+    }
+    static int portalEnergy(int base, int boost) {
+        return base * boost;
+    }
+    public static void main(String[] args) {
+        System.out.println(dimensionLabel("C-137"));
+        System.out.println(portalEnergy(10, 5));
+    }
+}`,
+    exampleOutput: "Dimension: C-137\n50",
+    notes: "`dimensionLabel()` prepends `'Dimension: '`. `portalEnergy()` multiplies base by boost. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has its own return type and parameter list.",
+      "Call methods by name from `main()`.",
+      "Small, focused methods are cleaner and reusable.",
+    ],
+  },
+
+  "sg-java-09": {
+    intro: "The game management system needs a player formatter and a prize calculator. Two static methods handle both operations for the organisers.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods can be called from `main()` or each other.",
+    example: `public class Main {
+    static String playerLabel(int num) {
+        return "Player " + num;
+    }
+    static long prizePool(int players) {
+        return (long) players * 100_000_000L;
+    }
+    public static void main(String[] args) {
+        System.out.println(playerLabel(456));
+        System.out.println(prizePool(456));
+    }
+}`,
+    exampleOutput: "Player 456\n45600000000",
+    notes: "`playerLabel()` formats the player number. `prizePool()` multiplies by 100 million. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Use `long` for very large integers.",
+      "Call methods from `main()` by name.",
+      "Methods can have different return types.",
+    ],
+  },
+
+  "ad-java-09": {
+    intro: "The Bluth Company's reporting system needs two tools: an asset formatter and a net value calculator. Michael writes both as static methods.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods can call each other and be reused.",
+    example: `public class Main {
+    static String assetLabel(String name) {
+        return "Asset: " + name;
+    }
+    static int netValue(int gross, int debt) {
+        return gross - debt;
+    }
+    public static void main(String[] args) {
+        System.out.println(assetLabel("Banana Stand"));
+        System.out.println(netValue(500000, 300000));
+    }
+}`,
+    exampleOutput: "Asset: Banana Stand\n200000",
+    notes: "`assetLabel()` prepends `'Asset: '`. `netValue()` subtracts debt from gross. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each method has its own return type and parameters.",
+      "Call from `main()` or from each other.",
+      "Methods promote reuse and keep code clean.",
+    ],
+  },
+
+  "ba-java-09": {
+    intro: "Barbieland's registry needs a career formatter and a points calculator. Ken writes two static methods to handle both.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Break logic into focused, reusable methods.",
+    example: `public class Main {
+    static String careerLabel(String career) {
+        return "Barbie " + career;
+    }
+    static int totalPoints(int base, int bonus) {
+        return base + bonus;
+    }
+    public static void main(String[] args) {
+        System.out.println(careerLabel("Astronaut"));
+        System.out.println(totalPoints(80, 20));
+    }
+}`,
+    exampleOutput: "Barbie Astronaut\n100",
+    notes: "`careerLabel()` prepends `'Barbie '`. `totalPoints()` sums base and bonus. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has its own signature and return type.",
+      "Call from `main()` by name.",
+      "Small methods are reusable and easy to test.",
+    ],
+  },
+
+  "sc-java-09": {
+    intro: "Carrie's column management system needs a title formatter and a word count estimator. She writes two static methods in the same Java class.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods can be called from `main()` or from each other.",
+    example: `public class Main {
+    static String formatTitle(String title) {
+        return "Column: " + title;
+    }
+    static int wordEstimate(int pages) {
+        return pages * 250;
+    }
+    public static void main(String[] args) {
+        System.out.println(formatTitle("Love in the City"));
+        System.out.println(wordEstimate(4));
+    }
+}`,
+    exampleOutput: "Column: Love in the City\n1000",
+    notes: "`formatTitle()` prepends `'Column: '`. `wordEstimate()` multiplies pages by 250. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each has its own return type: `String`, `int`, etc.",
+      "Call from `main()` by name.",
+      "Small methods are cleaner and more maintainable.",
+    ],
+  },
+
+  "sp-java-09": {
+    intro: "Tony's accounting system needs a business formatter and a net earnings calculator. Silvio writes two static methods to handle both.",
+    concept: "A class can contain multiple static methods, each with its own return type and parameters. Methods promote reuse and code clarity.",
+    example: `public class Main {
+    static String businessLabel(String name) {
+        return "Business: " + name;
+    }
+    static int netEarnings(int gross, int expenses) {
+        return gross - expenses;
+    }
+    public static void main(String[] args) {
+        System.out.println(businessLabel("Bada Bing"));
+        System.out.println(netEarnings(80000, 30000));
+    }
+}`,
+    exampleOutput: "Business: Bada Bing\n50000",
+    notes: "`businessLabel()` builds a label. `netEarnings()` subtracts expenses from gross. Both called from `main()`.",
+    keyPoints: [
+      "Multiple `static` methods can live in one class.",
+      "Each method has its own return type and parameters.",
+      "Call from `main()` by name.",
+      "Methods improve code organisation and reuse.",
+    ],
+  },
+
+  // ─── Lesson 10 — StringBuilder ────────────────────────────────────────────
+
+  "st-java-10": {
+    intro: "Mike is assembling Eleven's intercepted radio message piece by piece. He uses a `StringBuilder` to build the final string efficiently without creating multiple intermediate Strings.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String at the end. More efficient than concatenation in loops.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Eleven ");
+        sb.append("is ");
+        sb.append("here.");
+        System.out.println(sb.toString());
+        System.out.println(sb.length());
+    }
+}`,
+    exampleOutput: "Eleven is here.\n15",
+    notes: "`.append()` adds each chunk. `.toString()` produces the final String. `.length()` returns the character count.",
+    keyPoints: [
+      "`StringBuilder sb = new StringBuilder();` — starts empty.",
+      "`.append(str)` adds to the end — can be chained.",
+      "`.toString()` converts to a regular `String`.",
+      "Use `StringBuilder` in loops to avoid creating many String objects.",
+    ],
+  },
+
+  "sv-java-10": {
+    intro: "The MDR system assembles formatted batch reports by appending chunks into a single string. Mark uses `StringBuilder` to build the report efficiently.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String. More efficient than concatenation in loops.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Batch: ");
+        sb.append("MDR-04 ");
+        sb.append("Status: refined");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Batch: MDR-04 Status: refined",
+    notes: "Three `.append()` calls build the full report string. `.toString()` converts the `StringBuilder` to a `String` for printing.",
+    keyPoints: [
+      "`StringBuilder` starts empty: `new StringBuilder()`.",
+      "`.append(str)` adds text to the end.",
+      "`.toString()` converts to a `String`.",
+      "More efficient than `+` concatenation in loops.",
+    ],
+  },
+
+  "bb-java-10": {
+    intro: "The batch report needs to combine the chemist's name, purity, and location into one label. Walt uses `StringBuilder` to assemble it efficiently.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Chemist: Walter | ");
+        sb.append("Purity: 99% | ");
+        sb.append("Location: Superlab");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Chemist: Walter | Purity: 99% | Location: Superlab",
+    notes: "Each `.append()` adds the next chunk. `.toString()` converts the result to a printable `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts with an empty buffer.",
+      "`.append(str)` is chainable: `sb.append(a).append(b)`.",
+      "`.toString()` converts to `String`.",
+      "Use `StringBuilder` in loops to avoid object overhead.",
+    ],
+  },
+
+  "to-java-10": {
+    intro: "Michael wants to print a formatted meeting agenda by building it piece by piece. He uses `StringBuilder` to assemble the agenda string before printing.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Agenda: ");
+        sb.append("Sales Review, ");
+        sb.append("Birthday Announcement");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Agenda: Sales Review, Birthday Announcement",
+    notes: "Three `.append()` calls build the agenda. `.toString()` returns the assembled string.",
+    keyPoints: [
+      "`new StringBuilder()` creates an empty builder.",
+      "`.append(str)` adds to the end.",
+      "`.toString()` converts to a regular `String`.",
+      "Use `StringBuilder` instead of `+` in loops.",
+    ],
+  },
+
+  "got-java-10": {
+    intro: "The Grand Maester is composing a raven message by building it from parts. He uses `StringBuilder` to assemble the message efficiently.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("From: Winterfell | ");
+        sb.append("To: King's Landing | ");
+        sb.append("Winter is Coming");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "From: Winterfell | To: King's Landing | Winter is Coming",
+    notes: "Three `.append()` calls build the raven message. `.toString()` returns the full assembled string.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds to the end.",
+      "`.toString()` converts to `String`.",
+      "Chain appends: `sb.append(a).append(b)`.",
+    ],
+  },
+
+  "mx-java-10": {
+    intro: "The Oracle assembles Neo's prophecy message by combining multiple fragments. She uses `StringBuilder` for efficient string construction.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("He is ");
+        sb.append("the One. ");
+        sb.append("Make him believe it.");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "He is the One. Make him believe it.",
+    notes: "Three `.append()` calls assemble the prophecy. `.toString()` returns the complete `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds each fragment.",
+      "`.toString()` converts to a `String`.",
+      "Use `StringBuilder` in loops to avoid creating many intermediate objects.",
+    ],
+  },
+
+  "rm-java-10": {
+    intro: "Rick builds a multi-part portal gun status report using `StringBuilder`. He appends the charge level, target dimension, and fluid status.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Charge: 100% | ");
+        sb.append("Target: C-137 | ");
+        sb.append("Fluid: OK");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Charge: 100% | Target: C-137 | Fluid: OK",
+    notes: "Three `.append()` calls build the status report. `.toString()` converts the result to a printable `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds each chunk.",
+      "`.toString()` converts to `String`.",
+      "More efficient than `+` in loops.",
+    ],
+  },
+
+  "sg-java-10": {
+    intro: "The Front Man assembles a player status report by combining player number, game, and outcome. He uses `StringBuilder` for the task.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player: 456 | ");
+        sb.append("Game: Marbles | ");
+        sb.append("Result: Survived");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Player: 456 | Game: Marbles | Result: Survived",
+    notes: "Three `.append()` calls build the report. `.toString()` converts the `StringBuilder` to a `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds to the end.",
+      "`.toString()` returns the assembled `String`.",
+      "Chain: `sb.append(a).append(b).append(c)`.",
+    ],
+  },
+
+  "ad-java-10": {
+    intro: "Michael assembles the Bluth Company's annual report header by combining the company name, year, and status. He uses `StringBuilder` for efficient assembly.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Bluth Company | ");
+        sb.append("Year: 2004 | ");
+        sb.append("Status: Under Investigation");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Bluth Company | Year: 2004 | Status: Under Investigation",
+    notes: "Three `.append()` calls build the header. `.toString()` returns the full assembled string.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds to the end.",
+      "`.toString()` converts to `String`.",
+      "Use `StringBuilder` in loops instead of `+` concatenation.",
+    ],
+  },
+
+  "ba-java-10": {
+    intro: "Barbie assembles her résumé header by combining name, current career, and Barbieland location using `StringBuilder`.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: Barbie | ");
+        sb.append("Career: President | ");
+        sb.append("Location: Barbieland");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Name: Barbie | Career: President | Location: Barbieland",
+    notes: "Three `.append()` calls build the résumé header. `.toString()` returns the complete `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds each part.",
+      "`.toString()` converts to `String`.",
+      "Chain appends: `sb.append(a).append(b)`.",
+    ],
+  },
+
+  "sc-java-10": {
+    intro: "Carrie assembles the header for her column by combining her name, column title, and publication using `StringBuilder`.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("By: Carrie Bradshaw | ");
+        sb.append("Column: Love in NYC | ");
+        sb.append("New York Star");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "By: Carrie Bradshaw | Column: Love in NYC | New York Star",
+    notes: "Three `.append()` calls build the header. `.toString()` returns the full assembled `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds each fragment.",
+      "`.toString()` converts to `String`.",
+      "More efficient than `+` in loops.",
+    ],
+  },
+
+  "sp-java-10": {
+    intro: "Tony's accountant assembles the quarterly business summary by combining income, expenses, and net profit into one report line using `StringBuilder`.",
+    concept: "`StringBuilder` builds a String incrementally. `.append(str)` adds text. `.toString()` converts it to a regular String.",
+    example: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Income: $116,000 | ");
+        sb.append("Expenses: $42,000 | ");
+        sb.append("Net: $74,000");
+        System.out.println(sb.toString());
+    }
+}`,
+    exampleOutput: "Income: $116,000 | Expenses: $42,000 | Net: $74,000",
+    notes: "Three `.append()` calls build the summary line. `.toString()` converts to a printable `String`.",
+    keyPoints: [
+      "`new StringBuilder()` starts empty.",
+      "`.append(str)` adds to the end.",
+      "`.toString()` converts to `String`.",
+      "Use `StringBuilder` in loops to avoid creating many String objects.",
+    ],
+  },
 };

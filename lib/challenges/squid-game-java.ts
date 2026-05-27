@@ -106,4 +106,111 @@ export const squidGameJavaChallenges: Challenge[] = [
     concept: "Loops & Summation",
     difficulty: "intermediate",
   },
+  {
+    id: "sg-java-06",
+    themeId: "squid-game",
+    languageId: "java",
+    order: 6,
+    title: "String Methods",
+    themedTitle: "Player Name Processing",
+    narrative:
+      "The Front Man's system processes every player's name through a series of string operations before logging them in the official record. The name must be uppercased, checked for a specific substring, and measured. No detail is overlooked in the facility.",
+    prompt:
+      "Declare `String name = \"Seong Gi-hun\"`. Print `name.toUpperCase()`. Print whether `name.toLowerCase().contains(\"gi-hun\")`. Print `name.replace(\"Seong\", \"Player 456\")`. Print `name.length()`.",
+    hint: "Chain or separate calls: `.toUpperCase()`, `.toLowerCase().contains(...)`, `.replace(oldVal, newVal)`, `.length()`.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        String name = "Seong Gi-hun";\n        System.out.println(name.toUpperCase());\n        System.out.println(name.toLowerCase().contains("gi-hun"));\n        System.out.println(name.replace("Seong", "Player 456"));\n        System.out.println(name.length());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        String name = "Seong Gi-hun";\n        System.out.println(name.___());\n        System.out.println(name.toLowerCase().contains(___));\n        System.out.println(name.replace(___, ___));\n        System.out.println(name.___());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "SEONG GI-HUN", description: "Uppercased player name" },
+      { input: "", expected: "true", description: "Lowercase name contains gi-hun" },
+      { input: "", expected: "Player 456 Gi-hun", description: "Seong replaced with Player 456" },
+      { input: "", expected: "12", description: "Name length is 12" },
+    ],
+    concept: "String Methods",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-java-07",
+    themeId: "squid-game",
+    languageId: "java",
+    order: 7,
+    title: "ArrayList",
+    themedTitle: "The Surviving Players List",
+    narrative:
+      "After the Dalgona honeycomb challenge, the facility updates the official survivor list. Players are added as they finish and removed if they fail. Cho Sang-woo is tracking everyone — keeping his own list, apart from the official one.",
+    prompt:
+      "Import `java.util.ArrayList`. Create `ArrayList<String> survivors = new ArrayList<>()`. Add `\"Gi-hun\"`, `\"Sae-byeok\"`, `\"Sang-woo\"`, and `\"Ali\"`. Print the size. Then remove `\"Ali\"` using `survivors.remove(\"Ali\")`. Print the size again.",
+    hint: "Use `survivors.add(...)` to add. `survivors.size()` gives count. `survivors.remove(\"Ali\")` removes by value.",
+    solution: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> survivors = new ArrayList<>();\n        survivors.add("Gi-hun");\n        survivors.add("Sae-byeok");\n        survivors.add("Sang-woo");\n        survivors.add("Ali");\n        System.out.println(survivors.size());\n        survivors.remove("Ali");\n        System.out.println(survivors.size());\n    }\n}`,
+    starterCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> survivors = new ArrayList<>();\n        survivors.add(___);\n        survivors.add(___);\n        survivors.add(___);\n        survivors.add(___);\n        System.out.println(survivors.size());\n        survivors.remove(___);\n        System.out.println(survivors.size());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "4", description: "Four survivors initially" },
+      { input: "", expected: "3", description: "Three survivors after Ali is removed" },
+    ],
+    concept: "ArrayList",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-java-08",
+    themeId: "squid-game",
+    languageId: "java",
+    order: 8,
+    title: "HashMap",
+    themedTitle: "Game Score Ledger",
+    narrative:
+      "The VIPs track each player's score across the games. The Front Man maintains a map of player names to their current scores. One lookup can mean the difference between being watched and being forgotten.",
+    prompt:
+      "Import `java.util.HashMap`. Create `HashMap<String, Integer> scores = new HashMap<>()`. Put `\"Gi-hun\"` with `88`, `\"Sae-byeok\"` with `95`, and `\"Sang-woo\"` with `91`. Print whether the map `containsKey(\"Sae-byeok\")`. Print `scores.get(\"Sang-woo\")`.",
+    hint: "Use `scores.put(key, value)`. `containsKey(...)` returns boolean. `get(...)` retrieves a stored value.",
+    solution: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> scores = new HashMap<>();\n        scores.put("Gi-hun", 88);\n        scores.put("Sae-byeok", 95);\n        scores.put("Sang-woo", 91);\n        System.out.println(scores.containsKey("Sae-byeok"));\n        System.out.println(scores.get("Sang-woo"));\n    }\n}`,
+    starterCode: `import java.util.HashMap;\n\npublic class Main {\n    public static void main(String[] args) {\n        HashMap<String, Integer> scores = new HashMap<>();\n        scores.put(___, ___);\n        scores.put(___, ___);\n        scores.put(___, ___);\n        System.out.println(scores.containsKey("Sae-byeok"));\n        System.out.println(scores.get("Sang-woo"));\n    }\n}`,
+    testCases: [
+      { input: "", expected: "true", description: "Sae-byeok is in the score map" },
+      { input: "", expected: "91", description: "Sang-woo's score is 91" },
+    ],
+    concept: "HashMap",
+    difficulty: "intermediate",
+  },
+  {
+    id: "sg-java-09",
+    themeId: "squid-game",
+    languageId: "java",
+    order: 9,
+    title: "Multiple Methods",
+    themedTitle: "The Glass Bridge Odds",
+    narrative:
+      "The Glass Bridge requires players to pick between two panels — one tempered, one not. The probability of crossing safely decreases with each step. The Front Man's analysts wrote a two-method system to compute the survival odds for any number of steps.",
+    prompt:
+      "Write `safeChance(int steps)` that returns `(int) Math.pow(50, steps)` — representing percentage-like odds. Write `survivalMessage(int steps)` that calls `safeChance(steps)` and returns `\"Odds: \" + safeChance(steps)`. In `main`, print `survivalMessage(1)` and `survivalMessage(2)`.",
+    hint: "Use `(int) Math.pow(50, steps)` for the power calculation. One method calls the other by name.",
+    solution: `public class Main {\n    public static int safeChance(int steps) {\n        return (int) Math.pow(50, steps);\n    }\n\n    public static String survivalMessage(int steps) {\n        return "Odds: " + safeChance(steps);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(survivalMessage(1));\n        System.out.println(survivalMessage(2));\n    }\n}`,
+    starterCode: `public class Main {\n    public static int safeChance(int steps) {\n        return (int) Math.pow(50, steps);\n    }\n\n    public static String survivalMessage(int steps) {\n        // Return "Odds: " concatenated with safeChance(steps)\n        return ___;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(survivalMessage(1));\n        System.out.println(survivalMessage(2));\n    }\n}`,
+    testCases: [
+      { input: "1", expected: "Odds: 50", description: "1 step gives 50 odds" },
+      { input: "2", expected: "Odds: 2500", description: "2 steps gives 2500 odds" },
+    ],
+    concept: "Multiple Methods",
+    difficulty: "advanced",
+  },
+  {
+    id: "sg-java-10",
+    themeId: "squid-game",
+    languageId: "java",
+    order: 10,
+    title: "StringBuilder",
+    themedTitle: "The Elimination Announcement",
+    narrative:
+      "After each game, the PA system broadcasts the names of eliminated players in sequence. The system builds the announcement string player by player using a StringBuilder — because the Front Man's facility is nothing if not efficient.",
+    prompt:
+      "Create a `String[] eliminated = {\"Player 001\", \"Player 017\", \"Player 069\", \"Player 111\"}`. Create a `StringBuilder sb`. Loop through the array and append each name followed by `\" eliminated\\n\"`. Print `sb.toString()`.",
+    hint: "Use a for-each loop: `for (String p : eliminated)`. Append `p + \" eliminated\\n\"` each iteration.",
+    solution: `public class Main {\n    public static void main(String[] args) {\n        String[] eliminated = {"Player 001", "Player 017", "Player 069", "Player 111"};\n        StringBuilder sb = new StringBuilder();\n        for (String p : eliminated) {\n            sb.append(p + " eliminated\\n");\n        }\n        System.out.print(sb.toString());\n    }\n}`,
+    starterCode: `public class Main {\n    public static void main(String[] args) {\n        String[] eliminated = {"Player 001", "Player 017", "Player 069", "Player 111"};\n        StringBuilder sb = new StringBuilder();\n        for (String p : eliminated) {\n            sb.append(___);\n        }\n        System.out.print(sb.toString());\n    }\n}`,
+    testCases: [
+      { input: "", expected: "Player 001 eliminated", description: "First elimination in the announcement" },
+      { input: "", expected: "Player 111 eliminated", description: "Last elimination in the announcement" },
+    ],
+    concept: "StringBuilder",
+    difficulty: "advanced",
+  },
 ];
