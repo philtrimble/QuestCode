@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
+import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
 
 // Monaco must be dynamically imported (no SSR)
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
@@ -64,7 +65,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     // Production: send to /api/run endpoint which calls Piston/Judge0
     const correct = evaluateCode(code, current);
     const simulatedOutput = correct
-      ? current.testCases[0]?.expected ?? "✓ Looks good!"
+      ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
       : "Error: Output doesn't match. Check your code and try again.";
 
     setOutput(simulatedOutput);

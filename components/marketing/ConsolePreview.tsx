@@ -5,6 +5,7 @@ import { Play, Lightbulb, ChevronDown } from "lucide-react";
 import { THEME_LIST } from "@/lib/themes";
 import { LANGUAGE_LIST } from "@/lib/languages";
 import { getChallenges } from "@/lib/challenges";
+import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
 import type { ThemeId, LanguageId } from "@/types";
 
 const THEME_COLORS: Record<string, { badge: string; text: string; border: string; glow: string }> = {
@@ -54,7 +55,7 @@ export default function ConsolePreview() {
         tc.expected.split("\n").every((word) => norm.includes(word.toLowerCase()))
       );
       if (solved) {
-        setOutput(firstTestExpected);
+        setOutput(SIMULATOR_OUTPUTS[challenge.id] ?? firstTestExpected);
         setSuccess(true);
       } else {
         setOutput("Error: Output doesn't match. Check your code and try again.");
@@ -220,7 +221,7 @@ export default function ConsolePreview() {
               </div>
 
               {/* Terminal output panel */}
-              <div className="h-28 bg-[#050e05] border-t-2 border-green-900/60 p-4 font-mono text-sm">
+              <div className="h-48 overflow-y-auto bg-[#050e05] border-t-2 border-green-900/60 p-4 font-mono text-xs">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full bg-green-900" />
