@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { Play, Lightbulb, ChevronDown } from "lucide-react";
 import { THEME_LIST } from "@/lib/themes";
 import { LANGUAGE_LIST } from "@/lib/languages";
 import { getChallenges } from "@/lib/challenges";
 import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
 import type { ThemeId, LanguageId } from "@/types";
+
+const MonacoEditor = dynamic(() => import("@/components/editor/MonacoEditor"), { ssr: false });
 
 const THEME_COLORS: Record<string, { badge: string; text: string; border: string; glow: string }> = {
   "stranger-things":  { badge: "bg-red-950/50 border-red-500/40",   text: "text-red-400",    border: "border-red-500/30",    glow: "shadow-[0_0_30px_rgba(239,68,68,0.15)]" },
@@ -27,7 +30,6 @@ export default function ConsolePreview() {
   const [showHint, setShowHint] = useState(false);
   const [running, setRunning] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
   const challenges = useMemo(
     () => getChallenges(selectedTheme, selectedLanguage),
@@ -187,20 +189,13 @@ export default function ConsolePreview() {
 
             {/* Right: code editor + output */}
             <div className="flex flex-col">
-              {/* Code area with blinking cursor */}
-              <div className="relative flex-1">
-                <textarea
+              {/* Code area — Monaco editor with syntax highlighting */}
+              <div className="h-44 border-b border-brand-border">
+                <MonacoEditor
+                  language={language.monacoId}
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  className="w-full h-44 bg-[#1e1e2e] text-slate-200 font-mono text-sm p-4 resize-none outline-none border-b border-brand-border caret-brand-neon"
-                  spellCheck={false}
+                  onChange={(val) => setCode(val ?? "")}
                 />
-                {/* Blinking cursor shown when textarea is not focused */}
-                {!isFocused && (
-                  <span className="absolute bottom-6 left-4 w-[2px] h-[14px] bg-brand-neon animate-blink pointer-events-none opacity-80" />
-                )}
               </div>
 
               {/* Run button bar */}

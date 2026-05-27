@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, Code2, BookOpen, Trophy, RotateCcw, Lock, GraduationCap
+  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
@@ -30,7 +30,7 @@ interface Props {
   isSubscribed: boolean;
 }
 
-type PanelTab = "lesson" | "challenge" | "output";
+type PanelTab = "lesson" | "challenge";
 
 export default function LearningConsole({ theme, language, challenges, userId, initialProgress, isSubscribed }: Props) {
   const supabase = createClient();
@@ -61,7 +61,6 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   const runCode = useCallback(async () => {
     if (!current) return;
     setRunning(true);
-    setTab("output");
     setOutput(null);
     setIsCorrect(null);
 
@@ -116,15 +115,25 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   };
 
   const themeColors: Record<string, string> = {
-    "stranger-things": "text-red-400 border-red-500/40",
-    "severance": "text-blue-400 border-blue-500/40",
-    "breaking-bad": "text-green-400 border-green-500/40",
+    "stranger-things":  "text-red-400 border-red-500/40",
+    "severance":        "text-blue-400 border-blue-500/40",
+    "breaking-bad":     "text-green-400 border-green-500/40",
+    "the-office":       "text-yellow-400 border-yellow-500/40",
+    "game-of-thrones":  "text-yellow-500 border-yellow-600/40",
+    "the-matrix":       "text-green-300 border-green-400/40",
+    "rick-and-morty":   "text-cyan-400 border-cyan-500/40",
+    "squid-game":       "text-pink-400 border-pink-500/40",
   };
 
   const accentBg: Record<string, string> = {
-    "stranger-things": "bg-red-950/30",
-    "severance": "bg-blue-950/30",
-    "breaking-bad": "bg-green-950/30",
+    "stranger-things":  "bg-red-950/30",
+    "severance":        "bg-blue-950/30",
+    "breaking-bad":     "bg-green-950/30",
+    "the-office":       "bg-yellow-950/30",
+    "game-of-thrones":  "bg-yellow-950/30",
+    "the-matrix":       "bg-green-950/30",
+    "rick-and-morty":   "bg-cyan-950/30",
+    "squid-game":       "bg-pink-950/30",
   };
 
   const themeColor = themeColors[theme.id] ?? "text-brand-accent border-brand-border";
@@ -204,15 +213,6 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               <BookOpen className="w-4 h-4" />
               Challenge
             </button>
-            <button
-              onClick={() => setTab("output")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-sm font-medium transition-colors ${
-                tab === "output" ? "text-white border-b-2 border-brand-glow" : "text-slate-500 hover:text-slate-300"
-              }`}
-            >
-              <Code2 className="w-4 h-4" />
-              Output
-            </button>
           </div>
 
           <div className="p-5 flex-1">
@@ -224,7 +224,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                 language={language.id}
                 onReady={() => setTab("challenge")}
               />
-            ) : tab === "challenge" ? (
+            ) : (
               <div>
                 {/* Challenge header */}
                 <div className={`inline-flex items-center gap-1.5 border ${themeColor} rounded-full px-3 py-1 mb-4 text-xs font-semibold bg-brand-surface/50`}>
@@ -270,75 +270,6 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                   <div className="mt-2 bg-brand-surface border border-brand-border rounded-lg p-3">
                     <p className="text-xs text-slate-500 mb-2 font-mono">solution:</p>
                     <pre className="text-xs text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap">{current.solution}</pre>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="h-full">
-                {/* Output panel */}
-                {output === null ? (
-                  <div className="flex flex-col items-center justify-center h-48 text-slate-600">
-                    <Play className="w-8 h-8 mb-3 opacity-30" />
-                    <p className="text-sm">Run your code to see output</p>
-                  </div>
-                ) : (
-                  <div>
-                    {/* Status banner */}
-                    <div className={`flex items-center gap-2 px-4 py-3 rounded-lg mb-4 ${
-                      isCorrect
-                        ? "bg-green-950/40 border border-green-500/40"
-                        : "bg-red-950/40 border border-red-500/40"
-                    }`}>
-                      {isCorrect ? (
-                        <>
-                          <Check className="w-4 h-4 text-green-400" />
-                          <span className="text-green-400 font-semibold text-sm">Correct! Great work.</span>
-                        </>
-                      ) : (
-                        <>
-                          <X className="w-4 h-4 text-red-400" />
-                          <span className="text-red-400 font-semibold text-sm">Not quite. Keep trying!</span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Output text */}
-                    <div className="bg-[#0d0d14] rounded-lg p-4 font-mono text-sm">
-                      <p className="text-xs text-slate-500 mb-2">Output:</p>
-                      <pre className="text-slate-300 whitespace-pre-wrap">{output}</pre>
-                    </div>
-
-                    {/* Next challenge CTA */}
-                    {isCorrect && currentIndex < challenges.length - 1 && (
-                      isSubscribed ? (
-                        <button
-                          onClick={() => goToChallenge(currentIndex + 1)}
-                          className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
-                        >
-                          Next challenge
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      ) : (
-                        <Link
-                          href="/pricing"
-                          className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
-                        >
-                          <Lock className="w-4 h-4" />
-                          Unlock all challenges
-                        </Link>
-                      )
-                    )}
-
-                    {isCorrect && currentIndex === challenges.length - 1 && (
-                      <div className="mt-4 text-center">
-                        <Trophy className="w-10 h-10 text-brand-amber mx-auto mb-2" />
-                        <p className="text-white font-bold text-lg">All done!</p>
-                        <p className="text-slate-400 text-sm mb-4">You've completed all challenges for this theme + language combo.</p>
-                        <Link href="/dashboard" className="btn-primary inline-flex items-center gap-2">
-                          Back to Dashboard
-                        </Link>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -419,13 +350,93 @@ export default function LearningConsole({ theme, language, challenges, userId, i
           </div>
 
           {/* Monaco Editor */}
-          <div className="flex-1" style={{ minHeight: "300px" }}>
+          <div className="flex-1" style={{ minHeight: "280px" }}>
             <MonacoEditor
               language={language.monacoId}
               value={code}
               onChange={(val) => setCode(val ?? "")}
               theme="vs-dark-custom"
             />
+          </div>
+
+          {/* Terminal output — always visible below the editor */}
+          <div className="flex-shrink-0 border-t-2 border-green-900/60 bg-[#050e05] flex flex-col" style={{ height: "220px" }}>
+            {/* Terminal title bar */}
+            <div className="flex items-center gap-2 px-4 py-2 border-b border-green-900/40 flex-shrink-0">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 rounded-full bg-green-900" />
+                <div className="w-2 h-2 rounded-full bg-green-900" />
+                <div className="w-2 h-2 rounded-full bg-green-900" />
+              </div>
+              <span className="text-green-900 text-xs font-mono">output</span>
+              {running && (
+                <span className="ml-auto flex items-center gap-1.5 text-xs text-green-700">
+                  <span className="w-2.5 h-2.5 border border-green-700/50 border-t-green-500 rounded-full animate-spin" />
+                  running…
+                </span>
+              )}
+            </div>
+
+            {/* Terminal content */}
+            <div className="flex-1 overflow-y-auto px-4 py-3 font-mono text-xs">
+              {output === null ? (
+                <div className="flex items-center gap-1 text-green-900">
+                  <span>$</span>
+                  <span>run your code to see output</span>
+                  <span className="inline-block w-[6px] h-[11px] bg-green-700/50 animate-blink ml-1" />
+                </div>
+              ) : (
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <span className="text-green-700">$</span>
+                    {isCorrect ? (
+                      <>
+                        <Check className="w-3 h-3 text-green-400" />
+                        <span className="text-green-400 font-semibold">Correct!</span>
+                      </>
+                    ) : (
+                      <>
+                        <X className="w-3 h-3 text-red-400" />
+                        <span className="text-red-400 font-semibold">Not quite — check your code</span>
+                      </>
+                    )}
+                  </div>
+                  <pre className={`whitespace-pre-wrap leading-relaxed mb-4 ${isCorrect ? "text-green-400" : "text-red-400"}`}>
+                    {output}
+                  </pre>
+
+                  {/* Next challenge CTA */}
+                  {isCorrect && currentIndex < challenges.length - 1 && (
+                    isSubscribed ? (
+                      <button
+                        onClick={() => goToChallenge(currentIndex + 1)}
+                        className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+                      >
+                        Next challenge <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    ) : (
+                      <Link
+                        href="/pricing"
+                        className="flex items-center gap-1.5 bg-brand-glow text-white text-xs font-semibold px-3 py-1.5 rounded-lg"
+                      >
+                        <Lock className="w-3.5 h-3.5" />
+                        Unlock all challenges
+                      </Link>
+                    )
+                  )}
+
+                  {isCorrect && currentIndex === challenges.length - 1 && (
+                    <div className="flex items-center gap-3">
+                      <Trophy className="w-4 h-4 text-brand-amber flex-shrink-0" />
+                      <span className="text-brand-amber font-semibold">All challenges complete!</span>
+                      <Link href="/dashboard" className="text-slate-500 hover:text-white transition-colors ml-auto">
+                        ← Dashboard
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
