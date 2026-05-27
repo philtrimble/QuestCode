@@ -66,6 +66,17 @@ export interface Challenge {
   difficulty: DifficultyLevel;
 }
 
+// ─── Lessons ─────────────────────────────────────────────────────────────────
+
+export interface Lesson {
+  intro: string;          // 1-2 sentence themed narrative hook
+  concept: string;        // Plain-language explanation of the skill (2-3 sentences)
+  example: string;        // Complete working code example
+  exampleOutput: string;  // Exact output / result the example produces
+  notes: string;          // What's happening in the example (1-2 sentences)
+  keyPoints: string[];    // 3-4 essential rules to remember
+}
+
 // ─── Subscriptions ───────────────────────────────────────────────────────────
 
 export type PlanId =

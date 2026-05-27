@@ -5,11 +5,12 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, Code2, BookOpen, Trophy, RotateCcw, Lock
+  Check, X, Code2, BookOpen, Trophy, RotateCcw, Lock, GraduationCap
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
+import { ALL_LESSONS } from "@/lib/lessons";
 
 // Monaco must be dynamically imported (no SSR)
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
@@ -29,7 +30,7 @@ interface Props {
   isSubscribed: boolean;
 }
 
-type PanelTab = "challenge" | "output";
+type PanelTab = "lesson" | "challenge" | "output";
 
 export default function LearningConsole({ theme, language, challenges, userId, initialProgress, isSubscribed }: Props) {
   const supabase = createClient();
@@ -41,7 +42,12 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [running, setRunning] = useState(false);
-  const [tab, setTab] = useState<PanelTab>("challenge");
+  const [tab, setTab] = useState<PanelTab>(() => {
+    // Default to lesson tab if a lesson exists and challenge isn't already completed
+    const firstId = challenges[0]?.id ?? "";
+    const alreadyDone = initialProgress.some((p) => p.challenge_id === firstId && p.completed);
+    return ALL_LESSONS[firstId] && !alreadyDone ? "lesson" : "challenge";
+  });
   const [progress, setProgress] = useState<Record<string, boolean>>(
     Object.fromEntries(initialProgress.map((p) => [p.challenge_id, p.completed]))
   );
@@ -98,7 +104,9 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     setIsCorrect(null);
     setShowHint(false);
     setShowSolution(false);
-    setTab("challenge");
+    const nextId = challenges[index]?.id ?? "";
+    const alreadyDone = initialProgress.some((p) => p.challenge_id === nextId && p.completed);
+    setTab(ALL_LESSONS[nextId] && !alreadyDone ? "lesson" : "challenge");
   };
 
   const resetCode = () => {
@@ -176,6 +184,17 @@ export default function LearningConsole({ theme, language, challenges, userId, i
         <div className={`w-full lg:w-[400px] flex-shrink-0 border-b lg:border-b-0 lg:border-r border-brand-border flex flex-col overflow-y-auto ${themeBg}`}>
           {/* Tab bar */}
           <div className="flex border-b border-brand-border">
+            {ALL_LESSONS[current.id] && (
+              <button
+                onClick={() => setTab("lesson")}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-sm font-medium transition-colors ${
+                  tab === "lesson" ? "text-white border-b-2 border-brand-glow" : "text-slate-500 hover:text-slate-300"
+                }`}
+              >
+                <GraduationCap className="w-4 h-4" />
+                Lesson
+              </button>
+            )}
             <button
               onClick={() => setTab("challenge")}
               className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-sm font-medium transition-colors ${
@@ -197,7 +216,15 @@ export default function LearningConsole({ theme, language, challenges, userId, i
           </div>
 
           <div className="p-5 flex-1">
-            {tab === "challenge" ? (
+            {tab === "lesson" && ALL_LESSONS[current.id] ? (
+              <LessonPanel
+                lesson={ALL_LESSONS[current.id]}
+                concept={current.concept}
+                themeColor={themeColor}
+                language={language.id}
+                onReady={() => setTab("challenge")}
+              />
+            ) : tab === "challenge" ? (
               <div>
                 {/* Challenge header */}
                 <div className={`inline-flex items-center gap-1.5 border ${themeColor} rounded-full px-3 py-1 mb-4 text-xs font-semibold bg-brand-surface/50`}>
@@ -408,6 +435,83 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
 // ─── Simple client-side code evaluation ─────────────────────────────────────
 // Replace with a real sandboxed runner (Piston API, Judge0, etc.) in production
+
+// ── Lesson Panel ─────────────────────────────────────────────────────────────
+
+function LessonPanel({
+  lesson,
+  concept,
+  themeColor,
+  language,
+  onReady,
+}: {
+  lesson: { intro: string; concept: string; example: string; exampleOutput: string; notes: string; keyPoints: string[] };
+  concept: string;
+  themeColor: string;
+  language: string;
+  onReady: () => void;
+}) {
+  const borderClass = themeColor.split(" ")[1] ?? "border-brand-border";
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="mb-4">
+        <p className="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-1">Lesson</p>
+        <h2 className="text-lg font-bold text-white">{concept}</h2>
+      </div>
+
+      {/* Themed intro */}
+      <div className={`rounded-lg p-4 mb-5 border ${borderClass} bg-brand-surface/30`}>
+        <p className="text-slate-300 text-sm leading-relaxed italic">{lesson.intro}</p>
+      </div>
+
+      {/* Concept explanation */}
+      <div className="mb-5">
+        <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">The Concept</h3>
+        <p className="text-slate-200 text-sm leading-relaxed">{lesson.concept}</p>
+      </div>
+
+      {/* Code example */}
+      <div className="mb-5">
+        <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Example</h3>
+        <div className="bg-[#1e1e2e] rounded-t-lg px-4 pt-3 pb-2 font-mono text-xs text-slate-200 overflow-x-auto">
+          <pre className="whitespace-pre">{lesson.example}</pre>
+        </div>
+        {/* Output strip */}
+        <div className="bg-[#050e05] rounded-b-lg px-4 py-2.5 font-mono text-xs border-t border-green-900/40 mb-3">
+          <span className="text-green-700 select-none">$ </span>
+          <span className="text-green-400 whitespace-pre">{lesson.exampleOutput}</span>
+        </div>
+        <p className="text-slate-400 text-xs leading-relaxed">{lesson.notes}</p>
+      </div>
+
+      {/* Key rules */}
+      <div className="mb-6">
+        <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Key Rules</h3>
+        <ul className="space-y-2">
+          {lesson.keyPoints.map((point, i) => (
+            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-300">
+              <span className="text-brand-neon font-bold mt-0.5 flex-shrink-0">→</span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* CTA */}
+      <button
+        onClick={onReady}
+        className="btn-primary w-full flex items-center justify-center gap-2"
+      >
+        Got it — let me try
+        <ChevronRight className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
+// ── Code Evaluation ───────────────────────────────────────────────────────────
 
 function evaluateCode(code: string, challenge: Challenge): boolean {
   const normalizedCode = code.toLowerCase().replace(/\s+/g, " ");
