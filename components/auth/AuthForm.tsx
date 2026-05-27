@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Key } from "lucide-react";
 
 interface Props {
   mode: "login" | "signup";
@@ -16,6 +16,7 @@ export default function AuthForm({ mode }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [accessCode, setAccessCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,18 +28,41 @@ export default function AuthForm({ mode }: Props) {
     setError(null);
 
     if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: displayName },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-        },
-      });
-      if (error) {
-        setError(error.message);
+      if (accessCode.trim()) {
+        // Beta access code path — creates account server-side (no confirmation email)
+        const res = await fetch("/api/redeem-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, displayName, code: accessCode }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error ?? "Something went wrong. Please try again.");
+        } else {
+          // Auto sign-in since email is pre-confirmed
+          const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (signInError) {
+            setError(signInError.message);
+          } else {
+            router.push("/dashboard");
+            router.refresh();
+          }
+        }
       } else {
-        setSuccess("Check your email to confirm your account, then sign in.");
+        // Standard signup — requires email confirmation
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: displayName },
+            emailRedirectTo: `${window.location.origin}/dashboard`,
+          },
+        });
+        if (error) {
+          setError(error.message);
+        } else {
+          setSuccess("Check your email to confirm your account, then sign in.");
+        }
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -109,6 +133,26 @@ export default function AuthForm({ mode }: Props) {
           </button>
         </div>
       </div>
+
+      {/* Access code (signup only, optional) */}
+      {mode === "signup" && (
+        <div>
+          <label className="block text-sm text-slate-300 mb-1.5">
+            Access code{" "}
+            <span className="text-slate-500 font-normal">(optional — skip if you don't have one)</span>
+          </label>
+          <div className="relative">
+            <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <input
+              type="text"
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              placeholder="QUEST-XXXX"
+              className="w-full bg-brand-surface border border-brand-border rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-glow focus:shadow-glow-purple transition-all text-sm font-mono tracking-wider"
+            />
+          </div>
+        </div>
+      )}
 
       {/* Error */}
       {error && (
