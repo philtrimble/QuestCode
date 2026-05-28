@@ -5,7 +5,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles, HelpCircle
+  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles, HelpCircle,
+  Share2, Copy
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
@@ -101,6 +102,9 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   // Prompt Practice state
   const [userPrompt, setUserPrompt] = useState("");
   const [showExamplePrompt, setShowExamplePrompt] = useState(false);
+
+  // Share card state
+  const [copiedSolution, setCopiedSolution] = useState(false);
 
   // Tour state — auto-show once, replay via Tutorial button
   const [showTour, setShowTour] = useState(false);
@@ -261,6 +265,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     setShowSolution(false);
     setUserPrompt("");
     setShowExamplePrompt(false);
+    setCopiedSolution(false);
     const nextId = challenges[index]?.id ?? "";
     const alreadyDone = initialProgress.some((p) => p.challenge_id === nextId && p.completed);
     setTab(ALL_LESSONS[nextId] && !alreadyDone ? "lesson" : "challenge");
@@ -636,6 +641,54 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                   <pre className={`whitespace-pre overflow-x-auto leading-relaxed mb-4 ${isCorrect ? "text-green-400" : "text-red-400"}`}>
                     {output}
                   </pre>
+
+                  {/* Share card — shown on correct answer */}
+                  {isCorrect && (() => {
+                    const tweetText = encodeURIComponent(
+                      `Just cracked Challenge ${currentIndex + 1}/${challenges.length} in the ${theme.name} × ${language.name} track on QuestCode! 🎬💻 #LearnToCode #QuestCode`
+                    );
+                    const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+                    const handleCopy = () => {
+                      navigator.clipboard.writeText(code).then(() => {
+                        setCopiedSolution(true);
+                        setTimeout(() => setCopiedSolution(false), 2000);
+                      });
+                    };
+                    return (
+                      <div className="mb-4 border border-green-900/40 rounded-lg bg-green-950/20 px-3 py-2.5 flex items-center justify-between gap-3 flex-wrap">
+                        <div className="flex items-center gap-1.5 text-green-500 text-xs font-semibold">
+                          <Share2 className="w-3.5 h-3.5 flex-shrink-0" />
+                          <span>Share your win</span>
+                          <span className="text-green-700">·</span>
+                          <span className="font-normal text-green-700">
+                            {theme.emoji} Challenge {currentIndex + 1} complete
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handleCopy}
+                            title="Copy your solution to clipboard"
+                            className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-white transition-colors px-2 py-1 rounded border border-brand-border hover:border-brand-muted bg-brand-surface/50"
+                          >
+                            {copiedSolution ? (
+                              <><Check className="w-3 h-3 text-green-400" /><span className="text-green-400">Copied!</span></>
+                            ) : (
+                              <><Copy className="w-3 h-3" />Copy solution</>
+                            )}
+                          </button>
+                          <a
+                            href={tweetUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-[11px] font-semibold text-white px-2 py-1 rounded bg-[#1d9bf0]/80 hover:bg-[#1d9bf0] transition-colors"
+                          >
+                            <svg className="w-3 h-3 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                            Post
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   {/* Next challenge CTA */}
                   {isCorrect && currentIndex < challenges.length - 1 && (
