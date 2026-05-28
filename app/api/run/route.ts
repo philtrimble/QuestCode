@@ -7,12 +7,14 @@
  * To switch to a self-hosted Judge0 instance, set JUDGE0_URL in your environment.
  * To add an auth token (required on most paid/hosted instances), set JUDGE0_TOKEN.
  *
- * SQL is not supported by Judge0 — those challenges use keyword-based evaluation
- * on the client side and never reach this endpoint.
+ * SQL challenges are handled by wrapping the user's query in a Python/SQLite
+ * script that seeds an in-memory database from lib/sql-scaffolds.ts, then
+ * submits the generated script as Python (language ID 92) to Judge0.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { SQL_SETUP } from "@/lib/sql-scaffolds";
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -46,26 +48,79 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: { language?: string; code?: string };
+  let body: { language?: string; code?: string; themeId?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { language, code } = body;
+  const { language, code, themeId } = body;
 
   if (!language || !code) {
     return NextResponse.json({ error: "Missing required fields: language, code" }, { status: 400 });
   }
 
-  const langId = LANGUAGE_ID[language];
-  if (!langId) {
-    return NextResponse.json({ error: `Language "${language}" is not supported` }, { status: 400 });
-  }
-
   if (Buffer.byteLength(code, "utf8") > MAX_CODE_BYTES) {
     return NextResponse.json({ error: "Code exceeds maximum allowed size" }, { status: 413 });
+  }
+
+  // ── Resolve the source code and Judge0 language ID to submit ─────────────
+  // SQL is executed by wrapping user code in a Python/SQLite script.
+  let submitCode: string;
+  let langId: number;
+
+  if (language === "sql") {
+    // Look up the seed schema for the given theme
+    const setup = themeId ? SQL_SETUP[themeId] : undefined;
+    if (!setup) {
+      return NextResponse.json(
+        { error: `No SQL schema found for theme "${themeId ?? "(none)"}"` },
+        { status: 400 }
+      );
+    }
+
+    const setupB64 = Buffer.from(setup).toString("base64");
+    const codeB64  = Buffer.from(code).toString("base64");
+
+    // Generate a self-contained Python script that runs the user's SQL
+    // against an in-memory SQLite database seeded with the theme's tables.
+    submitCode = `import sqlite3, sys, base64
+try:
+    setup = base64.b64decode("${setupB64}").decode()
+    query = base64.b64decode("${codeB64}").decode()
+    conn = sqlite3.connect(':memory:')
+    conn.executescript(setup)
+    c = conn.cursor()
+    parts = query.split(';')
+    stmts = []
+    for p in parts:
+        lines = [l for l in p.splitlines() if not l.strip().startswith('--')]
+        s = ' '.join(lines).strip()
+        if s:
+            stmts.append(s)
+    found = False
+    for stmt in stmts:
+        c.execute(stmt)
+        if c.description:
+            rows = c.fetchall()
+            for row in rows:
+                print('|'.join('' if x is None else str(x) for x in row))
+            if rows:
+                found = True
+    if not found:
+        print('(0 rows)')
+except Exception as e:
+    print(str(e), file=sys.stderr)
+    sys.exit(1)`;
+
+    langId = LANGUAGE_ID["python"]; // Python 3.11.2 — includes sqlite3 stdlib
+  } else {
+    langId = LANGUAGE_ID[language];
+    if (!langId) {
+      return NextResponse.json({ error: `Language "${language}" is not supported` }, { status: 400 });
+    }
+    submitCode = code;
   }
 
   // ── Submit to Judge0 ──────────────────────────────────────────────────────
@@ -86,7 +141,7 @@ export async function POST(req: NextRequest) {
         headers,
         body: JSON.stringify({
           language_id:  langId,
-          source_code:  code,
+          source_code:  submitCode,
           stdin:        "",
           cpu_time_limit: RUN_TIMEOUT_MS / 1000, // Judge0 uses seconds
         }),

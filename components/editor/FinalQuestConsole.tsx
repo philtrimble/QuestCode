@@ -190,8 +190,31 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
     let ok: boolean;
     let displayOutput: string;
 
-    if (PISTON_LANGUAGES.has(language.id)) {
-      // ── Real execution via Piston ────────────────────────────────────────
+    if (language.id === "sql") {
+      // ── SQL: execute via SQLite/Python on Judge0; correctness = keyword check
+      try {
+        const result = await executeCode("sql", curSt.code, theme.id);
+
+        if (result.error) {
+          ok = evalAnswer(curSt.code, cur);
+          displayOutput = ok
+            ? "✓ Query accepted."
+            : "⚠ SQL runner unavailable. Static check did not pass.";
+        } else if (result.exit_code !== 0) {
+          ok = false;
+          displayOutput = result.stderr || "SQL error — check your query.";
+        } else {
+          ok = evalAnswer(curSt.code, cur);
+          displayOutput = result.stdout.trim() || "(0 rows)";
+        }
+      } catch {
+        ok = evalAnswer(curSt.code, cur);
+        displayOutput = ok
+          ? "✓ Query accepted."
+          : "⚠ Network error — could not reach SQL runner.";
+      }
+    } else if (PISTON_LANGUAGES.has(language.id)) {
+      // ── Real execution via Judge0 ──────────────────────────────────────────
       try {
         const result = await executeCode(language.id, curSt.code);
 
@@ -217,12 +240,9 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
           : "⚠ Network error — could not reach code runner.";
       }
     } else {
-      // ── SQL: keyword-based evaluation ─────────────────────────────────
-      await new Promise((r) => setTimeout(r, 400 + Math.random() * 200));
+      // Fallback
       ok = evalAnswer(curSt.code, cur);
-      displayOutput = ok
-        ? cur.testCases[0]?.expected ?? "✓ Correct!"
-        : "Error: Query doesn't match expected. Review your SQL and try again.";
+      displayOutput = ok ? "✓ Correct!" : "Error: Check your code and try again.";
     }
 
     const pts = ok ? PTS_PER_Q - (curSt.hintUsed ? HINT_PENALTY : 0) : 0;
@@ -230,7 +250,7 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
     setOutput(displayOutput);
     setCorrect(ok);
     setRunning(false);
-  }, [cur, curSt, qIdx, language.id]);
+  }, [cur, curSt, qIdx, language.id, theme.id]);
 
   // ── Result screen ─────────────────────────────────────────────────────────
   if (done) return (
@@ -500,7 +520,7 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
               {running && (
                 <span className="ml-auto flex items-center gap-1.5 text-xs text-green-700">
                   <span className="w-2.5 h-2.5 border border-green-700/50 border-t-green-500 rounded-full animate-spin" />
-                  {PISTON_LANGUAGES.has(language.id) ? "executing…" : "evaluating…"}
+                  {language.id === "sql" || PISTON_LANGUAGES.has(language.id) ? "executing…" : "evaluating…"}
                 </span>
               )}
             </div>

@@ -12,12 +12,15 @@ export interface RunResult {
   error?:    string;  // set when the service itself failed (network, 5xx, etc.)
 }
 
-/** POST to /api/run and return the structured result. Throws on network failure. */
-export async function executeCode(language: string, code: string): Promise<RunResult> {
+/**
+ * POST to /api/run and return the structured result. Throws on network failure.
+ * Pass themeId for SQL challenges so the API can seed the correct SQLite schema.
+ */
+export async function executeCode(language: string, code: string, themeId?: string): Promise<RunResult> {
   const res = await fetch("/api/run", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ language, code }),
+    body: JSON.stringify({ language, code, themeId }),
   });
 
   const data = await res.json();

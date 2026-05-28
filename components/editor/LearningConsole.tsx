@@ -5,13 +5,15 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap
+  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
 import { ALL_LESSONS } from "@/lib/lessons";
 import { PISTON_LANGUAGES, executeCode, outputMatchesExpected, formatRunError } from "@/lib/run-code";
+import { PROMPT_EXAMPLES } from "@/lib/prompt-challenges";
+import type { PromptExample } from "@/lib/prompt-challenges";
 
 // Monaco must be dynamically imported (no SSR)
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
@@ -32,7 +34,7 @@ interface Props {
   isSubscribed: boolean;
 }
 
-type PanelTab = "lesson" | "challenge";
+type PanelTab = "lesson" | "challenge" | "prompt";
 
 export default function LearningConsole({ theme, language, challenges, userId, initialProgress, isSubscribed }: Props) {
   const supabase = createClient();
@@ -56,6 +58,9 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   const [terminalHeight, setTerminalHeight] = useState(220);
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef<{ startY: number; startHeight: number } | null>(null);
+  // Prompt Practice state
+  const [userPrompt, setUserPrompt] = useState("");
+  const [showExamplePrompt, setShowExamplePrompt] = useState(false);
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,6 +89,10 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   const current = challenges[currentIndex];
   const completedCount = Object.values(progress).filter(Boolean).length;
   const isLocked = !isSubscribed && currentIndex > 2;
+  const promptExample: PromptExample | undefined = current
+    ? PROMPT_EXAMPLES[`${language.id}:${current.concept}`]
+    : undefined;
+  const challengeCompleted = current ? (progress[current.id] ?? false) : false;
 
   const runCode = useCallback(async () => {
     if (!current) return;
@@ -94,8 +103,34 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     let correct: boolean;
     let displayOutput: string;
 
-    if (PISTON_LANGUAGES.has(language.id)) {
-      // ── Real execution via Piston API ──────────────────────────────────────
+    if (language.id === "sql") {
+      // ── SQL: execute via SQLite/Python on Judge0; correctness = keyword check
+      try {
+        const result = await executeCode("sql", code, theme.id);
+
+        if (result.error) {
+          // Service unavailable — fall back to keyword eval so users aren't blocked
+          correct = evaluateCode(code, current);
+          displayOutput = correct
+            ? "✓ Query accepted."
+            : "⚠ SQL runner unavailable. Check your query syntax and try again.";
+        } else if (result.exit_code !== 0) {
+          correct = false;
+          displayOutput = result.stderr || "SQL error — check your query and try again.";
+        } else {
+          // Show real query results; correctness still keyword-based
+          correct = evaluateCode(code, current);
+          displayOutput = result.stdout.trim() || "(0 rows)";
+        }
+      } catch {
+        // Network error — fall back gracefully
+        correct = evaluateCode(code, current);
+        displayOutput = correct
+          ? "✓ Query accepted."
+          : "⚠ Network error — could not reach SQL runner. Try again.";
+      }
+    } else if (PISTON_LANGUAGES.has(language.id)) {
+      // ── Real execution via Judge0 ──────────────────────────────────────────
       try {
         const result = await executeCode(language.id, code);
 
@@ -122,12 +157,11 @@ export default function LearningConsole({ theme, language, challenges, userId, i
           : "⚠ Network error — could not reach code runner. Try again.";
       }
     } else {
-      // ── SQL: keyword-based evaluation (no Piston SQL runtime) ─────────────
-      await new Promise((r) => setTimeout(r, 500 + Math.random() * 300));
+      // Fallback (no active runtime for this language)
       correct = evaluateCode(code, current);
       displayOutput = correct
-        ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
-        : "Error: Query doesn't match expected. Check your SQL and try again.";
+        ? "✓ Looks good!"
+        : "Error: Check your code and try again.";
     }
 
     setOutput(displayOutput);
@@ -171,6 +205,8 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     setIsCorrect(null);
     setShowHint(false);
     setShowSolution(false);
+    setUserPrompt("");
+    setShowExamplePrompt(false);
     const nextId = challenges[index]?.id ?? "";
     const alreadyDone = initialProgress.some((p) => p.challenge_id === nextId && p.completed);
     setTab(ALL_LESSONS[nextId] && !alreadyDone ? "lesson" : "challenge");
@@ -291,6 +327,18 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               <BookOpen className="w-4 h-4" />
               Challenge
             </button>
+            {promptExample && challengeCompleted && (
+              <button
+                onClick={() => setTab("prompt")}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-sm font-medium transition-colors ${
+                  tab === "prompt" ? "text-brand-amber border-b-2 border-brand-amber" : "text-slate-500 hover:text-slate-300"
+                }`}
+              >
+                <Sparkles className="w-4 h-4" />
+                <span className="hidden sm:inline">Prompt It</span>
+                <span className="sm:hidden">AI</span>
+              </button>
+            )}
           </div>
 
           <div className="p-5 flex-1">
@@ -301,6 +349,22 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                 themeColor={themeColor}
                 language={language.id}
                 onReady={() => setTab("challenge")}
+              />
+            ) : tab === "prompt" && promptExample ? (
+              <PromptPanel
+                concept={current.concept}
+                example={promptExample}
+                userPrompt={userPrompt}
+                onUserPromptChange={setUserPrompt}
+                showExample={showExamplePrompt}
+                onShowExample={() => setShowExamplePrompt(true)}
+                onNext={
+                  currentIndex < challenges.length - 1 && (isSubscribed || currentIndex < 2)
+                    ? () => goToChallenge(currentIndex + 1)
+                    : undefined
+                }
+                themeColor={themeColor}
+                language={language.id}
               />
             ) : (
               <div>
@@ -474,7 +538,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               {running && (
                 <span className="ml-auto flex items-center gap-1.5 text-xs text-green-700">
                   <span className="w-2.5 h-2.5 border border-green-700/50 border-t-green-500 rounded-full animate-spin" />
-                  {PISTON_LANGUAGES.has(language.id) ? "executing…" : "checking…"}
+                  {language.id === "sql" || PISTON_LANGUAGES.has(language.id) ? "executing…" : "checking…"}
                 </span>
               )}
             </div>
@@ -509,22 +573,33 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
                   {/* Next challenge CTA */}
                   {isCorrect && currentIndex < challenges.length - 1 && (
-                    isSubscribed || currentIndex < 2 ? (
-                      <button
-                        onClick={() => goToChallenge(currentIndex + 1)}
-                        className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
-                      >
-                        Next challenge <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
-                    ) : (
-                      <Link
-                        href="/pricing"
-                        className="flex items-center gap-1.5 bg-brand-glow text-white text-xs font-semibold px-3 py-1.5 rounded-lg"
-                      >
-                        <Lock className="w-3.5 h-3.5" />
-                        Unlock all {challenges.length} challenges
-                      </Link>
-                    )
+                    <div className="flex flex-col gap-2">
+                      {isSubscribed || currentIndex < 2 ? (
+                        <button
+                          onClick={() => goToChallenge(currentIndex + 1)}
+                          className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all self-start"
+                        >
+                          Next challenge <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      ) : (
+                        <Link
+                          href="/pricing"
+                          className="flex items-center gap-1.5 bg-brand-glow text-white text-xs font-semibold px-3 py-1.5 rounded-lg self-start"
+                        >
+                          <Lock className="w-3.5 h-3.5" />
+                          Unlock all {challenges.length} challenges
+                        </Link>
+                      )}
+                      {promptExample && (
+                        <button
+                          onClick={() => setTab("prompt")}
+                          className="flex items-center gap-1.5 bg-amber-950/40 hover:bg-amber-950/60 border border-amber-500/30 text-brand-amber text-xs font-semibold px-3 py-1.5 rounded-lg transition-all self-start"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          Prompt Practice ✨
+                        </button>
+                      )}
+                    </div>
                   )}
 
                   {isCorrect && currentIndex === challenges.length - 1 && (
@@ -535,11 +610,20 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                       </div>
                       <Link
                         href={`/learn/${theme.id}/${language.id}/final`}
-                        className="flex items-center gap-1.5 bg-brand-amber hover:brightness-110 text-brand-bg text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
+                        className="flex items-center gap-1.5 bg-brand-amber hover:brightness-110 text-brand-bg text-xs font-bold px-3 py-1.5 rounded-lg transition-all self-start"
                       >
                         <Trophy className="w-3.5 h-3.5" />
                         Take the Final Quest →
                       </Link>
+                      {promptExample && (
+                        <button
+                          onClick={() => setTab("prompt")}
+                          className="flex items-center gap-1.5 bg-amber-950/40 hover:bg-amber-950/60 border border-amber-500/30 text-brand-amber text-xs font-semibold px-3 py-1.5 rounded-lg transition-all self-start"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          Prompt Practice ✨
+                        </button>
+                      )}
                       <Link href="/dashboard" className="text-xs text-slate-500 hover:text-white transition-colors">
                         ← Back to Dashboard
                       </Link>
@@ -557,6 +641,106 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
 // ─── Simple client-side code evaluation ─────────────────────────────────────
 // Replace with a real sandboxed runner (Piston API, Judge0, etc.) in production
+
+// ── Prompt Panel ─────────────────────────────────────────────────────────────
+
+function PromptPanel({
+  concept,
+  example,
+  userPrompt,
+  onUserPromptChange,
+  showExample,
+  onShowExample,
+  onNext,
+  themeColor,
+  language,
+}: {
+  concept: string;
+  example: PromptExample;
+  userPrompt: string;
+  onUserPromptChange: (val: string) => void;
+  showExample: boolean;
+  onShowExample: () => void;
+  onNext?: () => void;
+  themeColor: string;
+  language: string;
+}) {
+  const borderClass = themeColor.split(" ")[1] ?? "border-brand-border";
+  const canCompare = userPrompt.trim().length >= 10;
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Sparkles className="w-4 h-4 text-brand-amber" />
+          <p className="text-xs uppercase tracking-widest text-slate-500 font-semibold">Bonus: Prompt Practice</p>
+        </div>
+        <h2 className="text-lg font-bold text-white">{concept}</h2>
+      </div>
+
+      {/* What they built */}
+      <div className={`rounded-lg p-3 mb-5 border ${borderClass} bg-brand-surface/30`}>
+        <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">What you just built</p>
+        <p className="text-slate-300 text-sm leading-relaxed">{example.task}</p>
+      </div>
+
+      {/* Exercise */}
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+          How would you ask an AI to build it?
+        </p>
+        <p className="text-xs text-slate-500 mb-3 leading-relaxed">
+          Write the prompt you&apos;d give an AI assistant to produce the same{" "}
+          {language === "sql" ? "query" : "code"}. Be specific: mention the language, variable names,
+          inputs, outputs, and any conditions.
+        </p>
+        <textarea
+          value={userPrompt}
+          onChange={(e) => onUserPromptChange(e.target.value)}
+          placeholder={`Write your prompt here…\n\nTip: start with "Write a ${language === "sql" ? "SQL query" : language + " program"} that…"`}
+          className="w-full h-32 bg-brand-bg border border-brand-border rounded-lg p-3 text-sm text-slate-200 placeholder-slate-600 resize-none focus:outline-none focus:border-brand-glow/50 transition-colors font-mono"
+        />
+        {!canCompare && userPrompt.length > 0 && (
+          <p className="text-xs text-slate-600 mt-1">Keep going — add a few more details first.</p>
+        )}
+      </div>
+
+      {/* Compare button */}
+      {!showExample ? (
+        <button
+          onClick={onShowExample}
+          disabled={!canCompare}
+          className="w-full flex items-center justify-center gap-2 bg-brand-surface hover:bg-brand-surface/80 border border-brand-border disabled:border-brand-border/50 text-white disabled:text-slate-600 text-sm font-semibold px-4 py-2.5 rounded-lg transition-all disabled:cursor-not-allowed mb-5"
+        >
+          <Sparkles className="w-4 h-4 text-brand-amber" />
+          See example prompt
+        </button>
+      ) : (
+        <div className="mb-5">
+          <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Example prompt</p>
+          <div className="bg-brand-surface border border-brand-amber/20 rounded-lg p-3">
+            <p className="text-sm text-slate-200 leading-relaxed">&ldquo;{example.example}&rdquo;</p>
+          </div>
+          <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+            Strong prompts name the language, specify variable/column names, describe inputs and
+            outputs, and handle edge cases — the more detail, the better the AI result.
+          </p>
+        </div>
+      )}
+
+      {/* Next challenge button */}
+      {onNext && (
+        <button
+          onClick={onNext}
+          className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
+        >
+          Next challenge <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+      )}
+    </div>
+  );
+}
 
 // ── Lesson Panel ─────────────────────────────────────────────────────────────
 
@@ -817,7 +1001,7 @@ function evaluateCode(code: string, challenge: Challenge): boolean {
     case "ad-sql-01":
       return normalizedCode.includes("select") && normalizedCode.includes("*") && normalizedCode.includes("from ventures");
     case "ad-sql-02":
-      return normalizedCode.includes("where") && normalizedCode.includes("profit");
+      return normalizedCode.includes("where") && normalizedCode.includes("is_legal");
     case "ad-sql-03":
       return normalizedCode.includes("order by") && normalizedCode.includes("desc") && normalizedCode.includes("limit");
     case "ad-sql-04":
@@ -853,7 +1037,7 @@ function evaluateCode(code: string, challenge: Challenge): boolean {
     case "ba-sql-01":
       return normalizedCode.includes("select") && normalizedCode.includes("*") && normalizedCode.includes("from barbies");
     case "ba-sql-02":
-      return normalizedCode.includes("where") && (normalizedCode.includes("barbieland") || normalizedCode.includes("location"));
+      return normalizedCode.includes("where") && normalizedCode.includes("is_in_crisis");
     case "ba-sql-03":
       return normalizedCode.includes("order by") && normalizedCode.includes("desc") && normalizedCode.includes("limit");
     case "ba-sql-04":
