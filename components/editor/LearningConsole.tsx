@@ -19,6 +19,7 @@ interface ProgressEntry {
   challenge_id: string;
   completed: boolean;
   last_code?: string;
+  attempts?: number;
 }
 
 interface Props {
@@ -116,7 +117,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
         completed: true,
         completed_at: new Date().toISOString(),
         last_code: code,
-        attempts: (initialProgress.find((p) => p.challenge_id === current.id)?.challenge_id ? 1 : 0) + 1,
+        attempts: (initialProgress.find((p) => p.challenge_id === current.id)?.attempts ?? 0) + 1,
       });
     }
   }, [code, current, progress, userId, theme.id, language.id, supabase, initialProgress]);

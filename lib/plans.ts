@@ -45,13 +45,13 @@ export const PLANS: Record<PlanId, Plan> = {
   "unlimited-themes-monthly": {
     id: "unlimited-themes-monthly",
     name: "Language Master",
-    tagline: "All 8 themes. Master one language.",
+    tagline: "All 12 themes. Master one language.",
     monthlyPrice: 9,
     lifetimePrice: null,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_LANG_MONTHLY ?? "price_lang_monthly",
     features: [
       "Pick ONE language to master",
-      "Access ALL 8 themes for that language",
+      "Access ALL 12 themes for that language",
       "New themed challenges monthly",
       "In-browser code console",
       "Progress tracking & badges",
@@ -64,13 +64,13 @@ export const PLANS: Record<PlanId, Plan> = {
   "unlimited-themes-lifetime": {
     id: "unlimited-themes-lifetime",
     name: "Language Master — Lifetime",
-    tagline: "All 8 themes. Master one language. Forever.",
+    tagline: "All 12 themes. Master one language. Forever.",
     monthlyPrice: null,
     lifetimePrice: 49,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_LANG_LIFETIME ?? "price_lang_lifetime",
     features: [
       "Pick ONE language — yours for life",
-      "All 8 current themes + all future themes",
+      "All 12 current themes + all future themes",
       "Lifetime access to all new content",
       "In-browser code console",
       "Progress tracking & badges",

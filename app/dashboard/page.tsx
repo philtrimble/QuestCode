@@ -41,7 +41,7 @@ export default async function DashboardPage() {
   // Fetch progress summary
   const { data: progress } = await supabase
     .from("progress")
-    .select("challenge_id, theme_id, language_id, completed")
+    .select("challenge_id, theme_id, language_id, completed, completed_at")
     .eq("user_id", user.id);
 
   return (

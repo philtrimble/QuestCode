@@ -14,6 +14,36 @@ interface ProgressEntry {
   theme_id: string;
   language_id: string;
   completed: boolean;
+  completed_at?: string | null;
+}
+
+function computeStreak(progress: ProgressEntry[]): number {
+  const dates = progress
+    .filter((p) => p.completed && p.completed_at)
+    .map((p) => p.completed_at!.split("T")[0]);
+
+  if (dates.length === 0) return 0;
+
+  const unique = Array.from(new Set(dates)).sort().reverse(); // newest first
+
+  const today = new Date().toISOString().split("T")[0];
+  const yesterday = new Date(Date.now() - 86_400_000).toISOString().split("T")[0];
+
+  // Streak is live only if there was activity today or yesterday
+  if (unique[0] !== today && unique[0] !== yesterday) return 0;
+
+  let streak = 1;
+  for (let i = 1; i < unique.length; i++) {
+    const prev = new Date(unique[i - 1]);
+    const curr = new Date(unique[i]);
+    const diff = Math.round((prev.getTime() - curr.getTime()) / 86_400_000);
+    if (diff === 1) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+  return streak;
 }
 
 interface Props {
@@ -33,6 +63,7 @@ export default function DashboardClient({ user, subscription, progress }: Props)
   };
 
   const completedCount = progress.filter((p) => p.completed).length;
+  const streak = computeStreak(progress);
 
   const isFullyUnlocked = (themeId: string, languageId: string) => {
     if (!subscription) return false;
@@ -125,7 +156,7 @@ export default function DashboardClient({ user, subscription, progress }: Props)
             { label: "Challenges done", value: completedCount, icon: "✅" },
             { label: "Themes unlocked", value: subscription ? (subscription.planId.includes("unlimited-themes") ? "All" : "1") : "0", icon: "🎬" },
             { label: "Languages unlocked", value: subscription ? (subscription.planId.includes("unlimited-languages") ? "All" : "1") : "0", icon: "💻" },
-            { label: "Current streak", value: "—", icon: "🔥" },
+            { label: "Current streak", value: streak > 0 ? `${streak} day${streak !== 1 ? "s" : ""}` : "—", icon: "🔥" },
           ].map((stat) => (
             <div key={stat.label} className="glass-card p-4 text-center">
               <div className="text-2xl mb-1">{stat.icon}</div>
