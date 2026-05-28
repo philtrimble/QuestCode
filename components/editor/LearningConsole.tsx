@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
   Play, ChevronLeft, ChevronRight, Lightbulb,
-  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles
+  Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles, HelpCircle
 } from "lucide-react";
 import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
@@ -14,6 +14,46 @@ import { ALL_LESSONS } from "@/lib/lessons";
 import { PISTON_LANGUAGES, executeCode, outputMatchesExpected, formatRunError } from "@/lib/run-code";
 import { PROMPT_EXAMPLES } from "@/lib/prompt-challenges";
 import type { PromptExample } from "@/lib/prompt-challenges";
+import TourOverlay, { type TourStep } from "@/components/tour/TourOverlay";
+
+const CONSOLE_TOUR_KEY = "qc:tour:console";
+
+const CONSOLE_TOUR: TourStep[] = [
+  {
+    title: "Welcome to the coding console 💻",
+    body: "This is where you'll read lessons, write code, and run it against real challenges. Here's a 30-second orientation.",
+  },
+  {
+    tourId: "console-tabs",
+    side: "bottom",
+    title: "Lesson → Challenge → Prompt",
+    body: "Start with the Lesson tab to understand the concept. Switch to Challenge for your mission. After you pass, the Prompt It tab unlocks a bonus AI exercise.",
+  },
+  {
+    tourId: "console-editor",
+    side: "left",
+    title: "Write your code here",
+    body: "The Monaco editor has full syntax highlighting, bracket matching, and autocomplete. Edit the starter code until it solves the challenge.",
+  },
+  {
+    tourId: "console-run-btn",
+    side: "bottom",
+    title: "Run your code",
+    body: "Hit the Run button — or press ⌘↵ (Ctrl+↵ on Windows) — to execute your code and check it against the test cases.",
+  },
+  {
+    tourId: "console-terminal",
+    side: "top",
+    title: "Output lives here",
+    body: "Your code's output appears in this terminal. Green means all tests passed. Red shows what actually printed so you can debug it.",
+  },
+  {
+    tourId: "console-progress",
+    side: "bottom",
+    title: "Challenge progress",
+    body: "Each dot is one challenge. Click any dot to jump directly to it. Green dots are completed — work through all 10 to unlock the Final Quest.",
+  },
+];
 
 // Monaco must be dynamically imported (no SSR)
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
@@ -61,6 +101,20 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   // Prompt Practice state
   const [userPrompt, setUserPrompt] = useState("");
   const [showExamplePrompt, setShowExamplePrompt] = useState(false);
+
+  // Tour state — auto-show once, replay via Tutorial button
+  const [showTour, setShowTour] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined" && !localStorage.getItem(CONSOLE_TOUR_KEY)) {
+      const t = setTimeout(() => setShowTour(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, []);
+  const dismissTour = () => {
+    if (typeof window !== "undefined") localStorage.setItem(CONSOLE_TOUR_KEY, "1");
+    setShowTour(false);
+  };
+  const replayTour = () => setShowTour(true);
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -255,6 +309,9 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
   return (
     <div className="h-screen bg-brand-bg flex flex-col overflow-hidden">
+      {/* Onboarding tour */}
+      {showTour && <TourOverlay steps={CONSOLE_TOUR} onDone={dismissTour} />}
+
       {/* Full-screen overlay while dragging — locks cursor and blocks text selection */}
       {isDragging && <div className="fixed inset-0 z-50 cursor-row-resize select-none" />}
       {/* Top bar */}
@@ -277,7 +334,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
           <div className="ml-auto flex items-center gap-3">
             {/* Progress pills */}
-            <div className="hidden sm:flex gap-1">
+            <div className="hidden sm:flex gap-1" data-tour-id="console-progress">
               {challenges.map((c, i) => (
                 <button
                   key={c.id}
@@ -306,7 +363,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
         {/* Left panel — challenge info */}
         <div className={`w-full lg:w-[400px] flex-shrink-0 border-b lg:border-b-0 lg:border-r border-brand-border flex flex-col overflow-y-auto ${themeBg}`}>
           {/* Tab bar */}
-          <div className="flex border-b border-brand-border">
+          <div className="flex border-b border-brand-border" data-tour-id="console-tabs">
             {ALL_LESSONS[current.id] && (
               <button
                 onClick={() => setTab("lesson")}
@@ -467,7 +524,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
             </div>
           )}
           {/* Editor toolbar */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-brand-border bg-brand-surface">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-brand-border bg-brand-surface" data-tour-id="console-editor">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-red-500/70" />
@@ -488,8 +545,17 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                 Reset
               </button>
               <button
+                onClick={replayTour}
+                title="Replay tutorial"
+                className="flex items-center gap-1 text-xs text-slate-500 hover:text-white transition-colors px-2 py-1"
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Tutorial</span>
+              </button>
+              <button
                 onClick={runCode}
                 disabled={running}
+                data-tour-id="console-run-btn"
                 title="Run code (⌘Enter)"
                 className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg transition-all disabled:opacity-60"
               >
@@ -526,7 +592,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
           </div>
 
           {/* Terminal output */}
-          <div className="flex-shrink-0 bg-[#050e05] flex flex-col overflow-hidden" style={{ height: `${terminalHeight}px` }}>
+          <div className="flex-shrink-0 bg-[#050e05] flex flex-col overflow-hidden" style={{ height: `${terminalHeight}px` }} data-tour-id="console-terminal">
             {/* Terminal title bar */}
             <div className="flex items-center gap-2 px-4 py-2 border-b border-green-900/40 flex-shrink-0">
               <div className="flex gap-1">
