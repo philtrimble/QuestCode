@@ -633,7 +633,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                       </>
                     )}
                   </div>
-                  <pre className={`whitespace-pre-wrap leading-relaxed mb-4 ${isCorrect ? "text-green-400" : "text-red-400"}`}>
+                  <pre className={`whitespace-pre overflow-x-auto leading-relaxed mb-4 ${isCorrect ? "text-green-400" : "text-red-400"}`}>
                     {output}
                   </pre>
 

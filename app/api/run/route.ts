@@ -100,14 +100,32 @@ try:
         if s:
             stmts.append(s)
     found = False
+    first_result = True
     for stmt in stmts:
         c.execute(stmt)
         if c.description:
+            if not first_result:
+                print('')
+            first_result = False
             rows = c.fetchall()
-            for row in rows:
-                print('|'.join('' if x is None else str(x) for x in row))
-            if rows:
-                found = True
+            headers = [d[0] for d in c.description]
+            str_rows = [['' if x is None else str(x) for x in row] for row in rows]
+            col_widths = [len(h) for h in headers]
+            for row in str_rows:
+                for i, val in enumerate(row):
+                    if len(val) > col_widths[i]:
+                        col_widths[i] = len(val)
+            col_widths = [min(w, 40) for w in col_widths]
+            header_line = ' | '.join(h[:col_widths[i]].ljust(col_widths[i]) for i, h in enumerate(headers))
+            separator = '-+-'.join('-' * w for w in col_widths)
+            print(header_line)
+            print(separator)
+            for row in str_rows:
+                print(' | '.join(v[:col_widths[i]].ljust(col_widths[i]) for i, v in enumerate(row)))
+            n = len(rows)
+            print('')
+            print('(' + str(n) + (' row' if n == 1 else ' rows') + ')')
+            found = True
     if not found:
         print('(0 rows)')
 except Exception as e:

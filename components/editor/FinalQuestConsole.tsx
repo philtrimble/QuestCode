@@ -548,7 +548,7 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
                       </>
                     )}
                   </div>
-                  <pre className={`whitespace-pre-wrap leading-relaxed mb-3 ${correct ? "text-green-400" : "text-red-400/80"}`}>
+                  <pre className={`whitespace-pre overflow-x-auto leading-relaxed mb-3 ${correct ? "text-green-400" : "text-red-400/80"}`}>
                     {output}
                   </pre>
                   {correct && qIdx < challenge.questions.length - 1 && (
