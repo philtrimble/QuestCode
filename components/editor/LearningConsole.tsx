@@ -11,6 +11,7 @@ import type { Theme, Language, Challenge } from "@/types";
 import { createClient } from "@/lib/supabase/client";
 import { SIMULATOR_OUTPUTS } from "@/lib/simulator-outputs";
 import { ALL_LESSONS } from "@/lib/lessons";
+import { PISTON_LANGUAGES, executeCode, outputMatchesExpected, formatRunError } from "@/lib/run-code";
 
 // Monaco must be dynamically imported (no SSR)
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
@@ -84,29 +85,56 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   const completedCount = Object.values(progress).filter(Boolean).length;
   const isLocked = !isSubscribed && currentIndex > 2;
 
-  // Simulate code execution in-browser
-  // In production, replace with a real sandboxed execution service (e.g. Piston API)
   const runCode = useCallback(async () => {
     if (!current) return;
     setRunning(true);
     setOutput(null);
     setIsCorrect(null);
 
-    await new Promise((r) => setTimeout(r, 600 + Math.random() * 400));
+    let correct: boolean;
+    let displayOutput: string;
 
-    // Simple keyword-based validation for demo
-    // Production: send to /api/run endpoint which calls Piston/Judge0
-    const correct = evaluateCode(code, current);
-    const simulatedOutput = correct
-      ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
-      : "Error: Output doesn't match. Check your code and try again.";
+    if (PISTON_LANGUAGES.has(language.id)) {
+      // ── Real execution via Piston API ──────────────────────────────────────
+      try {
+        const result = await executeCode(language.id, code);
 
-    setOutput(simulatedOutput);
+        if (result.error) {
+          // Service unavailable — fall back to keyword eval so users aren't blocked
+          correct = evaluateCode(code, current);
+          displayOutput = correct
+            ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
+            : "⚠ Code runner unavailable. Could not verify output.";
+        } else if (result.exit_code !== 0) {
+          correct = false;
+          displayOutput = formatRunError(result);
+        } else {
+          correct = outputMatchesExpected(result.stdout, current.testCases);
+          // When correct, show the real output. When wrong, show what they
+          // actually printed so they can debug it.
+          displayOutput = result.stdout || "(no output)";
+        }
+      } catch {
+        // Network error — fall back gracefully
+        correct = evaluateCode(code, current);
+        displayOutput = correct
+          ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
+          : "⚠ Network error — could not reach code runner. Try again.";
+      }
+    } else {
+      // ── SQL: keyword-based evaluation (no Piston SQL runtime) ─────────────
+      await new Promise((r) => setTimeout(r, 500 + Math.random() * 300));
+      correct = evaluateCode(code, current);
+      displayOutput = correct
+        ? SIMULATOR_OUTPUTS[current.id] ?? current.testCases[0]?.expected ?? "✓ Looks good!"
+        : "Error: Query doesn't match expected. Check your SQL and try again.";
+    }
+
+    setOutput(displayOutput);
     setIsCorrect(correct);
     setRunning(false);
 
     if (correct) {
-      // Save progress to Supabase
       const newProgress = { ...progress, [current.id]: true };
       setProgress(newProgress);
       await supabase.from("progress").upsert({
@@ -446,7 +474,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               {running && (
                 <span className="ml-auto flex items-center gap-1.5 text-xs text-green-700">
                   <span className="w-2.5 h-2.5 border border-green-700/50 border-t-green-500 rounded-full animate-spin" />
-                  running…
+                  {PISTON_LANGUAGES.has(language.id) ? "executing…" : "checking…"}
                 </span>
               )}
             </div>

@@ -8,6 +8,7 @@ import {
   Clock, Star, X, Check, RotateCcw, AlertCircle, Zap,
 } from "lucide-react";
 import type { Theme, Language, FinalChallenge, FinalQuestion } from "@/types";
+import { PISTON_LANGUAGES, executeCode, outputMatchesExpected, formatRunError } from "@/lib/run-code";
 
 const MonacoEditor = dynamic(() => import("./MonacoEditor"), { ssr: false });
 
@@ -186,19 +187,50 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
     setOutput(null);
     setCorrect(null);
 
-    await new Promise((r) => setTimeout(r, 500 + Math.random() * 300));
+    let ok: boolean;
+    let displayOutput: string;
 
-    const ok  = evalAnswer(curSt.code, cur);
+    if (PISTON_LANGUAGES.has(language.id)) {
+      // ── Real execution via Piston ────────────────────────────────────────
+      try {
+        const result = await executeCode(language.id, curSt.code);
+
+        if (result.error) {
+          // Service unavailable — fall back to keyword eval so the user
+          // isn't penalised for an infrastructure failure
+          ok = evalAnswer(curSt.code, cur);
+          displayOutput = ok
+            ? cur.testCases[0]?.expected ?? "✓ Correct!"
+            : "⚠ Code runner unavailable. Static check did not pass.";
+        } else if (result.exit_code !== 0) {
+          ok = false;
+          displayOutput = formatRunError(result);
+        } else {
+          ok = outputMatchesExpected(result.stdout, cur.testCases);
+          displayOutput = result.stdout || "(no output)";
+        }
+      } catch {
+        // Network error — fall back so the timer doesn't strand the user
+        ok = evalAnswer(curSt.code, cur);
+        displayOutput = ok
+          ? cur.testCases[0]?.expected ?? "✓ Correct!"
+          : "⚠ Network error — could not reach code runner.";
+      }
+    } else {
+      // ── SQL: keyword-based evaluation ─────────────────────────────────
+      await new Promise((r) => setTimeout(r, 400 + Math.random() * 200));
+      ok = evalAnswer(curSt.code, cur);
+      displayOutput = ok
+        ? cur.testCases[0]?.expected ?? "✓ Correct!"
+        : "Error: Query doesn't match expected. Review your SQL and try again.";
+    }
+
     const pts = ok ? PTS_PER_Q - (curSt.hintUsed ? HINT_PENALTY : 0) : 0;
-
     patch(qIdx, { answered: true, correct: ok, pts });
-    setOutput(ok
-      ? (cur.testCases[0]?.expected ?? "✓ Correct!")
-      : "Error: Output doesn't match expected. Review your logic and try again."
-    );
+    setOutput(displayOutput);
     setCorrect(ok);
     setRunning(false);
-  }, [cur, curSt, qIdx]);
+  }, [cur, curSt, qIdx, language.id]);
 
   // ── Result screen ─────────────────────────────────────────────────────────
   if (done) return (
@@ -468,7 +500,7 @@ export default function FinalQuestConsole({ theme, language, challenge }: Props)
               {running && (
                 <span className="ml-auto flex items-center gap-1.5 text-xs text-green-700">
                   <span className="w-2.5 h-2.5 border border-green-700/50 border-t-green-500 rounded-full animate-spin" />
-                  evaluating…
+                  {PISTON_LANGUAGES.has(language.id) ? "executing…" : "evaluating…"}
                 </span>
               )}
             </div>
