@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { THEME_LIST } from "@/lib/themes";
 import { LANGUAGE_LIST } from "@/lib/languages";
 import { ALL_CHALLENGES } from "@/lib/challenges";
-import { Code2, LogOut, ChevronRight, Trophy, Zap, PlayCircle } from "lucide-react";
+import { Code2, LogOut, ChevronRight, Trophy, Zap, PlayCircle, Settings } from "lucide-react";
 import type { UserSubscription, UserProfile } from "@/types";
 
 interface ProgressEntry {
@@ -126,6 +126,14 @@ export default function DashboardClient({ user, subscription, progress }: Props)
                 </Link>
               )}
             </div>
+            <Link
+              href="/account"
+              className="flex items-center gap-1.5 text-slate-400 hover:text-white text-sm transition-colors"
+              title="Account settings"
+            >
+              <Settings className="w-4 h-4" />
+              <span className="hidden sm:inline">Account</span>
+            </Link>
             <button
               onClick={handleSignOut}
               className="flex items-center gap-1.5 text-slate-400 hover:text-white text-sm transition-colors"
