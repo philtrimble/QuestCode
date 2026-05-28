@@ -16,28 +16,28 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-brand-card border border-brand-border rounded-full px-4 py-1.5 mb-8">
           <Star className="w-3.5 h-3.5 text-brand-amber fill-brand-amber" />
-          <span className="text-sm text-slate-300">Learn the way your brain actually works</span>
+          <span className="text-sm text-slate-300">The fastest way to get more out of AI</span>
         </div>
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-          Learn to code through{" "}
+          Understand code.{" "}
           <span className="gradient-text text-glow-purple">
-            stories you love
+            Use AI better.
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Forget boring tutorials. Code your way through Hawkins, Lumon HQ, and
-          Albuquerque. Real Python, JavaScript, Java, SQL, and Go — inside the worlds
-          of your favorite shows.
+          You don&apos;t need to become a developer. But knowing the basics means better
+          prompts, fewer AI mistakes, and the ability to actually build with the tools
+          everyone else is just talking about. Learn through the shows you already love.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <Link href="/signup" className="btn-primary flex items-center gap-2 text-base px-8 py-4">
-            Start coding free
+            Start learning free
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link href="/#themes" className="btn-secondary flex items-center gap-2 text-base px-8 py-4">

@@ -10,16 +10,16 @@ export default function CTASection() {
           <div className="absolute inset-0 bg-gradient-radial from-brand-glow/10 via-transparent to-transparent" />
 
           <div className="relative z-10">
-            <span className="text-4xl block mb-4">🚀</span>
+            <span className="text-4xl block mb-4">⚡</span>
             <h2 className="text-4xl font-bold text-white mb-4">
-              Your story starts{" "}
-              <span className="gradient-text">right now</span>
+              Start using AI{" "}
+              <span className="gradient-text">like you mean it</span>
             </h2>
             <p className="text-slate-400 text-lg mb-8 max-w-md mx-auto">
-              First challenge is free. No credit card. Pick a theme and write your first line of code in 60 seconds.
+              First challenge is free. No credit card. Pick a theme, learn the basics, and start getting more out of AI today.
             </p>
             <Link href="/signup" className="btn-primary inline-flex items-center gap-2 text-base px-8 py-4">
-              Start coding free
+              Start learning free
               <ArrowRight className="w-4 h-4" />
             </Link>
             <p className="text-slate-500 text-sm mt-4">

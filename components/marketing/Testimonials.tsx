@@ -1,23 +1,23 @@
 const testimonials = [
   {
     quote:
-      "I tried Codecademy three times and kept quitting. QuestCode kept me going because I actually wanted to know how Hopper solved the next puzzle. Finished Python in 3 weeks.",
+      "I used to just copy whatever code ChatGPT gave me and hope it worked. After a few weeks on QuestCode I actually understand what it's doing — and I catch the mistakes before they blow up.",
     name: "Mia K.",
-    role: "Barista → Junior Dev",
+    role: "Marketing Ops Manager",
     emoji: "🔴",
   },
   {
     quote:
-      "The Severance theme is perfectly eerie. You feel like you're actually at Lumon. It sounds silly but it made JavaScript click for me in a way nothing else did.",
+      "The Severance theme is eerily perfect. But the real win was realising I could finally write a prompt that got back exactly what I needed, first try. My whole team noticed.",
     name: "James T.",
-    role: "Marketing Manager",
+    role: "Product Manager",
     emoji: "🔵",
   },
   {
     quote:
-      "I'm a chemistry teacher who wanted to learn SQL. The Breaking Bad theme was such an obvious choice for me. 'Say my name' now means something completely different.",
+      "I'm not trying to become an engineer. I just wanted to stop feeling lost every time AI spits out code. QuestCode gave me that in about a month — through Breaking Bad, which was a bonus.",
     name: "Rachel M.",
-    role: "Teacher learning to code",
+    role: "Operations Lead",
     emoji: "🟢",
   },
 ];
@@ -27,8 +27,8 @@ export default function Testimonials() {
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">They kept going</h2>
-          <p className="text-slate-400 text-lg">Real learners. Real progress.</p>
+          <h2 className="text-4xl font-bold text-white mb-4">They get more out of AI now</h2>
+          <p className="text-slate-400 text-lg">Real learners. Real outcomes.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
