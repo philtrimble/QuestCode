@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
-  Play, ChevronLeft, ChevronRight, Lightbulb,
+  Play, ChevronLeft, ChevronRight, ChevronDown, Lightbulb,
   Check, X, BookOpen, Trophy, RotateCcw, Lock, GraduationCap, Sparkles, HelpCircle,
   Share2, Copy
 } from "lucide-react";
@@ -102,6 +102,11 @@ export default function LearningConsole({ theme, language, challenges, userId, i
   // Prompt Practice state
   const [userPrompt, setUserPrompt] = useState("");
   const [showExamplePrompt, setShowExamplePrompt] = useState(false);
+
+  // Mission brief strip — expanded by default for unsolved challenges
+  const [briefExpanded, setBriefExpanded] = useState(
+    () => !initialProgress.some((p) => p.challenge_id === challenges[0]?.id && p.completed)
+  );
 
   // Share card state
   const [copiedSolution, setCopiedSolution] = useState(false);
@@ -266,6 +271,8 @@ export default function LearningConsole({ theme, language, challenges, userId, i
     setUserPrompt("");
     setShowExamplePrompt(false);
     setCopiedSolution(false);
+    // Expand brief for unsolved challenges, collapse for already-completed ones
+    setBriefExpanded(!(progress[challenges[index].id] ?? false));
     const nextId = challenges[index]?.id ?? "";
     const alreadyDone = initialProgress.some((p) => p.challenge_id === nextId && p.completed);
     setTab(ALL_LESSONS[nextId] && !alreadyDone ? "lesson" : "challenge");
@@ -573,6 +580,36 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                 <kbd className="hidden sm:inline-block text-[10px] bg-white/15 px-1 py-0.5 rounded font-mono leading-none">⌘↵</kbd>
               </button>
             </div>
+          </div>
+
+          {/* Mission brief strip */}
+          <div className={`flex-shrink-0 border-b border-brand-border border-l-2 ${themeColor.split(" ")[1]} bg-brand-bg/60`}>
+            <button
+              onClick={() => setBriefExpanded((v) => !v)}
+              className="w-full flex items-center justify-between px-4 py-2 text-left hover:bg-brand-surface/40 transition-colors group"
+              aria-label={briefExpanded ? "Collapse mission brief" : "Expand mission brief"}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[11px] text-slate-500 flex-shrink-0">
+                  {theme.emoji} Challenge {currentIndex + 1}
+                </span>
+                <span className="text-slate-700 flex-shrink-0 text-[11px]">·</span>
+                <span className="text-[11px] font-semibold text-slate-200 truncate">
+                  {current.themedTitle}
+                </span>
+                {!briefExpanded && (
+                  <span className="text-[10px] text-slate-600 ml-1 hidden sm:inline">(click to read mission)</span>
+                )}
+              </div>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300 flex-shrink-0 transition-transform duration-200 ml-3 ${briefExpanded ? "rotate-180" : ""}`}
+              />
+            </button>
+            {briefExpanded && (
+              <div className="px-4 pb-3 pt-0.5">
+                <p className="text-slate-300 text-xs leading-relaxed whitespace-pre-line">{current.prompt}</p>
+              </div>
+            )}
           </div>
 
           {/* Monaco Editor */}
