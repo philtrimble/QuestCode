@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
@@ -82,7 +82,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
   const current = challenges[currentIndex];
   const completedCount = Object.values(progress).filter(Boolean).length;
-  const isLocked = !isSubscribed && currentIndex > 0;
+  const isLocked = !isSubscribed && currentIndex > 2;
 
   // Simulate code execution in-browser
   // In production, replace with a real sandboxed execution service (e.g. Piston API)
@@ -121,6 +121,18 @@ export default function LearningConsole({ theme, language, challenges, userId, i
       });
     }
   }, [code, current, progress, userId, theme.id, language.id, supabase, initialProgress]);
+
+  // ⌘/Ctrl + Enter → run code (standard notebook shortcut)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (!running && !isLocked) runCode();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [running, isLocked, runCode]);
 
   const goToChallenge = (index: number) => {
     if (index < 0 || index >= challenges.length) return;
@@ -283,6 +295,17 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                   <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-line">{current.prompt}</p>
                 </div>
 
+                {/* Back to lesson */}
+                {ALL_LESSONS[current.id] && (
+                  <button
+                    onClick={() => setTab("lesson")}
+                    className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-4"
+                  >
+                    <GraduationCap className="w-3.5 h-3.5" />
+                    Review lesson
+                  </button>
+                )}
+
                 {/* Hint */}
                 <button
                   onClick={() => setShowHint(!showHint)}
@@ -343,7 +366,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               <Lock className="w-12 h-12 text-brand-glow mb-4" />
               <h3 className="text-white text-xl font-bold mb-2">This challenge is locked</h3>
               <p className="text-slate-400 text-sm mb-6 text-center max-w-xs">
-                You've completed the free challenge. Unlock all {challenges.length} challenges with a subscription.
+                You&apos;ve completed the 3 free challenges. Unlock all {challenges.length} with a subscription.
               </p>
               <Link href="/pricing" className="btn-primary flex items-center gap-2">
                 See plans
@@ -375,6 +398,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
               <button
                 onClick={runCode}
                 disabled={running}
+                title="Run code (⌘Enter)"
                 className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg transition-all disabled:opacity-60"
               >
                 {running ? (
@@ -383,6 +407,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                   <Play className="w-3.5 h-3.5 fill-white" />
                 )}
                 Run
+                <kbd className="hidden sm:inline-block text-[10px] bg-white/15 px-1 py-0.5 rounded font-mono leading-none">⌘↵</kbd>
               </button>
             </div>
           </div>
@@ -456,7 +481,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
 
                   {/* Next challenge CTA */}
                   {isCorrect && currentIndex < challenges.length - 1 && (
-                    isSubscribed ? (
+                    isSubscribed || currentIndex < 2 ? (
                       <button
                         onClick={() => goToChallenge(currentIndex + 1)}
                         className="flex items-center gap-1.5 bg-brand-glow hover:bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
@@ -469,7 +494,7 @@ export default function LearningConsole({ theme, language, challenges, userId, i
                         className="flex items-center gap-1.5 bg-brand-glow text-white text-xs font-semibold px-3 py-1.5 rounded-lg"
                       >
                         <Lock className="w-3.5 h-3.5" />
-                        Unlock all challenges
+                        Unlock all {challenges.length} challenges
                       </Link>
                     )
                   )}

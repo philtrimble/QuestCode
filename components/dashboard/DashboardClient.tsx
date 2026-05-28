@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { THEME_LIST } from "@/lib/themes";
 import { LANGUAGE_LIST } from "@/lib/languages";
 import { ALL_CHALLENGES } from "@/lib/challenges";
-import { Code2, LogOut, ChevronRight, Trophy, Zap } from "lucide-react";
+import { Code2, LogOut, ChevronRight, Trophy, Zap, PlayCircle } from "lucide-react";
 import type { UserSubscription, UserProfile } from "@/types";
 
 interface ProgressEntry {
@@ -64,6 +64,19 @@ export default function DashboardClient({ user, subscription, progress }: Props)
 
   const completedCount = progress.filter((p) => p.completed).length;
   const streak = computeStreak(progress);
+
+  // Most recently active theme/language combo — used for the "Continue" CTA
+  const continuePath = (() => {
+    const withDates = progress
+      .filter((p) => p.completed && p.completed_at)
+      .sort((a, b) => new Date(b.completed_at!).getTime() - new Date(a.completed_at!).getTime());
+    if (!withDates[0]) return null;
+    const { theme_id, language_id } = withDates[0];
+    const theme = THEME_LIST.find((t) => t.id === theme_id);
+    const lang = LANGUAGE_LIST.find((l) => l.id === language_id);
+    if (!theme || !lang) return null;
+    return { themeId: theme_id, languageId: language_id, themeName: theme.name, themeEmoji: theme.emoji, langName: lang.name };
+  })();
 
   const isFullyUnlocked = (themeId: string, languageId: string) => {
     if (!subscription) return false;
@@ -126,15 +139,26 @@ export default function DashboardClient({ user, subscription, progress }: Props)
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Welcome banner */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-white mb-1">
-            {user.displayName ? `Welcome back, ${user.displayName.split(" ")[0]}` : "Welcome back"} 👋
-          </h1>
-          <p className="text-slate-400">
-            {completedCount > 0
-              ? `You've completed ${completedCount} challenge${completedCount !== 1 ? "s" : ""}. Keep going!`
-              : "Pick a theme and language below to start your first challenge."}
-          </p>
+        <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-1">
+              {user.displayName ? `Welcome back, ${user.displayName.split(" ")[0]}` : "Welcome back"} 👋
+            </h1>
+            <p className="text-slate-400">
+              {completedCount > 0
+                ? `You've completed ${completedCount} challenge${completedCount !== 1 ? "s" : ""}. Keep going!`
+                : "Pick a theme and language below to start your first challenge."}
+            </p>
+          </div>
+          {continuePath && (
+            <Link
+              href={`/learn/${continuePath.themeId}/${continuePath.languageId}`}
+              className="btn-primary flex items-center gap-2 self-start sm:self-auto flex-shrink-0"
+            >
+              <PlayCircle className="w-4 h-4" />
+              Continue {continuePath.themeEmoji} {continuePath.themeName} × {continuePath.langName}
+            </Link>
+          )}
         </div>
 
         {/* No subscription banner */}
