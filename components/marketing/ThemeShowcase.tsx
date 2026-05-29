@@ -255,10 +255,6 @@ function ThemeCard({ theme }: { theme: Theme }) {
               {preview.narrative}
             </div>
 
-            {/* Challenge prompt — the actual mission */}
-            <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">
-              {preview.prompt}
-            </p>
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-slate-600 text-xs">
