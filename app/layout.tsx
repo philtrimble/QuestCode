@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Suspense } from "react";
+import PostHogProvider from "@/components/analytics/PostHogProvider";
+import PostHogPageview from "@/components/analytics/PostHogPageview";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,7 +39,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="bg-brand-bg text-slate-200 antialiased">
-        {children}
+        <PostHogProvider>
+          {/* Wrapped in Suspense — useSearchParams() requires it in App Router */}
+          <Suspense fallback={null}>
+            <PostHogPageview />
+          </Suspense>
+          {children}
+        </PostHogProvider>
+
+        {/* Vercel Analytics + Speed Insights — zero-config, privacy-friendly */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
