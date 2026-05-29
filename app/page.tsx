@@ -22,8 +22,8 @@ export default function HomePage() {
 
       <Navbar />
       <HeroSection />
-      <ThemeShowcase themes={THEME_LIST} />
       <HowItWorks />
+      <ThemeShowcase themes={THEME_LIST} />
       <ConsolePreview />
       <LanguageGrid languages={LANGUAGE_LIST} />
       <Testimonials />
