@@ -1,113 +1,50 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import type { Theme } from "@/types";
+import { ALL_CHALLENGES } from "@/lib/challenges";
 
-interface Props {
-  themes: Theme[];
-}
+// ── Static "random-looking" default language per show ─────────────────────────
+// Chosen to give a varied spread across all 5 languages at first glance.
+const DEFAULT_LANG: Record<string, string> = {
+  "stranger-things":      "javascript",
+  "severance":            "python",
+  "breaking-bad":         "sql",
+  "the-office":           "java",
+  "game-of-thrones":      "python",
+  "the-matrix":           "go",
+  "rick-and-morty":       "javascript",
+  "squid-game":           "sql",
+  "arrested-development": "python",
+  "barbie":               "javascript",
+  "sex-and-the-city":     "java",
+  "sopranos":             "go",
+};
 
-const ROTATING_PHRASES = [
-  { text: "you're surviving the Upside Down.", color: "text-red-400" },
-  { text: "you're refining macrodata for Lumon.", color: "text-blue-400" },
-  { text: "you're cooking something legendary.", color: "text-green-400" },
-  { text: "you're surviving another day at Dunder Mifflin.", color: "text-yellow-400" },
-  { text: "you're playing the game of thrones.", color: "text-yellow-500" },
-  { text: "you're bending the simulation.", color: "text-green-300" },
-  { text: "you're adventuring across the multiverse.", color: "text-cyan-400" },
-  { text: "you're playing for 45.6 billion won.", color: "text-pink-400" },
-  { text: "there's always money in the banana stand.", color: "text-orange-400" },
-  { text: "you're everything. Ken is just Ken.", color: "text-fuchsia-400" },
-  { text: "you couldn't help but wonder…", color: "text-rose-400" },
-  { text: "those who want respect, give respect.", color: "text-red-500" },
+const LANG_OPTIONS = [
+  { id: "python",     icon: "🐍", label: "Python" },
+  { id: "javascript", icon: "⚡", label: "JS"     },
+  { id: "sql",        icon: "🗄️", label: "SQL"    },
+  { id: "java",       icon: "☕", label: "Java"   },
+  { id: "go",         icon: "🔷", label: "Go"     },
 ];
 
-const THEME_CHALLENGE_PREVIEWS: Record<string, string[]> = {
-  "stranger-things": [
-    "Eleven's Powers — Variables",
-    "Decoding Will's Messages — Functions",
-    "The Party's Members — Lists & Loops",
-    "The Mind Flayer Detector — Conditionals",
-    "Hopper's Case Files — Dictionaries",
-  ],
-  "severance": [
-    "Your Innie's ID Badge — Strings",
-    "Macrodata Refinement — Arrays",
-    "Lumon Employee Record — Objects",
-    "The Wellness Session — Functions",
-    "Binning the Numbers — Loops",
-  ],
-  "breaking-bad": [
-    "The Product Inventory — SELECT",
-    "Finding the Good Stuff — WHERE",
-    "Top Batches — ORDER BY & LIMIT",
-    "Counting Saul's Clients — Aggregates",
-    "Distribution Routes — GROUP BY",
-  ],
-  "the-office": [
-    "Michael's Bonus Math — Variables",
-    "Beet Farm Inventory — Lists & Loops",
-    "Dwight's Schrute Facts — Objects",
-    "Is This Funny? — Conditionals",
-    "Schrute Buck Converter — Functions",
-  ],
-  "game-of-thrones": [
-    "House Allegiances — Variables",
-    "The Night's Watch Roster — Arrays",
-    "Dragon Census — Conditionals",
-    "Gold in the Treasury — Functions",
-    "Preparing for Winter — Loops",
-  ],
-  "the-matrix": [
-    "Red vs Blue Pill — Variables",
-    "Agent Detection — Conditionals",
-    "Simulation Parameters — Arrays",
-    "Rule Bending — Functions",
-    "Exit Protocols — Loops",
-  ],
-  "rick-and-morty": [
-    "Portal Gun Config — Variables",
-    "Alien Species Classifier — Functions",
-    "Council of Ricks — Arrays",
-    "Szechuan Sauce Logic — Conditionals",
-    "Multiverse Scanner — Loops",
-  ],
-  "squid-game": [
-    "Player Registration — SELECT",
-    "Survivors Only — WHERE",
-    "Final Standings — ORDER BY & LIMIT",
-    "Elimination Totals — Aggregates",
-    "Games by Round — GROUP BY",
-  ],
-  "arrested-development": [
-    "Banana Stand Inventory — Variables",
-    "Bluth Venture List — Lists",
-    "Her? — Conditionals",
-    "Profit Calculator — Functions",
-    "Gob's Illusions Count — Loops",
-  ],
-  "barbie": [
-    "Barbie's Profile — Variables",
-    "Career Roster — Lists",
-    "Is He Kenough? — Conditionals",
-    "Outfit Cost — Functions",
-    "Perfect Days in Barbieland — Loops",
-  ],
-  "sex-and-the-city": [
-    "Column Stats — Variables",
-    "Brunch Guest List — Lists",
-    "Second Date? — Conditionals",
-    "Ex-Boyfriend File — Objects",
-    "Word Count Total — Loops",
-  ],
-  "sopranos": [
-    "Waste Management Ledger — Variables",
-    "Crew Roster — Lists",
-    "Loyalty Check — Conditionals",
-    "The Cut Calculator — Functions",
-    "Weekly Earnings Tally — Loops",
-  ],
-};
+const ROTATING_PHRASES = [
+  { text: "you're surviving the Upside Down.",             color: "text-red-400"     },
+  { text: "you're refining macrodata for Lumon.",          color: "text-blue-400"    },
+  { text: "you're cooking something legendary.",           color: "text-green-400"   },
+  { text: "you're surviving another day at Dunder Mifflin.", color: "text-yellow-400" },
+  { text: "you're playing the game of thrones.",           color: "text-yellow-500"  },
+  { text: "you're bending the simulation.",                color: "text-green-300"   },
+  { text: "you're adventuring across the multiverse.",     color: "text-cyan-400"    },
+  { text: "you're playing for 45.6 billion won.",          color: "text-pink-400"    },
+  { text: "there's always money in the banana stand.",     color: "text-orange-400"  },
+  { text: "you're everything. Ken is just Ken.",           color: "text-fuchsia-400" },
+  { text: "you couldn't help but wonder…",                 color: "text-rose-400"    },
+  { text: "those who want respect, give respect.",         color: "text-red-500"     },
+];
 
 const gradientMap: Record<string, string> = {
   "stranger-things":      "from-red-950/60 to-brand-card",
@@ -154,6 +91,10 @@ const glowMap: Record<string, string> = {
   "sopranos":             "hover:shadow-glow-crimson",
 };
 
+// ── Section ───────────────────────────────────────────────────────────────────
+
+interface Props { themes: Theme[] }
+
 export default function ThemeShowcase({ themes }: Props) {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -176,12 +117,9 @@ export default function ThemeShowcase({ themes }: Props) {
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Pick your universe
-          </h2>
+          <h2 className="text-4xl font-bold text-white mb-4">Pick your universe</h2>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            Every challenge is wrapped in a story. You&apos;re not solving
-            algorithms —{" "}
+            Every challenge is wrapped in a story. You&apos;re not solving algorithms —{" "}
             <span
               className={`transition-opacity duration-300 ${phrase.color} ${
                 visible ? "opacity-100" : "opacity-0"
@@ -195,11 +133,7 @@ export default function ThemeShowcase({ themes }: Props) {
         {/* Theme cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {themes.map((theme) => (
-            <ThemeCard
-              key={theme.id}
-              theme={theme}
-              challenges={THEME_CHALLENGE_PREVIEWS[theme.id] ?? []}
-            />
+            <ThemeCard key={theme.id} theme={theme} />
           ))}
         </div>
       </div>
@@ -207,59 +141,154 @@ export default function ThemeShowcase({ themes }: Props) {
   );
 }
 
-function ThemeCard({ theme, challenges }: { theme: Theme; challenges: string[] }) {
+// ── Theme card ────────────────────────────────────────────────────────────────
+
+function ThemeCard({ theme }: { theme: Theme }) {
+  const defaultLang = DEFAULT_LANG[theme.id] ?? "python";
+  const [activeLang, setActiveLang] = useState(defaultLang);
+  const [fade, setFade] = useState(true);
+
+  const switchLang = (lang: string) => {
+    if (lang === activeLang) return;
+    setFade(false);
+    setTimeout(() => {
+      setActiveLang(lang);
+      setFade(true);
+    }, 160);
+  };
+
+  const challenges = ALL_CHALLENGES[`${theme.id}-${activeLang}`] ?? [];
+  const preview = challenges[0] ?? null;
+
+  // First 6 lines of starter code, trimmed
+  const codeSnippet = preview
+    ? preview.starterCode.split("\n").slice(0, 6).join("\n")
+    : "";
+
+  const activeLangMeta = LANG_OPTIONS.find((l) => l.id === activeLang);
+
   return (
     <div
       className={`
-        relative glass-card border
+        relative glass-card border flex flex-col
         ${borderMap[theme.id] ?? "border-brand-border hover:border-brand-muted"}
         bg-gradient-to-b ${gradientMap[theme.id] ?? "from-brand-surface to-brand-card"}
         p-6 transition-all duration-300
         ${glowMap[theme.id] ?? ""} hover:scale-[1.02] group
       `}
     >
-      {/* Emoji + title */}
-      <div className="flex items-start justify-between mb-4">
+      {/* Show identity */}
+      <div className="flex items-start justify-between mb-3">
         <div>
-          <span className="text-4xl mb-2 block">{theme.emoji}</span>
-          <h3 className={`text-xl font-bold ${theme.colorClass}`}>{theme.name}</h3>
-          <p className="text-slate-400 text-sm mt-1">{theme.setting}</p>
+          <span className="text-3xl mb-1.5 block">{theme.emoji}</span>
+          <h3 className={`text-lg font-bold ${theme.colorClass}`}>{theme.name}</h3>
+          <p className="text-slate-500 text-xs mt-0.5">{theme.setting}</p>
         </div>
+        <Link
+          href={`/learn/${theme.id}/${activeLang}`}
+          className="text-xs text-slate-500 hover:text-white flex items-center gap-0.5 transition-colors mt-1"
+        >
+          Try it <ChevronRight className="w-3 h-3" />
+        </Link>
       </div>
 
       {/* Tagline */}
-      <p className="text-slate-300 text-sm mb-5 italic">&ldquo;{theme.tagline}&rdquo;</p>
+      <p className="text-slate-400 text-xs mb-4 italic">&ldquo;{theme.tagline}&rdquo;</p>
 
-      {/* Challenge list */}
-      <ul className="space-y-2 mb-6">
-        {challenges.map((challenge, i) => {
-          const [challengeTitle, concept] = challenge.split(" — ");
+      {/* Language switcher */}
+      <div className="flex gap-1 mb-4 flex-wrap">
+        {LANG_OPTIONS.map((lang) => {
+          const isActive = lang.id === activeLang;
           return (
-            <li key={i} className="flex items-center gap-2 text-sm">
-              <span className="w-5 h-5 rounded-full bg-brand-muted text-slate-300 text-xs flex items-center justify-center flex-shrink-0">
-                {i + 1}
-              </span>
-              <span className="text-slate-300">{challengeTitle}</span>
-              <span className="text-slate-600 ml-auto text-xs hidden sm:block">{concept}</span>
-            </li>
+            <button
+              key={lang.id}
+              onClick={() => switchLang(lang.id)}
+              className={`flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
+                isActive
+                  ? "bg-brand-surface text-white border border-brand-muted"
+                  : "text-slate-500 hover:text-slate-300 border border-transparent hover:border-brand-border"
+              }`}
+            >
+              <span>{lang.icon}</span>
+              <span>{lang.label}</span>
+            </button>
           );
         })}
-      </ul>
-
-      {/* Characters */}
-      <div className="pt-4 border-t border-brand-border/50">
-        <p className="text-xs text-slate-500 mb-2">Characters you&apos;ll meet</p>
-        <div className="flex flex-wrap gap-1">
-          {theme.characters.slice(0, 4).map((char) => (
-            <span
-              key={char}
-              className="text-xs bg-brand-surface border border-brand-border px-2 py-0.5 rounded-full text-slate-400"
-            >
-              {char}
-            </span>
-          ))}
-        </div>
       </div>
+
+      {/* Challenge preview — fades when switching language */}
+      <div
+        className={`flex-1 flex flex-col transition-opacity duration-150 ${
+          fade ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {preview ? (
+          <>
+            {/* Challenge label */}
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="text-[10px] font-semibold px-2 py-0.5 rounded-full border"
+                style={{
+                  color: theme.accentColor,
+                  borderColor: theme.accentColor + "40",
+                  backgroundColor: theme.accentColor + "12",
+                }}
+              >
+                Challenge 1
+              </span>
+              <span className="text-[10px] text-slate-500 font-medium truncate">
+                {preview.concept}
+              </span>
+              <span className="ml-auto text-[10px] text-slate-600">
+                {activeLangMeta?.icon} {activeLangMeta?.label}
+              </span>
+            </div>
+
+            {/* Themed title */}
+            <p className="text-white text-sm font-semibold mb-2 leading-snug">
+              {preview.themedTitle}
+            </p>
+
+            {/* Narrative */}
+            <div
+              className="rounded-lg px-3 py-2.5 mb-3 border text-xs text-slate-300 italic leading-relaxed line-clamp-3"
+              style={{
+                borderColor: theme.accentColor + "25",
+                backgroundColor: theme.accentColor + "08",
+              }}
+            >
+              {preview.narrative}
+            </div>
+
+            {/* Code snippet */}
+            <div className="relative rounded-lg overflow-hidden">
+              <pre className="bg-[#0d1117] text-[11px] leading-relaxed font-mono text-slate-300 px-3 pt-2.5 pb-1 overflow-hidden whitespace-pre">
+                {codeSnippet}
+              </pre>
+              {/* Fade-out gradient so it looks like the code continues */}
+              <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0d1117] to-transparent pointer-events-none" />
+            </div>
+          </>
+        ) : (
+          <div className="flex-1 flex items-center justify-center text-slate-600 text-xs">
+            No challenges yet for this combination
+          </div>
+        )}
+      </div>
+
+      {/* CTA */}
+      <Link
+        href={`/learn/${theme.id}/${activeLang}`}
+        className="mt-4 w-full flex items-center justify-center gap-1.5 text-xs font-semibold py-2 px-4 rounded-lg border transition-all"
+        style={{
+          color: theme.accentColor,
+          borderColor: theme.accentColor + "40",
+          backgroundColor: theme.accentColor + "10",
+        }}
+      >
+        Start {theme.name} × {activeLangMeta?.label ?? activeLang}
+        <ChevronRight className="w-3.5 h-3.5" />
+      </Link>
     </div>
   );
 }
