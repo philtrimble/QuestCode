@@ -1,15 +1,109 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
-// A handful of show → language pairings shown in the headline zone.
-// Each uses the show's accent color.
-const FEATURED_PAIRINGS = [
-  { show: "⚗️ Breaking Bad",      language: "Python",     color: "text-green-400",   border: "border-green-500/30"  },
-  { show: "🔦 Stranger Things",   language: "SQL",        color: "text-red-400",     border: "border-red-500/30"    },
-  { show: "🛗 Severance",         language: "JavaScript", color: "text-blue-400",    border: "border-blue-500/30"   },
-  { show: "⚔️ Game of Thrones",   language: "Java",       color: "text-yellow-500",  border: "border-yellow-600/30" },
+const LANGUAGES = [
+  { name: "Python",     icon: "🐍" },
+  { name: "JavaScript", icon: "⚡" },
+  { name: "SQL",        icon: "🗄️" },
+  { name: "Java",       icon: "☕" },
+  { name: "Go",         icon: "🔷" },
 ];
 
+// All 12 shows with their accent colours
+const SHOWS = [
+  { label: "⚗️ Breaking Bad",           color: "text-green-400",   border: "border-green-500/30"   },
+  { label: "🔦 Stranger Things",         color: "text-red-400",     border: "border-red-500/30"     },
+  { label: "🛗 Severance",               color: "text-blue-400",    border: "border-blue-500/30"    },
+  { label: "⚔️ Game of Thrones",         color: "text-yellow-500",  border: "border-yellow-600/30"  },
+  { label: "📋 The Office",              color: "text-amber-400",   border: "border-amber-500/30"   },
+  { label: "💊 The Matrix",              color: "text-lime-400",    border: "border-lime-500/30"    },
+  { label: "🥒 Rick & Morty",            color: "text-cyan-400",    border: "border-cyan-500/30"    },
+  { label: "🦑 Squid Game",              color: "text-pink-400",    border: "border-pink-500/30"    },
+  { label: "🍌 Arrested Development",    color: "text-orange-400",  border: "border-orange-500/30"  },
+  { label: "👗 Barbie",                  color: "text-fuchsia-400", border: "border-fuchsia-500/30" },
+  { label: "👠 Sex and the City",        color: "text-rose-400",    border: "border-rose-500/30"    },
+  { label: "🍝 The Sopranos",            color: "text-red-600",     border: "border-red-800/30"     },
+];
+
+// ── Individual pill — manages its own cycling state ───────────────────────────
+function ShowPill({
+  label,
+  color,
+  border,
+  seed,
+}: {
+  label: string;
+  color: string;
+  border: string;
+  /** Index of this pill — drives stagger delay, start language, and cycle speed */
+  seed: number;
+}) {
+  // Each pill starts on a different language so they're immediately varied
+  const [langIdx, setLangIdx] = useState(seed % LANGUAGES.length);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    let cycleId: ReturnType<typeof setInterval>;
+
+    // Stagger start: spread over ~2.4 s so they don't all kick off together
+    const startDelay = seed * 200;
+
+    // Vary cycle speed per pill using a pseudo-random-looking multiplier on seed.
+    // Range: ~1 700 ms – 2 800 ms. Using a prime (137) avoids obvious patterns.
+    const cyclePeriod = 1700 + (seed * 137) % 1100;
+
+    const delayId = setTimeout(() => {
+      cycleId = setInterval(() => {
+        if (!mounted) return;
+
+        // Fade out
+        setVisible(false);
+
+        // Swap language after the fade completes, then fade back in
+        setTimeout(() => {
+          if (!mounted) return;
+          setLangIdx((i) => (i + 1) % LANGUAGES.length);
+          setVisible(true);
+        }, 220);
+      }, cyclePeriod);
+    }, startDelay);
+
+    return () => {
+      mounted = false;
+      clearTimeout(delayId);
+      if (cycleId) clearInterval(cycleId);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const lang = LANGUAGES[langIdx];
+
+  return (
+    <div
+      className={`flex items-center gap-1.5 border ${border} bg-brand-card/60 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm select-none`}
+    >
+      <span className={`font-medium ${color} whitespace-nowrap`}>{label}</span>
+      <ChevronRight className={`w-3.5 h-3.5 ${color} opacity-60 flex-shrink-0`} />
+      {/* Fixed-width slot so the pill never resizes during cycling */}
+      <span className="inline-flex items-center gap-1 w-[108px]">
+        <span
+          className="text-slate-300 font-medium whitespace-nowrap transition-all duration-200"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0px)" : "translateY(-4px)",
+          }}
+        >
+          {lang.icon} {lang.name}
+        </span>
+      </span>
+    </div>
+  );
+}
+
+// ── Hero section ──────────────────────────────────────────────────────────────
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
@@ -37,19 +131,17 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        {/* Show → Language pairings — the mechanism, shown immediately */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6 mt-6">
-          {FEATURED_PAIRINGS.map(({ show, language, color, border }) => (
-            <div
-              key={show}
-              className={`flex items-center gap-1.5 border ${border} bg-brand-card/60 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm`}
-            >
-              <span className={`font-medium ${color}`}>{show}</span>
-              <ChevronRight className={`w-3.5 h-3.5 ${color} opacity-60`} />
-              <span className="text-slate-300 font-medium">{language}</span>
-            </div>
+        {/* All 12 show pills — each cycles through all 5 languages independently */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-6 mt-6">
+          {SHOWS.map(({ label, color, border }, i) => (
+            <ShowPill
+              key={label}
+              label={label}
+              color={color}
+              border={border}
+              seed={i}
+            />
           ))}
-          <span className="text-slate-500 text-sm px-1">+ 8 more</span>
         </div>
 
         {/* Subheadline */}
