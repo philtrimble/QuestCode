@@ -160,11 +160,6 @@ function ThemeCard({ theme }: { theme: Theme }) {
   const challenges = ALL_CHALLENGES[`${theme.id}-${activeLang}`] ?? [];
   const preview = challenges[0] ?? null;
 
-  // First 6 lines of starter code, trimmed
-  const codeSnippet = preview
-    ? preview.starterCode.split("\n").slice(0, 6).join("\n")
-    : "";
-
   const activeLangMeta = LANG_OPTIONS.find((l) => l.id === activeLang);
 
   return (
@@ -260,14 +255,10 @@ function ThemeCard({ theme }: { theme: Theme }) {
               {preview.narrative}
             </div>
 
-            {/* Code snippet */}
-            <div className="relative rounded-lg overflow-hidden">
-              <pre className="bg-[#0d1117] text-[11px] leading-relaxed font-mono text-slate-300 px-3 pt-2.5 pb-1 overflow-hidden whitespace-pre">
-                {codeSnippet}
-              </pre>
-              {/* Fade-out gradient so it looks like the code continues */}
-              <div className="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0d1117] to-transparent pointer-events-none" />
-            </div>
+            {/* Challenge prompt — the actual mission */}
+            <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">
+              {preview.prompt}
+            </p>
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-slate-600 text-xs">
