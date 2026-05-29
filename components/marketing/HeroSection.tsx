@@ -49,12 +49,12 @@ function ShowPill({
     let mounted = true;
     let cycleId: ReturnType<typeof setInterval>;
 
-    // Stagger start: spread over ~2.4 s so they don't all kick off together
-    const startDelay = seed * 200;
+    // Spread pill starts across ~9.6 s so at most 1–2 change at the same time
+    const startDelay = seed * 800;
 
-    // Vary cycle speed per pill using a pseudo-random-looking multiplier on seed.
-    // Range: ~1 700 ms – 2 800 ms. Using a prime (137) avoids obvious patterns.
-    const cyclePeriod = 1700 + (seed * 137) % 1100;
+    // Each pill cycles every 5–8 s — slow enough to read, varied enough to
+    // avoid synchronising. Prime multiplier (173) keeps the distribution uneven.
+    const cyclePeriod = 5000 + (seed * 173) % 3000;
 
     const delayId = setTimeout(() => {
       cycleId = setInterval(() => {
@@ -63,12 +63,12 @@ function ShowPill({
         // Fade out
         setVisible(false);
 
-        // Swap language after the fade completes, then fade back in
+        // Swap language mid-fade, then fade back in
         setTimeout(() => {
           if (!mounted) return;
           setLangIdx((i) => (i + 1) % LANGUAGES.length);
           setVisible(true);
-        }, 220);
+        }, 450);
       }, cyclePeriod);
     }, startDelay);
 
@@ -90,11 +90,8 @@ function ShowPill({
       {/* Fixed-width slot so the pill never resizes during cycling */}
       <span className="inline-flex items-center gap-1 w-[108px]">
         <span
-          className="text-slate-300 font-medium whitespace-nowrap transition-all duration-200"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0px)" : "translateY(-4px)",
-          }}
+          className="text-slate-300 font-medium whitespace-nowrap transition-opacity duration-[450ms]"
+          style={{ opacity: visible ? 1 : 0 }}
         >
           {lang.icon} {lang.name}
         </span>
