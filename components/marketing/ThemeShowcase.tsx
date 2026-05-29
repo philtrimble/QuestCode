@@ -246,7 +246,7 @@ function ThemeCard({ theme }: { theme: Theme }) {
 
             {/* Narrative */}
             <div
-              className="rounded-lg px-3 py-2.5 mb-3 border text-xs text-slate-300 italic leading-relaxed line-clamp-3"
+              className="flex-1 rounded-lg px-3 py-2.5 mb-3 border text-xs text-slate-300 italic leading-relaxed"
               style={{
                 borderColor: theme.accentColor + "25",
                 backgroundColor: theme.accentColor + "08",
