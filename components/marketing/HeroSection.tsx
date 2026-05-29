@@ -63,12 +63,14 @@ function ShowPill({
         // Fade out
         setVisible(false);
 
-        // Swap language mid-fade, then fade back in
+        // Wait until the fade-out transition has fully completed (450 ms)
+        // plus a 100 ms buffer before swapping text, then fade back in.
+        // The buffer ensures the old text is never visible when the new one appears.
         setTimeout(() => {
           if (!mounted) return;
           setLangIdx((i) => (i + 1) % LANGUAGES.length);
           setVisible(true);
-        }, 450);
+        }, 550);
       }, cyclePeriod);
     }, startDelay);
 
@@ -88,7 +90,7 @@ function ShowPill({
       <span className={`font-medium ${color} whitespace-nowrap`}>{label}</span>
       <ChevronRight className={`w-3.5 h-3.5 ${color} opacity-60 flex-shrink-0`} />
       {/* Fixed-width slot so the pill never resizes during cycling */}
-      <span className="inline-flex items-center gap-1 w-[108px]">
+      <span className="inline-flex items-center gap-1 w-[108px] overflow-hidden">
         <span
           className="text-slate-300 font-medium whitespace-nowrap transition-opacity duration-[450ms]"
           style={{ opacity: visible ? 1 : 0 }}
